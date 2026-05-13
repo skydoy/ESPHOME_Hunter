@@ -28,19 +28,31 @@ V1.0.0 comes with some "issues"
   3) Hole for antena in left side of PCB its useless as antena wiring would not fit the case - Idea not practical.
   4) Rearragne components if possible to allow space for full usb cable to fit - currently only short cable/angled cable is possible.
 
-# Updated version 1.1.0 - 07/10/2025
+# 07/10/2025
+# Updated version 1.1.0  
 V1.1.0 comes with the following improvements:
   1) New DC-DC converter with wider input range. V1.0.0 DC-DC converter would not work depending on component supplier quality. This new component solves the topic.
   2) Power labels and comments improved with bright color and its now a lot easier to read.
   3) Footprint of 2W10 corrected
   4) Useless hole for antena removed
   5) Removed shunt of VAC-L and Zone C as it was useless
+  6) New board color BLUE
 
 V1.1.0
 ![image](https://github.com/luisfosoares/Hunter_LS/blob/main/V1.1.0.jpg)
 
+# 11/05/2026
+# Updated version 1.1.1
+V1.1.1 comes with the following improvements:
+  1) Improved PCB traces
+  2) Removed back support for PSU
+  3) New board color RED
+
+V1.1.1
+![image](https://github.com/luisfosoares/Hunter_LS/blob/main/V1.1.1.jpeg)
+
 # Pictures of PCB and installation. 
-(Pictures from v1.0.0 but works the same on V1.1.0)
+(Pictures from v1.0.0 but works the same on V1.1.0 or V1.1.1)
 ![image](https://github.com/user-attachments/assets/8abcf170-1876-4fbc-9b6d-4df3dc87784c)
 ![image](https://github.com/user-attachments/assets/0026dabc-cd52-4feb-be6b-f23143dd2b9e)
 ![image](https://github.com/user-attachments/assets/44e539b3-e559-4ddc-aaa5-a5bc3d83cabb)
