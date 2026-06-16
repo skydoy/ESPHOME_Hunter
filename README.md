@@ -20,6 +20,7 @@ PCB supplied by JLC PCB.
 
 # Software 
 Managed through ESPHome as per (https://github.com/czsmith/HunterMonitor).
+On new board V2.0.0 Software above was fully converted to be compatible with XAIO ESP32C6
 
 # Possible improvements
 V1.0.0 comes with some "issues"
@@ -51,8 +52,22 @@ V1.1.1 comes with the following improvements:
 V1.1.1
 ![image](https://github.com/luisfosoares/Hunter_LS/blob/main/V1.1.1.jpeg)
 
+# 16/06/2026
+# Updated version 2.0.0
+After being challanged to upgrade the board to up to 8 zones i have decided to release this new version, it was a tight fit but no change in any dimension.
+V2.0.0 comes with the following improvements:
+  1) New controller - XAIO ESP32C6
+  2) Better performance
+  3) Better wifi signal
+  4) Up to 8 zones instead of 4
+  5) Added back support for PSU again for stability 
+  6) New board color BLACK
+     
+V2.0.0
+![image](https://github.com/luisfosoares/Hunter_LS/blob/main/V2.0.0.jpg)
+
 # Pictures of PCB and installation. 
-(Pictures from v1.0.0 but works the same on V1.1.0 or V1.1.1)
+(Pictures from v1.0.0 but works the same on V1.1.0, V1.1.1 or 2.0.0 - Just follow the labels on the pins of the board)
 ![image](https://github.com/user-attachments/assets/8abcf170-1876-4fbc-9b6d-4df3dc87784c)
 ![image](https://github.com/user-attachments/assets/0026dabc-cd52-4feb-be6b-f23143dd2b9e)
 ![image](https://github.com/user-attachments/assets/44e539b3-e559-4ddc-aaa5-a5bc3d83cabb)
@@ -65,7 +80,7 @@ V1.1.1
 If you are interested in this kind of item please contact me on (filipee8.net@gmail.com).
 
 # Thanks
-Thanks to CZSmith for the Schematic.
+Thanks to CZSmith for the inital Schematic.
 
 
 
