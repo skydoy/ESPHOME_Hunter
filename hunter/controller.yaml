@@ -1,0 +1,195 @@
+# Hunter X-Core controller logic (board agnostic).
+#
+# Talks to the X-Core over its REM terminal (Hunter ROAM remote protocol, one-way) and reads the
+# valve outputs back through the board's opto-couplers, so every zone switch shows what the
+# valve is REALLY doing, not just what was asked.
+#
+# Needs from the board package:
+#   - a Hunter ROAM component with id "hunter" (startZone / stopZone / startProgram / errorHint)
+#   - substitution sen_pin: output that opens the SEN (rain sensor) loop = "Pause Watering"
+# Needs from the zone packages (hunter/zone*.yaml): each zone keeps bit (zone-1) of the global
+# "zones_running" up to date.
+#
+# Home Assistant gets simple entities:
+#   Zone 1..N (switch, follows the valve), Zone N Running (valve feedback), Watering, Active Zone,
+#   Run Time (minutes for zones started from HA), Run Program A/B/C, Stop All, Pause Watering
+# plus actions for automations: esphome.<device>_start_zone / _stop_zone / _stop_all / _run_program
+
+globals:
+  # Bit (zone-1) is set while that zone's valve output is powered (from the opto-couplers).
+  - id: zones_running
+    type: uint32_t
+    initial_value: "0"
+  # Last zone started from here (used by Stop All when no valve feedback is seen yet).
+  - id: last_started_zone
+    type: int
+    initial_value: "0"
+
+number:
+  - platform: template
+    id: run_time
+    name: "Run Time"
+    icon: mdi:timer-sand
+    unit_of_measurement: min
+    min_value: 1
+    max_value: 240          # ROAM protocol limit
+    step: 1
+    initial_value: 10
+    mode: box
+    optimistic: true
+    restore_value: true
+    entity_category: config
+    web_server:
+      sorting_group_id: group_settings
+
+script:
+  # All ROAM commands go through this queue so two commands never overlap on the REM wire.
+  - id: hunter_send
+    mode: queued
+    max_runs: 16
+    parameters:
+      kind: int       # 0 = start zone, 1 = stop zone, 2 = run program
+      value: int      # zone number or program number
+      minutes: int
+    then:
+      - lambda: |-
+          uint8_t err = 0;
+          if (kind == 0) {
+            int m = minutes < 1 ? 1 : (minutes > 240 ? 240 : minutes);
+            err = id(hunter).startZone(value, m);
+            if (!err) {
+              id(last_started_zone) = value;
+              ESP_LOGI("hunter", "Zone %d: start for %d min sent", value, m);
+            }
+          } else if (kind == 1) {
+            err = id(hunter).stopZone(value);
+            if (!err) ESP_LOGI("hunter", "Zone %d: stop sent", value);
+          } else {
+            err = id(hunter).startProgram(value);
+            if (!err) ESP_LOGI("hunter", "Program %c: start sent", 'A' + value - 1);
+          }
+          if (err) ESP_LOGE("hunter", "Command not sent: %s", id(hunter).errorHint(err).c_str());
+      # Give the X-Core time to act before the next command.
+      - delay: 1s
+
+  - id: hunter_stop_all
+    mode: single
+    then:
+      - lambda: |-
+          bool any = false;
+          for (int z = 1; z <= 32; z++) {
+            if (id(zones_running) & (1u << (z - 1))) {
+              id(hunter_send)->execute(1, z, 0);
+              any = true;
+            }
+          }
+          if (!any) {
+            int z = id(last_started_zone) > 0 ? id(last_started_zone) : 1;
+            id(hunter_send)->execute(1, z, 0);
+          }
+
+button:
+  - platform: template
+    name: "Stop All"
+    icon: mdi:stop-circle-outline
+    on_press:
+      - script.execute: hunter_stop_all
+    web_server:
+      sorting_group_id: group_zones
+  - platform: template
+    name: "Run Program A"
+    icon: mdi:play-circle-outline
+    on_press:
+      - script.execute: { id: hunter_send, kind: 2, value: 1, minutes: 0 }
+    web_server:
+      sorting_group_id: group_programs
+  - platform: template
+    name: "Run Program B"
+    icon: mdi:play-circle-outline
+    on_press:
+      - script.execute: { id: hunter_send, kind: 2, value: 2, minutes: 0 }
+    web_server:
+      sorting_group_id: group_programs
+  - platform: template
+    name: "Run Program C"
+    icon: mdi:play-circle-outline
+    on_press:
+      - script.execute: { id: hunter_send, kind: 2, value: 3, minutes: 0 }
+    web_server:
+      sorting_group_id: group_programs
+
+# "Pause Watering" opens the X-Core's SEN (rain sensor) loop, exactly like a rain sensor does:
+# nothing waters, not even the controller's own programs, until it is switched off again.
+# The X-Core's sensor slide switch must be in the "Active" position for this to work.
+switch:
+  - platform: gpio
+    id: pause_watering
+    name: "Pause Watering"
+    icon: mdi:water-off
+    pin:
+      number: ${sen_pin}
+      inverted: true
+    restore_mode: RESTORE_DEFAULT_OFF
+    web_server:
+      sorting_group_id: group_settings
+
+binary_sensor:
+  - platform: template
+    id: watering
+    name: "Watering"
+    device_class: running
+    icon: mdi:sprinkler
+    lambda: return id(zones_running) != 0;
+    web_server:
+      sorting_group_id: group_zones
+
+text_sensor:
+  - platform: template
+    id: active_zone
+    name: "Active Zone"
+    icon: mdi:sprinkler-variant
+    update_interval: 1s
+    lambda: |-
+      std::string s;
+      for (int z = 1; z <= 32; z++) {
+        if (id(zones_running) & (1u << (z - 1))) {
+          if (!s.empty()) s += ", ";
+          s += "Zone " + to_string(z);
+        }
+      }
+      return s.empty() ? std::string("None") : s;
+    filters:
+      - lambda: |-
+          static std::string last;
+          if (x == last) return {};
+          last = x;
+          return x;
+    web_server:
+      sorting_group_id: group_zones
+
+# Actions for Home Assistant automations and scripts (Developer tools -> Actions):
+#   esphome.<device>_start_zone  {zone: 1, minutes: 10}
+#   esphome.<device>_stop_zone   {zone: 1}
+#   esphome.<device>_stop_all
+#   esphome.<device>_run_program {program: 1}   (1 = A, 2 = B, 3 = C)
+api:
+  actions:
+    - action: start_zone
+      variables:
+        zone: int
+        minutes: int
+      then:
+        - script.execute: { id: hunter_send, kind: 0, value: !lambda "return zone;", minutes: !lambda "return minutes;" }
+    - action: stop_zone
+      variables:
+        zone: int
+      then:
+        - script.execute: { id: hunter_send, kind: 1, value: !lambda "return zone;", minutes: 0 }
+    - action: stop_all
+      then:
+        - script.execute: hunter_stop_all
+    - action: run_program
+      variables:
+        program: int
+      then:
+        - script.execute: { id: hunter_send, kind: 2, value: !lambda "return program;", minutes: 0 }

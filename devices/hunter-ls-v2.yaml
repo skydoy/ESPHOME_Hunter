@@ -1,0 +1,49 @@
+# Device: Hunter X-Core + Hunter_LS v2.0.0 board (Seeed XIAO ESP32-C6, up to 8 zones).
+# Hardware by Luís Soares (https://github.com/luisfosoares/Hunter_LS), based on CZSmith's
+# HunterMonitor (https://github.com/czsmith/HunterMonitor).
+#
+# BASE configuration: this is the file the ESPHome Device Builder adopts (dashboard_import
+# below), so an adopted device keeps its own config (API key, name, extras) and is updated with
+# "Install". It has no "Firmware Update" entity on purpose; "Update Available" / "Latest
+# Version" report new releases (core/update-check.yaml).
+# The firmware in the web installer is built from hunter-ls-v2.factory.yaml, which includes this
+# file and adds core/auto-update.yaml (update entity + OTA from GitHub Pages).
+#
+# A device config only composes packages: board + Hunter logic + zones + core services.
+substitutions:
+  name: hunter-ls
+  friendly_name: Hunter Irrigation
+  project_version: "0.1.0"
+  # Build source shown in "Firmware Version": CI sets "release" (tags) or "<branch> @<commit>".
+  firmware_source: "self-built"
+  # How many zones your X-Core has (2, 4, 6 or 8). The installer firmware has all 8.
+  zone_count: "8"
+  # Release manifest of this board on GitHub Pages ("Latest Version" / "Update Available").
+  update_manifest_url: https://skydoy.github.io/ESPHOME_Hunter/firmware/v2/manifest.json
+
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+  name_add_mac_suffix: true
+  project:
+    name: skydoy.hunter-ls-v2
+    version: ${project_version}
+
+# Lets the ESPHome Device Builder "adopt" a device flashed from the web installer. The adopted
+# YAML imports this file from the "stable" branch, which CI moves to every release tag, so
+# pressing "Install" builds the latest release with no YAML edits.
+dashboard_import:
+  package_import_url: github://skydoy/ESPHOME_Hunter/devices/hunter-ls-v2.yaml@stable
+  import_full_config: false
+
+packages:
+  # Hardware (pins, ESP chip, Hunter ROAM driver)
+  board: !include ../core/boards/xiao-esp32c6-v2.yaml
+  # Hunter X-Core logic: zones with valve feedback, programs, Stop All, Pause Watering
+  controller: !include ../hunter/controller.yaml
+  zones: !include ../hunter/zones-${zone_count}.yaml  # 2, 4, 6 or 8 zones
+  # Board-agnostic services
+  provisioning: !include ../core/provisioning.yaml
+  diagnostics: !include ../core/diagnostics.yaml
+  web_server: !include ../core/web-server.yaml
+  update_check: !include ../core/update-check.yaml   # reports new releases, never installs

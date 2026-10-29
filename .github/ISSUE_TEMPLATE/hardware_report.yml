@@ -1,0 +1,29 @@
+name: Hardware test report
+description: Tell us it works (or not) on your board and controller.
+labels: [hardware-report]
+body:
+  - type: dropdown
+    id: board
+    attributes:
+      label: Board version
+      options: ["v2.0.0 (XIAO ESP32-C6)", "v1.1.1", "v1.1.0", "v1.0.0"]
+    validations: { required: true }
+  - type: input
+    id: xcore
+    attributes:
+      label: Controller model and number of zones
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: What works
+      options:
+        - label: Zone N switch starts the valve
+        - label: Zone N switch stops the valve
+        - label: Zone N Running follows the valve
+        - label: Run Program A/B/C
+        - label: Pause Watering blocks the controller's schedule
+        - label: Firmware Update installs over the air
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes / logs

@@ -1,0 +1,12 @@
+# FACTORY firmware: Hunter_LS v1.0.0 / v1.1.0 / v1.1.1 board (Wemos D1 mini, ESP8266, 4 zones).
+#
+# Built by GitHub Actions and published to the ESP Web Tools installer at
+# https://skydoy.github.io/ESPHOME_Hunter/ . It is the base config (hunter-ls-v1.yaml) plus a
+# "Firmware Update" entity that installs new releases from GitHub Pages over the air.
+#
+# Do not adopt or include this file in your own config: the update entity would replace your
+# config with the generic firmware (and drop your API encryption key). Adopting a device in the
+# ESPHome Device Builder imports the base file instead (see dashboard_import there).
+packages:
+  device: !include hunter-ls-v1.yaml
+  auto_update: !include ../core/auto-update.yaml

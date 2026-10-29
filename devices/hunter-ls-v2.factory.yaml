@@ -1,0 +1,12 @@
+# FACTORY firmware: Hunter_LS v2.0.0 board (Seeed XIAO ESP32-C6, up to 8 zones).
+#
+# Built by GitHub Actions and published to the ESP Web Tools installer at
+# https://skydoy.github.io/ESPHOME_Hunter/ . It is the base config (hunter-ls-v2.yaml) plus a
+# "Firmware Update" entity that installs new releases from GitHub Pages over the air.
+#
+# Do not adopt or include this file in your own config: the update entity would replace your
+# config with the generic firmware (and drop your API encryption key). Adopting a device in the
+# ESPHome Device Builder imports the base file instead (see dashboard_import there).
+packages:
+  device: !include hunter-ls-v2.yaml
+  auto_update: !include ../core/auto-update.yaml
