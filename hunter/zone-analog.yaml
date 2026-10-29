@@ -1,0 +1,49 @@
+# One irrigation zone read through an analog input (v1.x board: zone 4 is on A0, because the
+# Wemos D1 mini runs out of boot-safe digital pins, same as CZSmith's HunterMonitor).
+# Included with vars: zone (number) and pin (ADC pin).
+sensor:
+  - platform: adc
+    id: zone${zone}_voltage
+    name: "Zone ${zone} Input Voltage"
+    pin: ${pin}
+    unit_of_measurement: "V"
+    entity_category: diagnostic
+    disabled_by_default: true
+    # Sample at an interval that is not a multiple of the mains pulses and keep the minimum.
+    update_interval: 0.46s
+    filters:
+      - multiply: 3.3
+      - min:
+          window_size: 9
+          send_every: 5
+          send_first_at: 5
+
+binary_sensor:
+  - platform: template
+    id: zone${zone}_running
+    name: "Zone ${zone} Running"
+    device_class: running
+    icon: mdi:water
+    # Low voltage = opto-coupler conducting = valve powered.
+    lambda: return id(zone${zone}_voltage).state < ${zone_adc_threshold};
+    filters:
+      - delayed_off: ${zone_off_delay}
+    on_state:
+      - lambda: |-
+          if (x) id(zones_running) |= (1u << (${zone} - 1));
+          else id(zones_running) &= ~(1u << (${zone} - 1));
+    web_server:
+      sorting_group_id: group_zones
+
+switch:
+  - platform: template
+    id: zone${zone}
+    name: "Zone ${zone}"
+    icon: mdi:sprinkler-variant
+    lambda: return id(zone${zone}_running).state;
+    turn_on_action:
+      - script.execute: { id: hunter_send, kind: 0, value: "${zone}", minutes: !lambda "return (int) id(run_time).state;" }
+    turn_off_action:
+      - script.execute: { id: hunter_send, kind: 1, value: "${zone}", minutes: 0 }
+    web_server:
+      sorting_group_id: group_zones

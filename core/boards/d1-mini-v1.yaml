@@ -1,0 +1,48 @@
+# Board: Hunter_LS v1.0.0 / v1.1.0 / v1.1.1 (red / blue PCB) with a Wemos D1 mini (Pro), ESP8266.
+#
+# The PCB follows CZSmith's HunterMonitor schematic, so the pin map below is HunterMonitor's
+# (https://github.com/czsmith/HunterMonitor, ESPHome/hunter-roam-alt.yaml):
+#   D1 = SEN (rain sensor loop, "Pause Watering"), output, inverted (LOW = watering blocked)
+#   D2 = REM (Hunter ROAM commands through the 4N35 opto-coupler)
+#   D5 / D6 / D7 = zone 1 / 2 / 3 valve feedback, inverted, pulled up
+#   A0 = zone 4 valve feedback (analog, external pull-up)
+#   D4 = on-board blue LED of the D1 mini (status LED)
+# NEEDS CONFIRMATION by Luís Soares: that the Hunter_LS v1.x PCB keeps exactly these pins.
+#
+# Hunter ROAM driver: javiervidao/Hunter_Roam (Arduino, ESP8266), the component HunterMonitor
+# uses, pinned to a commit so every build is the same.
+substitutions:
+  board_label: "Hunter_LS v1.x (Wemos D1 mini, ESP8266)"
+  rem_pin: D2
+  sen_pin: D1
+  zone1_pin: D5
+  zone2_pin: D6
+  zone3_pin: D7
+  zone4_pin: A0
+  zone_on_delay: 50ms
+  zone_off_delay: 500ms
+  zone_adc_threshold: "2.5"      # volts on A0 below which zone 4 counts as running
+  http_verify_ssl: "false"       # the ESP8266 cannot verify TLS certificates in ESPHome
+
+esp8266:
+  board: d1_mini                 # 4 MB layout: also runs on the D1 mini Pro (16 MB)
+  restore_from_flash: true       # keeps "Run Time" and "Pause Watering" across reboots
+
+external_components:
+  - source:
+      type: git
+      url: https://github.com/javiervidao/Hunter_Roam
+      ref: 7c51ca179ac2c23c63dcb9cae6267edbaf9261bd
+    components: [hunter_roam]
+    refresh: never
+
+hunter_roam:
+  id: hunter
+  pin:
+    number: ${rem_pin}
+    inverted: false
+
+status_led:
+  pin:
+    number: D4
+    inverted: true

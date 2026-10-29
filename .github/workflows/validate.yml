@@ -1,0 +1,61 @@
+name: Validate
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  config:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        device:
+          - devices/hunter-ls-v1.yaml
+          - devices/hunter-ls-v2.yaml
+          - devices/hunter-ls-v1.factory.yaml
+          - devices/hunter-ls-v2.factory.yaml
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with: { python-version: "3.13" }
+      - run: pip install esphome==2026.10.1
+      - name: esphome config
+        run: |
+          set -o pipefail
+          esphome config ${{ matrix.device }} | tee config.txt
+      - name: Only the factory firmware has the "Firmware Update" entity
+        run: |
+          if [[ "${{ matrix.device }}" == *.factory.yaml ]]; then
+            grep -q "id: firmware_update" config.txt
+            if grep -q "id: update_check$" config.txt; then
+              echo "::error::Factory configs must drop core/update-check.yaml"; exit 1; fi
+          else
+            if grep -qE "id: (firmware_update|ota_http)$" config.txt; then
+              echo "::error::Base configs (adopted in the Device Builder) must not include auto-update"; exit 1; fi
+            grep -q "id: check_for_update" config.txt
+          fi
+  zone-count:
+    # v2: every supported zone_count must validate.
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        zones: ["2", "4", "6", "8"]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with: { python-version: "3.13" }
+      - run: pip install esphome==2026.10.1
+      - run: esphome -s zone_count ${{ matrix.zones }} config devices/hunter-ls-v2.yaml > /dev/null
+  pinned-refs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Same version on both boards; adoption follows @stable; no @main in shipped configs
+        run: |
+          set -e
+          v1=$(grep -oP '^\s*project_version: "\K[^"]+' devices/hunter-ls-v1.yaml)
+          v2=$(grep -oP '^\s*project_version: "\K[^"]+' devices/hunter-ls-v2.yaml)
+          echo "v1=$v1 v2=$v2"; test "$v1" = "$v2"
+          for f in devices/hunter-ls-v1.yaml devices/hunter-ls-v2.yaml; do
+            grep -q "package_import_url: github://skydoy/ESPHOME_Hunter/$f@stable$" "$f"
+          done
+          if grep -rn "@main" devices core hunter; then echo "::error::no @main refs"; exit 1; fi
