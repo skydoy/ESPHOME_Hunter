@@ -1,0 +1,6 @@
+# v1.x board (Wemos D1 mini): 4 zones. Zones 1-3 are digital, zone 4 is analog (A0).
+packages:
+  zone1: !include { file: zone.yaml, vars: { zone: 1, pin: "${zone1_pin}" } }
+  zone2: !include { file: zone.yaml, vars: { zone: 2, pin: "${zone2_pin}" } }
+  zone3: !include { file: zone.yaml, vars: { zone: 3, pin: "${zone3_pin}" } }
+  zone4: !include { file: zone-analog.yaml, vars: { zone: 4, pin: "${zone4_pin}" } }

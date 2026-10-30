@@ -1,0 +1,97 @@
+# Board: Hunter_LS v2.0.0 (black PCB) with a Seeed Studio XIAO ESP32-C6, up to 8 zones.
+#
+# !!! PIN MAP NOT CONFIRMED !!!  The GPIOs below are PLACEHOLDERS chosen from the XIAO pin-out
+# (D0..D10) and the order of the board's header (Z1..Z8, FREE, VAC-L, VAC-R, REM, SEN-R, SEN-L).
+# They must be confirmed by Luís Soares (or read from his v2.0.0 YAML / schematic) before this
+# firmware is released. Wrong pins cannot damage anything (every line is opto-isolated), but
+# zones would not start or report.
+#
+#   XIAO pin -> GPIO : function (placeholder)
+#   D0 -> GPIO0  : zone 1 feedback       D6  -> GPIO16 : zone 7 feedback
+#   D1 -> GPIO1  : zone 2 feedback       D7  -> GPIO17 : zone 8 feedback
+#   D2 -> GPIO2  : zone 3 feedback       D8  -> GPIO19 : REM (ROAM commands)
+#   D3 -> GPIO21 : zone 4 feedback       D9  -> GPIO20 : SEN ("Pause Watering")
+#   D4 -> GPIO22 : zone 5 feedback       D10 -> GPIO18 : free
+#   D5 -> GPIO23 : zone 6 feedback
+#   GPIO15 = user LED (status), GPIO3 = RF switch power, GPIO14 = antenna select
+#
+# Hunter ROAM driver: luisfosoares/Hunter_ESP_IDF (Luís's ESP-IDF port of the ROAM component,
+# with timings he tuned for this board), pinned to a commit.
+substitutions:
+  board_label: "Hunter_LS v2.0.0 (XIAO ESP32-C6)"
+  rem_pin: GPIO19
+  sen_pin: GPIO20
+  zone1_pin: GPIO0
+  zone2_pin: GPIO1
+  zone3_pin: GPIO2
+  zone4_pin: GPIO21
+  zone5_pin: GPIO22
+  zone6_pin: GPIO23
+  zone7_pin: GPIO16
+  zone8_pin: GPIO17
+  zone_on_delay: 50ms
+  zone_off_delay: 500ms
+  http_verify_ssl: "true"
+
+esp32:
+  board: esp32-c6-devkitc-1
+  variant: esp32c6
+  flash_size: 4MB
+  framework:
+    type: esp-idf
+
+external_components:
+  - source:
+      type: git
+      url: https://github.com/luisfosoares/Hunter_ESP_IDF
+      ref: 9e765a475cd18e2dc1a230502680e0785120ed4f
+    components: [hunter_roam_esp_idf]
+    refresh: never
+
+hunter_roam_esp_idf:
+  id: hunter
+  pin:
+    number: ${rem_pin}
+    inverted: false
+
+# Wi-Fi setup over Bluetooth (Improv) from the Home Assistant app or improv-wifi.com.
+improv_ble:
+  authorizer: none
+
+status_led:
+  pin:
+    number: GPIO15
+    inverted: true
+    ignore_strapping_warning: true
+
+# XIAO ESP32-C6 RF switch: GPIO3 LOW powers it, GPIO14 selects the antenna
+# (LOW = on-board ceramic antenna, HIGH = u.FL connector). "External Antenna" is off by default.
+output:
+  - platform: gpio
+    id: rf_switch_power
+    pin: GPIO3
+  - platform: gpio
+    id: rf_antenna_select
+    pin: GPIO14
+
+esphome:
+  on_boot:
+    priority: 800
+    then:
+      - output.turn_off: rf_switch_power
+      - lambda: |-
+          if (id(external_antenna).state) id(rf_antenna_select).turn_on();
+          else id(rf_antenna_select).turn_off();
+
+switch:
+  - platform: template
+    id: external_antenna
+    name: "External Antenna"
+    icon: mdi:antenna
+    entity_category: config
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_OFF
+    turn_on_action:
+      - output.turn_on: rf_antenna_select
+    turn_off_action:
+      - output.turn_off: rf_antenna_select

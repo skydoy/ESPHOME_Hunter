@@ -1,0 +1,83 @@
+# Common diagnostics for every board. All of them are "diagnostic" or "config" entities, so
+# Home Assistant shows them on the device page but keeps them off the default dashboards.
+# The noisy ones are disabled by default (enable them in Home Assistant if you need them).
+substitutions:
+  # Where this firmware was built from, shown next to the version in "Firmware Version".
+  # CI sets "release" (tags) or "<branch> @<commit>"; "self-built" for Device Builder builds.
+  firmware_source: "custom"
+
+time:
+  - platform: homeassistant
+    id: ha_time
+
+sensor:
+  - platform: uptime
+    name: "Uptime"
+    entity_category: diagnostic
+    web_server:
+      sorting_group_id: group_maintenance
+  - platform: wifi_signal
+    name: "Wi-Fi Signal"
+    update_interval: 60s
+    entity_category: diagnostic
+    web_server:
+      sorting_group_id: group_maintenance
+
+debug:
+  update_interval: never
+
+text_sensor:
+  - platform: debug
+    reset_reason:
+      id: reset_reason
+      name: "Reset Reason"
+      entity_category: diagnostic
+      disabled_by_default: true
+  - platform: wifi_info
+    ip_address:
+      name: "IP Address"
+      entity_category: diagnostic
+      disabled_by_default: true
+  # Project version (esphome: project: version) plus the build source, e.g. "0.1.0 (release)".
+  - platform: template
+    name: "Firmware Version"
+    id: firmware_version
+    icon: mdi:tag-outline
+    entity_category: diagnostic
+    update_interval: 1h
+    lambda: |-
+      #ifdef ESPHOME_PROJECT_VERSION
+      std::string v = ESPHOME_PROJECT_VERSION;
+      #else
+      std::string v = "unknown";
+      #endif
+      std::string src = "${firmware_source}";
+      if (!src.empty()) v += " (" + src + ")";
+      return v;
+    web_server:
+      sorting_group_id: group_maintenance
+  # Which Hunter_LS board revision this firmware was built for.
+  - platform: template
+    name: "Board"
+    icon: mdi:chip
+    entity_category: diagnostic
+    update_interval: never
+    lambda: return {"${board_label}"};
+    web_server:
+      sorting_group_id: group_maintenance
+  - platform: version
+    name: "ESPHome Version"
+    hide_timestamp: true
+    entity_category: diagnostic
+    disabled_by_default: true
+
+button:
+  - platform: restart
+    name: "Restart"
+    entity_category: config
+    web_server:
+      sorting_group_id: group_maintenance
+  - platform: safe_mode
+    name: "Restart (Safe Mode)"
+    entity_category: config
+    disabled_by_default: true

@@ -1,0 +1,169 @@
+name: Build firmware & publish installer
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    # One installer build per board; each board has its own folder (and manifest.json) on
+    # GitHub Pages: firmware/v1/ and firmware/v2/. The installer firmware is built from the
+    # *.factory.yaml (base config + "Firmware Update" entity).
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - key: v1
+            base: devices/hunter-ls-v1.yaml
+            factory: devices/hunter-ls-v1.factory.yaml
+            site_dir: firmware/v1
+          - key: v2
+            base: devices/hunter-ls-v2.yaml
+            factory: devices/hunter-ls-v2.factory.yaml
+            site_dir: firmware/v2
+    env:
+      BASE_YAML: ${{ matrix.base }}
+      DEVICE_YAML: ${{ matrix.factory }}
+      SITE_DIR: ${{ matrix.site_dir }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: The tag must match project_version
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          grep -q "^\s*project_version: \"${GITHUB_REF_NAME#v}\"$" "$BASE_YAML" || {
+            echo "::error::$BASE_YAML project_version does not match tag $GITHUB_REF_NAME"; exit 1; }
+      - name: Record the build source (shown in the "Firmware Version" sensor)
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then src="release"; else src="${GITHUB_REF_NAME} @${GITHUB_SHA::7}"; fi
+          sed -i "s|^\(\s*firmware_source:\).*|\1 \"$src\"|" "$BASE_YAML"
+          grep -n "firmware_source:\|project_version:" "$BASE_YAML"
+      - id: esphome
+        uses: esphome/build-action@v8.1.0
+        with:
+          yaml-file: ${{ env.DEVICE_YAML }}
+          version: "2026.10.1"
+          complete-manifest: true
+          release-url: ${{ github.server_url }}/${{ github.repository }}/releases
+      - name: Stage the firmware in its Pages folder
+        run: |
+          mkdir -p "out/$SITE_DIR"
+          cp -r "${{ steps.esphome.outputs.name }}"/* "out/$SITE_DIR/"
+          ls -R out
+      - uses: actions/upload-artifact@v7
+        with:
+          name: fw-${{ matrix.key }}
+          path: out
+          if-no-files-found: error
+  pages:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: fw-*
+          merge-multiple: true
+          path: site
+      - name: Assemble Pages site
+        run: |
+          cp static/* site/
+          ls -R site
+          test -f site/firmware/v1/manifest.json
+          test -f site/firmware/v2/manifest.json
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: site
+  deploy:
+    # Publish the installer and the OTA manifests only for release tags (or a manual run), so
+    # devices in the field only ever see releases.
+    if: github.event_name != 'pull_request' && (startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch')
+    needs: pages
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
+  release:
+    # GitHub Release for a v* tag: notes from CHANGELOG.md, firmware images attached.
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TAG: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: fw-*
+          merge-multiple: true
+          path: fw
+      - name: Release notes from CHANGELOG.md
+        run: |
+          v="${TAG#v}"
+          awk -v h="## [$v]" 'index($0,h)==1{f=1;next} f&&/^## /{exit} f&&/^\[[^]]+\]: /{exit} f{print}' CHANGELOG.md > notes.md
+          if ! grep -q '[^[:space:]]' notes.md; then
+            echo "::warning::No '## [$v]' section in CHANGELOG.md"
+            echo "See [CHANGELOG.md](CHANGELOG.md)." > notes.md
+          fi
+          sed -i -E "s#\]\(([^):#][^):]*)\)#](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/blob/${TAG}/\1)#g" notes.md
+          {
+            echo
+            echo "---"
+            echo "**Install or update:** use the [web installer](https://${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY#*/}/) (Chrome or Edge)."
+            echo "Boards already running this firmware update over the air from the **Firmware Update** entity."
+            echo "\`*.factory.bin\` is the full image for a first USB flash at offset 0x0; \`*.ota.bin\` is for manual OTA uploads."
+          } >> notes.md
+          cat notes.md
+      - name: Prepare assets
+        run: |
+          mkdir assets
+          for d in v1 v2; do
+            for f in $(find "fw/firmware/$d" -name '*.factory.bin' -o -name '*.ota.bin' | sort); do
+              b=$(basename "$f"); cp "$f" "assets/hunter-ls-$d-${TAG}.${b#*.}"
+            done
+          done
+          test "$(ls assets | wc -l)" -ge 4
+          (cd assets && sha256sum * > SHA256SUMS.txt)
+          ls -l assets && cat assets/SHA256SUMS.txt
+      - name: Create or update the release
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release edit "$TAG" --title "$TAG" --notes-file notes.md
+            gh release upload "$TAG" assets/* --clobber
+          else
+            gh release create "$TAG" assets/* --title "$TAG" --notes-file notes.md --verify-tag
+          fi
+  stable:
+    # Move the "stable" branch to this release tag. Adopted Device Builder configs import
+    # devices/hunter-ls-vN.yaml@stable, so "Install" builds the latest release.
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Point refs/heads/stable at the tag commit
+        run: |
+          if gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/stable" >/dev/null 2>&1; then
+            gh api -X PATCH "repos/$GITHUB_REPOSITORY/git/refs/heads/stable" -f sha="$GITHUB_SHA" -F force=true
+          else
+            gh api -X POST "repos/$GITHUB_REPOSITORY/git/refs" -f ref=refs/heads/stable -f sha="$GITHUB_SHA"
+          fi
+          echo "stable -> $GITHUB_REF_NAME ($GITHUB_SHA)"

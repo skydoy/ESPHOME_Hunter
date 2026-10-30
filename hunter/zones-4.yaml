@@ -1,0 +1,5 @@
+# v2.0.0 board (XIAO ESP32-C6): zones 1-4. Set the substitution zone_count to 2, 4, 6 or 8.
+packages:
+  zones_1_2: !include zones-2.yaml
+  zone3: !include { file: zone.yaml, vars: { zone: 3, pin: "${zone3_pin}" } }
+  zone4: !include { file: zone.yaml, vars: { zone: 4, pin: "${zone4_pin}" } }

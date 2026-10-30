@@ -1,0 +1,27 @@
+# Generic firmware: no Wi-Fi credentials, API key or passwords are baked in.
+#
+# Wi-Fi is set up in one of three ways (no YAML, no code):
+#   1. ESP Web Tools: right after flashing, the web installer asks for the Wi-Fi (Improv Serial).
+#   2. Improv over Bluetooth (v2.0.0 board only, see core/boards/xiao-esp32c6-v2.yaml).
+#   3. Fallback hotspot "Hunter-LS Setup" + captive portal: join it with a phone and pick your
+#      network. The hotspot opens by itself whenever the saved network is unreachable.
+wifi:
+  ap:
+    ssid: "Hunter-LS Setup"
+captive_portal:
+improv_serial:
+api:
+logger:
+
+ota:
+  - platform: esphome
+    id: ota_esphome
+    on_begin:
+      - logger.log: "OTA update started (do not power off the controller)"
+    on_end:
+      - logger.log: "OTA update finished, rebooting"
+    on_error:
+      - logger.log:
+          level: WARN
+          format: "OTA update failed (error %u), still running the old firmware"
+          args: [x]
