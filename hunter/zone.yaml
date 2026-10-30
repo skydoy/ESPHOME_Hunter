@@ -1,0 +1,42 @@
+# One irrigation zone with valve feedback (digital opto-coupler input).
+# Included by hunter/zones-*.yaml with vars: zone (number) and pin (GPIO).
+#
+# The opto-coupler output pulses at twice the mains frequency (100 Hz in Europe, 120 Hz in the
+# US) while the valve is powered, so the input is filtered: it must stay "on" for
+# ${zone_on_delay} to count as running and "off" for ${zone_off_delay} to count as stopped.
+binary_sensor:
+  - platform: gpio
+    id: zone${zone}_running
+    name: "Zone ${zone} Running"
+    device_class: running
+    icon: mdi:water
+    pin:
+      number: ${pin}
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+    filters:
+      - delayed_on: ${zone_on_delay}
+      - delayed_off: ${zone_off_delay}
+    on_state:
+      - lambda: |-
+          if (x) id(zones_running) |= (1u << (${zone} - 1));
+          else id(zones_running) &= ~(1u << (${zone} - 1));
+    web_server:
+      sorting_group_id: group_zones
+
+# The zone switch follows the real valve state: if the X-Core does not start the valve, the
+# switch falls back to "off" by itself (that is the point of the feedback).
+switch:
+  - platform: template
+    id: zone${zone}
+    name: "Zone ${zone}"
+    icon: mdi:sprinkler-variant
+    lambda: return id(zone${zone}_running).state;
+    turn_on_action:
+      - script.execute: { id: hunter_send, kind: 0, value: "${zone}", minutes: !lambda "return (int) id(run_time).state;" }
+    turn_off_action:
+      - script.execute: { id: hunter_send, kind: 1, value: "${zone}", minutes: 0 }
+    web_server:
+      sorting_group_id: group_zones

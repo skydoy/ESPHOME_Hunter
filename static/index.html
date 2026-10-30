@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Hunter_LS – web installer (Hunter X-Core + ESPHome)</title>
+  <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; }
+    code { background: #f2f2f2; padding: 0 .25rem; }
+    fieldset { border: 1px solid #ccc; border-radius: .5rem; padding: .75rem 1rem; }
+    .boards { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+    .boards label { display: block; border: 2px solid #ddd; border-radius: .5rem; padding: .5rem; cursor: pointer; }
+    .boards label:has(input:checked) { border-color: #1a73e8; background: #f3f8ff; }
+    .boards img { width: 100%; height: auto; border-radius: .25rem; }
+    .warn { background: #fff4e5; border-left: 4px solid #f0a020; padding: .5rem .75rem; }
+    .credit { font-size: .95em; color: #444; }
+    @media (max-width: 36rem) { .boards { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <h1>Hunter_LS – web installer</h1>
+  <p>Firmware for the <b>Hunter_LS</b> board: it plugs into a Hunter X-Core irrigation controller
+     and brings every zone to Home Assistant, locally, with the real valve state.
+     <a href="#pt">Português ↓</a></p>
+  <p class="credit">Board designed by <b>Luís Soares</b>
+     (<a href="https://github.com/luisfosoares/Hunter_LS">luisfosoares/Hunter_LS</a>), based on
+     <b>CZSmith</b>'s <a href="https://github.com/czsmith/HunterMonitor">HunterMonitor</a>.</p>
+
+  <form id="board-form">
+    <fieldset>
+      <legend>1. Which board do you have? (look at the name printed on the PCB)</legend>
+      <div class="boards">
+        <label><input type="radio" name="board" value="firmware/v2/manifest.json" checked>
+          <b>v2.0.0</b> – black PCB, Seeed XIAO ESP32-C6, up to 8 zones
+          <img src="board-v2.jpg" alt="Hunter_LS v2.0.0 board"></label>
+        <label><input type="radio" name="board" value="firmware/v1/manifest.json">
+          <b>v1.x</b> (v1.0.0 / v1.1.0 / v1.1.1) – red or blue PCB, Wemos D1 mini, 4 zones
+          <img src="board-v1.jpg" alt="Hunter_LS v1.1.0 board"></label>
+      </div>
+    </fieldset>
+  </form>
+
+  <h2>2. Install</h2>
+  <ol>
+    <li>Take the ESP module (XIAO or D1 mini) and connect it to this computer with a USB cable
+        (Chrome or Edge on a desktop/laptop). It does not need to be in the X-Core for this.</li>
+    <li>Click <b>Connect</b>, choose the serial port, then <b>Install</b>.</li>
+    <li>When it finishes, type your Wi-Fi name and password in the same window.</li>
+  </ol>
+  <esp-web-install-button id="install" manifest="firmware/v2/manifest.json"></esp-web-install-button>
+  <p>No computer? The board opens a Wi-Fi hotspot called <code>Hunter-LS Setup</code>: join it
+     from your phone and pick your network. (v2.0.0 also works with Bluetooth from the
+     Home Assistant app.)</p>
+
+  <h2>3. Fit it and add it to Home Assistant</h2>
+  <ol>
+    <li>On the X-Core, set the <b>sensor bypass switch to “Active”</b> (needed for “Pause Watering”).</li>
+    <li>Connect the board as shown in the
+        <a href="https://github.com/skydoy/ESPHOME_Hunter/blob/main/docs/quick-start.md">quick start</a>.</li>
+    <li>Home Assistant shows a new device: <b>Settings → Devices &amp; services → ESPHome → Configure</b>.</li>
+  </ol>
+  <p>You get one switch per zone (<i>Zone 1</i>, <i>Zone 2</i>…) that shows what the valve is really
+     doing, <i>Run Time</i>, <i>Stop All</i>, <i>Run Program A/B/C</i> and <i>Pause Watering</i>.
+     New versions install from the <b>Firmware Update</b> entity.</p>
+
+  <p class="warn"><b>Safety:</b> the X-Core's transformer is plugged into the mains. Unplug it
+     before connecting the board. The board only touches the 24 V AC side.</p>
+
+  <h2 id="pt">Português</h2>
+  <ol>
+    <li>Escolha a sua placa acima (o nome está impresso na PCB: <b>v2.0.0</b> preta ou <b>v1.x</b> vermelha/azul).</li>
+    <li>Ligue o módulo ESP ao computador por USB (Chrome ou Edge), carregue em <b>Connect</b> e depois <b>Install</b>.</li>
+    <li>No fim, escreva o nome e a palavra-passe do seu Wi-Fi. Sem computador: ligue-se à rede
+        <code>Hunter-LS Setup</code> com o telemóvel.</li>
+    <li>No X-Core, ponha o interruptor do sensor em <b>“Active”</b> e ligue a placa.</li>
+    <li>No Home Assistant: <b>Definições → Dispositivos e serviços → ESPHome → Configurar</b>.</li>
+  </ol>
+  <p>Guia completo: <a href="https://github.com/skydoy/ESPHOME_Hunter/blob/main/docs/guia-rapido.md">guia rápido</a>
+     · <a href="https://github.com/skydoy/ESPHOME_Hunter/blob/main/docs/troubleshooting.md">problemas comuns</a>.</p>
+
+  <p>Source, documentation and credits:
+     <a href="https://github.com/skydoy/ESPHOME_Hunter">github.com/skydoy/ESPHOME_Hunter</a>.</p>
+
+  <script>
+    const button = document.getElementById("install");
+    function selectBoard() {
+      button.setAttribute("manifest", document.querySelector('input[name="board"]:checked').value);
+    }
+    document.getElementById("board-form").addEventListener("change", selectBoard);
+    selectBoard();
+  </script>
+</body>
+</html>
