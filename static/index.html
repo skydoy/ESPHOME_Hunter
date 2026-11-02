@@ -22,6 +22,9 @@
     body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
     a { color: var(--accent); }
     html[data-lang=pt] .en, html[data-lang=en] .pt { display:none !important; }
+    .donate { margin:.6rem 0 0; font-size:.9rem; display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; }
+    .donate a { display:inline-flex; align-items:center; gap:.3rem; padding:.25rem .7rem; border-radius:999px; font-weight:600; text-decoration:none; font-size:.85rem; box-shadow:0 1px 4px rgba(0,0,0,.15); }
+    .donate .kofi { background:#F16061; color:#fff; } .donate .bmc { background:#FFDD00; color:#000; }
     header { background: linear-gradient(135deg, var(--g1), var(--g2)); color:#fff; padding: 1.25rem 1rem 3.5rem; }
     .wrap { max-width: 52rem; margin: 0 auto; padding: 0 1rem; }
     .top { display:flex; align-items:center; gap:.9rem; }
@@ -82,6 +85,12 @@
     <p class="pitch">
       <span class="pt">O seu programador de rega Hunter X-Core no Home Assistant. Ligue por USB, carregue em Instalar, feito. Sem YAML, sem nuvem.</span>
       <span class="en">Your Hunter X-Core irrigation controller in Home Assistant. Plug in by USB, click Install, done. No YAML, no cloud.</span>
+    </p>
+    <p class="donate">
+      <span class="pt">❤️ Gostas? Ajuda-me a trazer algo ainda melhor.</span>
+      <span class="en">❤️ Like it? Help me bring you something even better.</span>
+      <a class="kofi" href="https://ko-fi.com/skydoy" target="_blank" rel="noopener">☕ Ko-fi</a>
+      <a class="bmc" href="https://buymeacoffee.com/skydoy" target="_blank" rel="noopener">🍺 Buy Me a Coffee</a>
     </p>
   </div>
 </header>
