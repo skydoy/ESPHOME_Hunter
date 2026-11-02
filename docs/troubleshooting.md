@@ -1,4 +1,6 @@
-# Troubleshooting / Resolução de problemas
+# Troubleshooting
+
+*Português: [problemas.md](problemas.md).*
 
 | Symptom | What to do |
 |---|---|
@@ -13,14 +15,4 @@
 | Logs | Open `http://<device-ip>/` (built-in page with logs) or the ESPHome Device Builder logs. |
 | Start over | Re-flash from the web installer and choose *Erase device*. |
 
-## Em português
-| Sintoma | O que fazer |
-|---|---|
-| O instalador não encontra a porta | Use um cabo USB **de dados**, Chrome ou Edge num computador. v1.x: instale o driver CH340/CP210x. |
-| "Failed to connect" (v2.0.0) | Mantenha o botão **BOOT** do XIAO carregado ao ligar o cabo, solte e tente de novo. |
-| Não aparece a janela do Wi-Fi | Ligue-se à rede `Hunter-LS Setup` com o telemóvel. |
-| O Home Assistant não encontra o dispositivo | Mesma rede que o Home Assistant; adicione à mão com `hunter-ls-xxxxxx.local` ou o IP. |
-| Uma zona liga e volta a desligar sozinha | O X-Core não abriu a válvula. Verifique o fio REM, que o X-Core não está em "Off", que **Pause Watering** está desligado e os logs. |
-| **Pause Watering** não faz nada | O interruptor do sensor do X-Core tem de estar em **Active**. |
-| Wi-Fi fraco (v2.0.0) | Use uma antena u.FL e ligue **External Antenna**. |
-| Começar do zero | Volte a instalar pelo instalador web e escolha *Erase device*. |
+Still stuck? [Open an issue](https://github.com/skydoy/ESPHOME_Hunter/issues) with your board version and the logs.
