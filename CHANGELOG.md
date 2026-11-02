@@ -7,7 +7,7 @@ described in the [README](README.md); firmware versions below are independent of
 
 ## [Unreleased]
 
-## [0.1.0] - unreleased
+## [0.1.0] - 2026-11-02
 ### Added
 - ESPHome firmware for both boards: `devices/hunter-ls-v1.yaml` (Wemos D1 mini, 4 zones) and
   `devices/hunter-ls-v2.yaml` (XIAO ESP32-C6, 2/4/6/8 zones via `zone_count`).
@@ -19,10 +19,13 @@ described in the [README](README.md); firmware versions below are independent of
 - Over-the-air updates from GitHub Pages (*Firmware Update* entity) for installer firmware;
   *Update Available* / *Latest Version* for configs adopted in the ESPHome Device Builder.
 - Web installer (ESP Web Tools) with a board picker, CI builds, releases and the `stable` branch.
-- Quick start in English and Portuguese, troubleshooting, configuration and hardware docs.
+- Logo, a bilingual (PT/EN) web installer, a short README and quick start in Portuguese and English, troubleshooting, configuration and hardware docs.
+
+- v2.0.0 pin map recovered from Luís Soares's own v2.0.0 firmware (REM GPIO21, SEN GPIO22,
+  zones GPIO0/1/2/16/17/19/20/18) and his cold-boot restart; see [docs/hardware.md](docs/hardware.md).
 
 ### Not yet verified
-- No hardware test yet. The v2.0.0 pin map is a placeholder until confirmed by Luís Soares.
+- Not yet tested on a real board with this firmware. Please report how it goes in an issue.
 
 [Unreleased]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/skydoy/ESPHOME_Hunter/releases/tag/v0.1.0
