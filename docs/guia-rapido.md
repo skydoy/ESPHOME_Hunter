@@ -2,39 +2,46 @@
 
 Da caixa ao Home Assistant em cerca de 10 minutos, sem YAML. *English: [quick-start.md](quick-start.md).*
 
-> **Estado:** o firmware é compilado e validado automaticamente, mas **ainda não foi testado numa
-> placa real**. O mapa de pinos da v2.0.0 ainda tem de ser confirmado pelo Luís Soares. Ver [hardware.md](hardware.md).
-
 ## Precisa de
-- Uma placa Hunter_LS (v1.x ou v2.0.0; a versão está impressa na PCB).
-- Um computador com **Chrome ou Edge** e um cabo USB de dados (USB-C na v2.0.0, micro-USB na v1.x).
-- O nome e a palavra-passe do seu Wi-Fi (rede de 2,4 GHz).
-- Home Assistant com a integração ESPHome (é sugerida automaticamente).
+- Uma placa **Hunter_LS** (a versão está impressa na PCB: v1.0.0, v1.1.0, v1.1.1 ou v2.0.0).
+- Um computador com **Chrome ou Edge** e um cabo USB **de dados** (USB-C na v2.0.0, micro-USB na v1.x).
+- O nome e a palavra-passe do Wi-Fi de casa (rede de **2,4 GHz**).
+- Home Assistant (a integração ESPHome é sugerida automaticamente).
 
-## 1. Instalar o firmware
+## 1. Instalar o firmware (2 minutos)
+Faça isto **antes de montar a placa no X-Core** (ou com o X-Core desligado da tomada).
 1. Abra **https://skydoy.github.io/ESPHOME_Hunter/**.
-2. Escolha a placa: **v2.0.0** (PCB preta, XIAO ESP32-C6) ou **v1.x** (PCB vermelha/azul, Wemos D1 mini).
-3. Ligue o módulo ESP ao computador. Pode estar na placa, mas a placa **não** deve estar ligada
-   ao X-Core enquanto está no USB, salvo se o jumper de alimentação estiver em USB (ver as legendas da placa).
-4. Carregue em **Connect**, escolha a porta série ("USB JTAG/serial" ou "CH340/CP210x") e depois **Install**.
+2. Escolha a placa: **v2.0.0** (PCB preta, XIAO ESP32-C6) ou **v1.x** (Wemos D1 mini).
+3. Ligue o módulo ESP ao computador por USB.
+4. Carregue em **Instalar**, escolha a porta ("USB JTAG/serial debug unit" na v2.0.0, "CH340"/"CP210x" na v1.x) → **Install**.
 
-## 2. Wi-Fi
-- Logo a seguir à instalação, a mesma janela pede o Wi-Fi: introduza-o e carregue em **Connect**.
-- Ou, mais tarde: no telemóvel ligue-se à rede **`Hunter-LS Setup`**, abre-se uma página, escolha a sua rede.
-  Esta rede volta a aparecer sozinha sempre que o Wi-Fi guardado não estiver disponível.
-- Só na v2.0.0: a app do Home Assistant também configura o Wi-Fi por Bluetooth.
+✅ *Deve ver:* uma barra de progresso e depois "Installation complete!".
 
-## 3. Montar a placa no X-Core
-1. **Desligue o transformador do X-Core** da tomada.
+## 2. Wi-Fi (1 minuto)
+- Logo a seguir, a mesma janela pede o Wi-Fi: escolha a rede, escreva a palavra-passe → **Connect**.
+- Saltou este passo? No telemóvel ligue-se à rede **`Hunter-LS Setup`**; abre-se uma página, escolha o seu Wi-Fi.
+  Esta rede volta a aparecer sozinha sempre que a placa não conseguir ligar ao Wi-Fi guardado.
+- Só na v2.0.0: também pode configurar o Wi-Fi por Bluetooth na app do Home Assistant.
+
+✅ *Deve ver:* "Connected" e um botão **Visit device**. O LED deixa de piscar.
+
+## 3. Montar a placa no X-Core (5 minutos)
+1. **Desligue o transformador do X-Core da tomada.**
 2. Ponha o **interruptor do sensor do X-Core em "Active"** (sem isto a *Pause Watering* não faz nada).
-3. Ligue os terminais da placa ao X-Core seguindo as legendas impressas na placa (saídas das zonas,
-   VAC, REM, SEN). As fotos do Luís no [README](../README.md#pictures-of-pcb-and-installation) mostram uma instalação completa.
-4. Volte a ligar o transformador. O LED do ESP pisca até ligar ao Wi-Fi.
+3. Ligue os fios da placa aos terminais do X-Core seguindo as legendas impressas na placa (zonas, VAC, REM, SEN).
+4. Volte a ligar o transformador.
 
-## 4. Home Assistant
-**Definições → Dispositivos e serviços**: aparece um novo dispositivo "Hunter Irrigation" → **Configurar**.
-Dê-lhe um nome e uma divisão. Teste com uma rega curta: ponha **Run Time** a 1, ligue a **Zone 1**
-e confirme que a válvula abre e que *Zone 1 Running* fica ligado.
+![Placa ligada aos terminais do X-Core](img/install-wiring.jpg)
+![Placa montada dentro do X-Core](img/install-detail.jpg)
+
+*Fotos do Luís Soares (placa v1.0.0; as outras versões montam-se da mesma forma). Mais fotos em [hardware/](../hardware/).*
+
+## 4. Adicionar ao Home Assistant (1 minuto)
+**Definições → Dispositivos e serviços**: aparece **Hunter Irrigation** em *Descobertos* → **Configurar**.
+Dê-lhe uma divisão (ex.: Jardim).
+
+**Teste:** ponha **Run Time** a 1, ligue a **Zone 1** e confirme que a válvula abre e que o
+interruptor fica ligado. Se voltar a desligar-se sozinho passado um segundo, veja [problemas.md](problemas.md).
 
 | Entidade | Para que serve |
 |---|---|
@@ -44,7 +51,10 @@ e confirme que a válvula abre e que *Zone 1 Running* fica ligado.
 | **Pause Watering** | Bloqueia toda a rega (como um sensor de chuva) até ser desligado. |
 | **Firmware Update** | Instala novas versões pelo Wi-Fi. |
 
-## 5. Atualizações
-As novas versões aparecem no Home Assistant como **Firmware Update** → **Instalar**.
+Na v2.0.0 aparecem 8 zonas; se o seu X-Core tiver menos, desative as que não usa no Home Assistant
+(ou mude `zone_count`, ver [configuration.md](configuration.md)).
 
-Algum problema? Ver [troubleshooting.md](troubleshooting.md) (inclui secção em português).
+## 5. Atualizações
+Quando sair uma versão nova aparece **Firmware Update** no Home Assistant → **Instalar**. Mais nada.
+
+Algum problema? Ver **[problemas.md](problemas.md)**.
