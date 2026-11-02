@@ -7,6 +7,10 @@ described in the [README](README.md); firmware versions below are independent of
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-11-02
+### Added
+- Ko-fi and Buy Me a Coffee links at the top of the READMEs and the web installer, plus `.github/FUNDING.yml`.
+
 ## [0.1.0] - 2026-11-02
 ### Added
 - ESPHome firmware for both boards: `devices/hunter-ls-v1.yaml` (Wemos D1 mini, 4 zones) and
@@ -27,5 +31,6 @@ described in the [README](README.md); firmware versions below are independent of
 ### Not yet verified
 - Not yet tested on a real board with this firmware. Please report how it goes in an issue.
 
-[Unreleased]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/skydoy/ESPHOME_Hunter/releases/tag/v0.1.0
