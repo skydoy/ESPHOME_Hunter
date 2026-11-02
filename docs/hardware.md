@@ -21,18 +21,23 @@ Taken from HunterMonitor's `hunter-roam-alt.yaml`. **To be confirmed by Luís fo
 ROAM driver: `javiervidao/Hunter_Roam` (Arduino), pinned to commit `7c51ca1`.
 
 ## v2.0.0 – Seeed XIAO ESP32-C6, up to 8 zones
-**PLACEHOLDER pin map – not confirmed.** Luís converted the firmware for this board; his pin
-assignment and ROAM timings are needed (see the open questions in the pull request).
+Recovered from **Luís Soares's own compiled v2.0.0 firmware** (ESPHome 2026.6.2, project `hunterls8v2`):
+the GPIO numbers, directions and inversion are read from his binary. Not yet re-tested on a board
+with this firmware; please [report](https://github.com/skydoy/ESPHOME_Hunter/issues) how it goes.
 
-| XIAO pin | GPIO | Function (placeholder) |
-|---|---|---|
-| D0 / D1 / D2 / D3 | 0 / 1 / 2 / 21 | Zone 1 / 2 / 3 / 4 feedback |
-| D4 / D5 / D6 / D7 | 22 / 23 / 16 / 17 | Zone 5 / 6 / 7 / 8 feedback |
-| D8 | 19 | REM |
-| D9 | 20 | SEN |
-| D10 | 18 | free |
-| – | 15 | Status LED (user LED) |
-| – | 3 / 14 | RF switch power / antenna select ("External Antenna") |
+| XIAO pin | GPIO | Function | Confidence |
+|---|---|---|---|
+| D0 / D1 / D2 | 0 / 1 / 2 | Zone 1 / 2 / 3 feedback (input, pull-up, inverted) | high |
+| D3 | 21 | REM (ROAM commands, output) | medium-high |
+| D4 | 22 | SEN, *Pause Watering* (output, inverted) | high |
+| D5 | 23 | free | – |
+| D6 / D7 | 16 / 17 | Zone 4 / 5 feedback | high |
+| D8 / D9 / D10 | 19 / 20 / 18 | Zone 6 / 7 / 8 feedback | high |
+| – | 15 | Status LED (user LED) | high |
+| – | 3 / 14 | RF switch power / antenna select (*External Antenna*) | high |
+
+Also taken from Luís's firmware: after a **cold power-on** the board restarts once after 5 s
+(clears a start-up glitch); a normal restart does not.
 
 ROAM driver: `luisfosoares/Hunter_ESP_IDF` (ESP-IDF), pinned to commit `9e765a4`.
 

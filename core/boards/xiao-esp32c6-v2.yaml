@@ -1,34 +1,39 @@
 # Board: Hunter_LS v2.0.0 (black PCB) with a Seeed Studio XIAO ESP32-C6, up to 8 zones.
 #
-# !!! PIN MAP NOT CONFIRMED !!!  The GPIOs below are PLACEHOLDERS chosen from the XIAO pin-out
-# (D0..D10) and the order of the board's header (Z1..Z8, FREE, VAC-L, VAC-R, REM, SEN-R, SEN-L).
-# They must be confirmed by Luís Soares (or read from his v2.0.0 YAML / schematic) before this
-# firmware is released. Wrong pins cannot damage anything (every line is opto-isolated), but
-# zones would not start or report.
+# Pin map RECOVERED FROM LUIS SOARES'S OWN v2.0.0 FIRMWARE (ESPHome 2026.6.2, project
+# "hunterls8v2"): the GPIO numbers, directions and inversion below are the ones his compiled
+# firmware configures. Not yet re-tested on a board with THIS firmware; please report results.
+# Wrong pins cannot damage anything (every line is opto-isolated); zones would just not start
+# or report.
 #
-#   XIAO pin -> GPIO : function (placeholder)
-#   D0 -> GPIO0  : zone 1 feedback       D6  -> GPIO16 : zone 7 feedback
-#   D1 -> GPIO1  : zone 2 feedback       D7  -> GPIO17 : zone 8 feedback
-#   D2 -> GPIO2  : zone 3 feedback       D8  -> GPIO19 : REM (ROAM commands)
-#   D3 -> GPIO21 : zone 4 feedback       D9  -> GPIO20 : SEN ("Pause Watering")
-#   D4 -> GPIO22 : zone 5 feedback       D10 -> GPIO18 : free
-#   D5 -> GPIO23 : zone 6 feedback
+#   XIAO pin -> GPIO : function                       (confidence)
+#   D0 -> GPIO0  : zone 1 feedback (input, pull-up, inverted)   high
+#   D1 -> GPIO1  : zone 2 feedback                              high
+#   D2 -> GPIO2  : zone 3 feedback                              high
+#   D3 -> GPIO21 : REM, Hunter ROAM data (output)               medium-high
+#   D4 -> GPIO22 : SEN, "Pause Watering" (output, inverted)     high
+#   D5 -> GPIO23 : free
+#   D6 -> GPIO16 : zone 4 feedback                              high
+#   D7 -> GPIO17 : zone 5 feedback                              high
+#   D8 -> GPIO19 : zone 6 feedback                              high
+#   D9 -> GPIO20 : zone 7 feedback                              high
+#   D10 -> GPIO18: zone 8 feedback                              high
 #   GPIO15 = user LED (status), GPIO3 = RF switch power, GPIO14 = antenna select
 #
 # Hunter ROAM driver: luisfosoares/Hunter_ESP_IDF (Luís's ESP-IDF port of the ROAM component,
 # with timings he tuned for this board), pinned to a commit.
 substitutions:
   board_label: "Hunter_LS v2.0.0 (XIAO ESP32-C6)"
-  rem_pin: GPIO19
-  sen_pin: GPIO20
+  rem_pin: GPIO21
+  sen_pin: GPIO22
   zone1_pin: GPIO0
   zone2_pin: GPIO1
   zone3_pin: GPIO2
-  zone4_pin: GPIO21
-  zone5_pin: GPIO22
-  zone6_pin: GPIO23
-  zone7_pin: GPIO16
-  zone8_pin: GPIO17
+  zone4_pin: GPIO16
+  zone5_pin: GPIO17
+  zone6_pin: GPIO19
+  zone7_pin: GPIO20
+  zone8_pin: GPIO18
   zone_on_delay: 50ms
   zone_off_delay: 500ms
   http_verify_ssl: "true"
@@ -76,12 +81,24 @@ output:
 
 esphome:
   on_boot:
-    priority: 800
+  - priority: 800
     then:
       - output.turn_off: rf_switch_power
       - lambda: |-
           if (id(external_antenna).state) id(rf_antenna_select).turn_on();
           else id(rf_antenna_select).turn_off();
+  # Same as Luis's firmware: after a cold power-on (not after a software restart) reboot once
+  # 5 s later, to clear a start-up glitch of the board. A warm restart does not loop.
+  - priority: -100
+    then:
+      - if:
+          condition:
+            lambda: |-
+              return esp_reset_reason() == ESP_RST_POWERON;
+          then:
+            - logger.log: "Cold boot: restarting once in 5 s (clears the power-on glitch)"
+            - delay: 5s
+            - lambda: App.safe_reboot();
 
 switch:
   - platform: template
