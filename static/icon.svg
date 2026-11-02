@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2BD47D"/><stop offset="1" stop-color="#0A8FD8"/></linearGradient></defs>
+<rect width="600" height="600" rx="128" fill="url(#hg)"/>
+<path d="M300 78L437.9 276.0A168 168 0 1 1 162.1 276.0Z" fill="none" stroke="#fff" stroke-width="22" stroke-linejoin="round"/>
+<g stroke="#fff" stroke-linecap="round" stroke-linejoin="round" fill="none"><path stroke-width="14" d="M230.0 364H206.0M370.0 364H394.0M262 472.0V494.0M230.0 402H206.0M370.0 402H394.0M300 472.0V494.0M230.0 440H206.0M370.0 440H394.0M338 472.0V494.0"/><path stroke-width="14" d="M300 332.0V258.0M262 332.0V304.0L222 264.0M338 332.0V304.0L378 264.0"/></g>
+<rect x="236.0" y="338.0" width="128" height="128" rx="20" fill="#fff"/>
+<g fill="url(#hg)" stroke="#fff" stroke-width="10"><circle cx="300" cy="243.0" r="15"/><circle cx="212" cy="254.0" r="13"/><circle cx="388" cy="254.0" r="13"/></g>
+<path d="M300 362L324.9 399.3A30 30 0 1 1 275.1 399.3Z" fill="url(#hg)"/></svg>
