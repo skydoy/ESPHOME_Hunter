@@ -6,6 +6,11 @@
   </picture>
 </p>
 
+<p align="center"><b>❤️ Gostas? Ajuda-me a trazer algo ainda melhor.</b><br>
+  <a href="https://ko-fi.com/skydoy"><img src="https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white" alt="Ko-fi"></a>
+  <a href="https://buymeacoffee.com/skydoy"><img src="https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" alt="Buy Me A Coffee"></a>
+</p>
+
 <p align="center"><b>O seu programador de rega Hunter X-Core no Home Assistant. Ligar, carregar em Instalar, feito. Sem YAML.</b><br>
 🇬🇧 <a href="README.md">Read in English</a></p>
 
