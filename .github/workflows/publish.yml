@@ -73,7 +73,7 @@ jobs:
           path: site
       - name: Assemble Pages site
         run: |
-          cp static/* site/
+          cp -r static/. site/
           ls -R site
           test -f site/firmware/v1/manifest.json
           test -f site/firmware/v2/manifest.json
