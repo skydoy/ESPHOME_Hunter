@@ -7,6 +7,12 @@ described in the [README](README.md); firmware versions below are independent of
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-11-04
+### Changed
+- READMEs, docs and the web installer credit the original authors as plain text, without links to other GitHub repos.
+### Added
+- "Automatic updates (OTA)" and "Changelog" sections in both READMEs.
+
 ## [0.1.1] - 2026-11-02
 ### Added
 - Ko-fi and Buy Me a Coffee links at the top of the READMEs and the web installer, plus `.github/FUNDING.yml`.
@@ -31,6 +37,7 @@ described in the [README](README.md); firmware versions below are independent of
 ### Not yet verified
 - Not yet tested on a real board with this firmware. Please report how it goes in an issue.
 
-[Unreleased]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/skydoy/ESPHOME_Hunter/releases/tag/v0.1.0

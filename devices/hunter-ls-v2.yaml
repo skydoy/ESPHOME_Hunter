@@ -13,7 +13,7 @@
 substitutions:
   name: hunter-ls
   friendly_name: Hunter Irrigation
-  project_version: "0.1.1"
+  project_version: "0.1.2"
   # Build source shown in "Firmware Version": CI sets "release" (tags) or "<branch> @<commit>".
   firmware_source: "self-built"
   # How many zones your X-Core has (2, 4, 6 or 8). The installer firmware has all 8.

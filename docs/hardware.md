@@ -1,7 +1,7 @@
 # Hardware and pin map
 
-The Hunter_LS PCB is designed by **Luís Soares** ([luisfosoares/Hunter_LS](https://github.com/luisfosoares/Hunter_LS))
-following **CZSmith**'s [HunterMonitor](https://github.com/czsmith/HunterMonitor) schematic:
+The Hunter_LS PCB is designed by **Luís Soares** (Hunter_LS)
+following **CZSmith**'s HunterMonitor schematic:
 - **REM**: the ESP sends Hunter ROAM remote commands to the X-Core's REM terminal through an opto-coupler.
 - **Zone feedback**: each valve output (24 V AC) drives an opto-coupler, so the ESP sees whether the valve is really powered.
 - **SEN**: an opto-isolated switch in the rain-sensor loop; opening it blocks all watering (*Pause Watering*).
