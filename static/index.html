@@ -11,34 +11,51 @@
   <meta property="og:title" content="ESPHome Hunter">
   <meta property="og:description" content="Hunter X-Core irrigation in Home Assistant. Plug in, click Install, done.">
   <meta property="og:image" content="https://raw.githubusercontent.com/skydoy/ESPHOME_Hunter/main/docs/img/social-preview.png">
-  <meta name="theme-color" content="#0A8FD8">
+  <meta name="theme-color" content="#0a5f99" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b3f6a" media="(prefers-color-scheme: dark)">
+  <script>
+    (function () { var t = null; try { t = localStorage.getItem('theme'); } catch (e) {}
+      if (t !== 'dark' && t !== 'light') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.dataset.theme = t; })();
+  </script>
   <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
   <style>
     :root { --bg:#f6f8f7; --card:#fff; --text:#0b2a1f; --muted:#52645c; --line:#dfe7e3; --g1:#2BD47D; --g2:#0A8FD8; --accent:#0A8FD8; --warn-bg:#fff6e5; --warn:#e69500; --ok-bg:#eafaf1; }
-    @media (prefers-color-scheme: dark) {
-      :root { --bg:#0d1117; --card:#161b22; --text:#e6edf3; --muted:#9aa7b2; --line:#2a333d; --accent:#3fb1f5; --warn-bg:#2b2111; --ok-bg:#10281c; }
-    }
+    :root { --h1:#0b7a45; --h2:#0a5f99; --btn-text:#fff; color-scheme:light;
+      --mdc-theme-primary:#0a6fb0; --mdc-theme-on-primary:#fff; --mdc-theme-surface:#fff; --mdc-theme-on-surface:#0b2a1f;
+      --mdc-dialog-heading-ink-color:#0b2a1f; --mdc-dialog-content-ink-color:#33443c; --improv-primary-color:#0a6fb0; --improv-text-color:#0b2a1f; }
+    html[data-theme=dark] { --bg:#0d1117; --card:#161b22; --text:#e6edf3; --muted:#a3b1bd; --line:#2f3a45; --accent:#58bdf7; --warn-bg:#2b2111; --warn:#f0a929; --ok-bg:#10281c;
+      --h1:#0d5a37; --h2:#0b3f6a; color-scheme:dark;
+      --mdc-theme-primary:#58bdf7; --mdc-theme-on-primary:#04121c; --mdc-theme-surface:#1c232c; --mdc-theme-on-surface:#e6edf3;
+      --mdc-dialog-heading-ink-color:#e6edf3; --mdc-dialog-content-ink-color:#c9d4de; --mdc-text-field-ink-color:#e6edf3; --mdc-text-field-label-ink-color:#a3b1bd;
+      --mdc-select-ink-color:#e6edf3; --mdc-select-label-ink-color:#a3b1bd; --mdc-text-field-fill-color:#232b35; --mdc-select-fill-color:#232b35;
+      --mdc-theme-text-primary-on-background:#e6edf3; --mdc-theme-text-secondary-on-background:#a3b1bd; --mdc-checkbox-unchecked-color:#a3b1bd;
+      --mdc-list-item-text-color:#e6edf3; --improv-primary-color:#58bdf7; --improv-text-color:#e6edf3; }
+    html[data-theme=dark] .card { box-shadow:none; }
+    html[data-theme=dark] .boards img, html[data-theme=dark] .photo { filter:brightness(.9); }
+    .theme { border:1px solid #fff8; background:transparent; color:#fff; border-radius:999px; width:2.1rem; height:2.1rem; cursor:pointer; font-size:1rem; line-height:1; }
+    .theme:focus-visible, .lang button:focus-visible { outline:2px solid #fff; outline-offset:2px; }
     * { box-sizing: border-box; }
     body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
     a { color: var(--accent); }
     html[data-lang=pt] .en, html[data-lang=en] .pt { display:none !important; }
     .donate { margin:.6rem 0 0; font-size:.9rem; display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; }
     .donate a { display:inline-flex; align-items:center; gap:.3rem; padding:.25rem .7rem; border-radius:999px; font-weight:600; text-decoration:none; font-size:.85rem; box-shadow:0 1px 4px rgba(0,0,0,.15); }
-    .donate .kofi { background:#F16061; color:#fff; } .donate .bmc { background:#FFDD00; color:#000; }
-    header { background: linear-gradient(135deg, var(--g1), var(--g2)); color:#fff; padding: 1.25rem 1rem 3.5rem; }
+    .donate .kofi { background:#c0392b; color:#fff; } .donate .bmc { background:#FFDD00; color:#000; }
+    header { background: linear-gradient(135deg, var(--h1), var(--h2)); color:#fff; padding: 1.25rem 1rem 3.5rem; }
     .wrap { max-width: 52rem; margin: 0 auto; padding: 0 1rem; }
     .top { display:flex; align-items:center; gap:.9rem; }
     .top img { width:56px; height:56px; border-radius:14px; box-shadow: 0 2px 10px rgba(0,0,0,.2); background:#fff2; }
     .top h1 { font-size:1.6rem; margin:0; line-height:1.1; }
     .top small { opacity:.92; font-size:.95rem; }
-    .lang { margin-left:auto; display:flex; gap:.25rem; }
+    .lang { margin-left:auto; display:flex; gap:.25rem; align-items:center; }
     .lang button { border:1px solid #fff8; background:transparent; color:#fff; border-radius:999px; padding:.25rem .7rem; cursor:pointer; font-weight:600; }
     .lang button[aria-pressed=true] { background:#fff; color:#0b6f9e; }
     .pitch { font-size:1.15rem; margin:1rem 0 0; max-width:40rem; }
     main { margin-top:-2.5rem; }
     .card { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:1.25rem 1.25rem 1rem; margin-bottom:1rem; box-shadow: 0 1px 3px rgba(0,0,0,.05); }
     .card h2 { margin:0 0 .6rem; font-size:1.2rem; display:flex; align-items:center; gap:.6rem; }
-    .num { flex:none; width:2rem; height:2rem; border-radius:50%; display:inline-grid; place-items:center; color:#fff; font-size:1rem; background: linear-gradient(135deg, var(--g1), var(--g2)); }
+    .num { flex:none; width:2rem; height:2rem; border-radius:50%; display:inline-grid; place-items:center; color:#fff; font-size:1rem; background: linear-gradient(135deg, var(--h1), var(--h2)); }
     .boards { display:grid; grid-template-columns: 1fr 1fr; gap:.8rem; }
     .boards label { display:block; border:2px solid var(--line); border-radius:12px; padding:.6rem; cursor:pointer; transition: border-color .15s; }
     .boards label:hover { border-color: var(--accent); }
@@ -48,7 +65,7 @@
     .boards .t { font-weight:700; font-size:1.05rem; }
     .boards .d { color:var(--muted); font-size:.92rem; }
     .install { text-align:center; padding:.5rem 0 .25rem; }
-    .btn { font: inherit; font-size:1.15rem; font-weight:700; color:#fff; border:0; border-radius:12px; padding:.85rem 2.2rem; cursor:pointer; background: linear-gradient(135deg, var(--g1), var(--g2)); box-shadow: 0 4px 14px rgba(10,143,216,.35); }
+    .btn { font: inherit; font-size:1.15rem; font-weight:700; color:#fff; border:0; border-radius:12px; padding:.85rem 2.2rem; cursor:pointer; background: linear-gradient(135deg, var(--h1), var(--h2)); box-shadow: 0 4px 14px rgba(10,143,216,.35); }
     .btn:hover { filter: brightness(1.05); }
     .ver { color:var(--muted); font-size:.9rem; margin-top:.4rem; }
     .note { border-radius:10px; padding:.6rem .85rem; margin:.7rem 0; }
@@ -80,6 +97,7 @@
       <div class="lang" role="group" aria-label="Language">
         <button type="button" data-set="pt">PT</button>
         <button type="button" data-set="en">EN</button>
+        <button type="button" class="theme" id="theme"></button>
       </div>
     </div>
     <p class="pitch">
@@ -222,11 +240,27 @@
   const root = document.documentElement;
   function setLang(l) {
     root.dataset.lang = l; root.lang = l;
-    document.querySelectorAll('.lang button').forEach(b => b.setAttribute('aria-pressed', b.dataset.set === l));
+    document.querySelectorAll('.lang button[data-set]').forEach(b => b.setAttribute('aria-pressed', b.dataset.set === l));
     try { localStorage.setItem('lang', l); } catch (e) {}
-    showVersion();
+    showVersion(); paintTheme();
   }
-  document.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => setLang(b.dataset.set)));
+  const themeBtn = document.getElementById('theme');
+  function paintTheme() {
+    const dark = root.dataset.theme === 'dark', pt = root.dataset.lang === 'pt';
+    themeBtn.textContent = dark ? '☀️' : '🌙';
+    const label = dark ? (pt ? 'Mudar para modo claro' : 'Switch to light mode') : (pt ? 'Mudar para modo escuro' : 'Switch to dark mode');
+    themeBtn.setAttribute('aria-label', label); themeBtn.title = label;
+  }
+  themeBtn.addEventListener('click', () => {
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
+    paintTheme();
+  });
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    let t = null; try { t = localStorage.getItem('theme'); } catch (x) {}
+    if (!t) { root.dataset.theme = e.matches ? 'dark' : 'light'; paintTheme(); }
+  });
+  document.querySelectorAll('.lang button[data-set]').forEach(b => b.addEventListener('click', () => setLang(b.dataset.set)));
   if (!('serial' in navigator)) document.getElementById('nosupport').style.display = 'block';
 
   const button = document.getElementById('install');
