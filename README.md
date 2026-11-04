@@ -70,7 +70,7 @@ Only tested releases from the `stable` branch are offered.
   but if you prefer, update by USB from the [installer](https://skydoy.github.io/ESPHOME_Hunter/).
 
 ## Changelog
-Latest: **v0.1.2** – README credits as plain text, new “Automatic updates” and “Changelog” sections.
+Latest: **v0.1.5** – Portuguese texts now use the informal "tu" form, like the other projects.
 All versions: [CHANGELOG.md](CHANGELOG.md).
 
 ## Docs
