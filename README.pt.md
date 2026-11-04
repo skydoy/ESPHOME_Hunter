@@ -51,19 +51,35 @@ Passo a passo com fotos: **[Guia rápido](docs/guia-rapido.md)** · **[Quick sta
 > **Estado:** a v0.1.0 é compilada e verificada automaticamente, mas ainda não foi testada numa placa real.
 > Os pinos da v2.0.0 vêm do firmware do próprio Luís. Experimentou? [Conte-nos](https://github.com/skydoy/ESPHOME_Hunter/issues).
 
+## Atualizações automáticas (OTA)
+Não precisa de fazer nada: a placa procura firmware novo sozinha (ao arrancar e a cada 6 horas).
+Só são oferecidas versões testadas, do ramo `stable`.
+- **Instalada pelo instalador web:** o Home Assistant mostra um cartão **Firmware Update**
+  (Definições → Atualizações). Carregue em **Instalar**, espere 1–2 minutos e não desligue o
+  programador. O Wi-Fi e as zonas mantêm-se.
+- **Adotada no ESPHome Device Builder:** a placa só *avisa* que há versão nova
+  (*Update Available*, *Check for Update*). Carregue em **Install** no Device Builder; a sua
+  configuração já segue o `stable`, não precisa de mexer no YAML.
+- **v1 (ESP8266):** não consegue verificar o certificado HTTPS ao descarregar. Funciona na mesma,
+  mas se preferir atualize por USB no [instalador](https://skydoy.github.io/ESPHOME_Hunter/).
+
+## Histórico de alterações
+Última versão: **v0.1.2** – créditos em texto simples, novas secções “Atualizações automáticas” e “Histórico de alterações”.
+Todas as versões: [CHANGELOG.md](CHANGELOG.md).
+
 ## Documentação
 [Problemas](docs/problemas.md) · [Troubleshooting (EN)](docs/troubleshooting.md) ·
 [Configuração avançada (EN)](docs/configuration.md) · [Hardware e pinos (EN)](docs/hardware.md) ·
 [Alterações](CHANGELOG.md) · [Reportar um problema](https://github.com/skydoy/ESPHOME_Hunter/issues)
 
 ## Créditos
-- **Hardware: [Luís Soares](https://github.com/luisfosoares)**, [luisfosoares/Hunter_LS](https://github.com/luisfosoares/Hunter_LS).
+- **Hardware: Luís Soares**, placa Hunter_LS.
   A PCB, as versões e as fotos são trabalho dele. [README original do Luís](docs/original-hunter-ls.md)
   (inclui como obter uma placa) · [fotos](hardware/).
-- Esquema e abordagem ESPHome original: **[CZSmith](https://github.com/czsmith)**, [HunterMonitor](https://github.com/czsmith/HunterMonitor) (MIT, ver [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)).
-- Drivers do protocolo Hunter ROAM: [javiervidao/Hunter_Roam](https://github.com/javiervidao/Hunter_Roam) (v1.x) e
-  [luisfosoares/Hunter_ESP_IDF](https://github.com/luisfosoares/Hunter_ESP_IDF) (v2.0.0).
-- Firmware, instalador e logótipo: [skydoy](https://github.com/skydoy).
+- Esquema e abordagem ESPHome original: **CZSmith**, HunterMonitor (MIT, ver [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)).
+- Drivers do protocolo Hunter ROAM: Hunter_Roam de javiervidao (v1.x) e
+  Hunter_ESP_IDF de Luís Soares (v2.0.0).
+- Firmware, instalador e logótipo: skydoy.
 
 Hunter e X-Core são marcas registadas da Hunter Industries. Projeto comunitário independente,
 sem ligação nem aprovação da Hunter Industries.
