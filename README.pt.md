@@ -11,7 +11,7 @@
   <a href="https://buymeacoffee.com/skydoy"><img src="https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" alt="Buy Me A Coffee"></a>
 </p>
 
-<p align="center"><b>O seu programador de rega Hunter X-Core no Home Assistant. Ligar, carregar em Instalar, feito. Sem YAML.</b><br>
+<p align="center"><b>O teu programador de rega Hunter X-Core no Home Assistant. Ligar, carregar em Instalar, feito. Sem YAML.</b><br>
 🇬🇧 <a href="README.md">Read in English</a></p>
 
 <p align="center">
@@ -23,10 +23,10 @@ cabe dentro do X-Core, liga as zonas como o comando Hunter e confirma se cada v�
 Tudo local: sem nuvem, sem app, sem conta.
 
 ## Instalar em 3 passos
-1. **Instalar o firmware.** Abra o **[instalador web](https://skydoy.github.io/ESPHOME_Hunter/)** no Chrome ou Edge,
-   escolha a placa (a versão está impressa na PCB), ligue o ESP ao computador por USB → **Instalar**.
-2. **Wi-Fi.** Escreva o seu Wi-Fi na mesma janela. (Ou mais tarde: ligue-se à rede `Hunter-LS Setup` com o telemóvel.)
-3. **Montar e adicionar.** Desligue o X-Core da tomada, ponha o interruptor do sensor em **Active**, monte a placa e volte a ligar.
+1. **Instalar o firmware.** Abre o **[instalador web](https://skydoy.github.io/ESPHOME_Hunter/)** no Chrome ou Edge,
+   escolhe a placa (a versão está impressa na PCB), liga o ESP ao computador por USB → **Instalar**.
+2. **Wi-Fi.** Escreve o teu Wi-Fi na mesma janela. (Ou mais tarde: liga-te à rede `Hunter-LS Setup` com o telemóvel.)
+3. **Montar e adicionar.** Desliga o X-Core da tomada, põe o interruptor do sensor em **Active**, monta a placa e volta a ligar.
    O Home Assistant mostra *Hunter Irrigation* em **Definições → Dispositivos e serviços** → **Configurar**.
 
 Passo a passo com fotos: **[Guia rápido](docs/guia-rapido.md)** · **[Quick start (EN)](docs/quick-start.md)**
@@ -36,7 +36,7 @@ Passo a passo com fotos: **[Guia rápido](docs/guia-rapido.md)** · **[Quick sta
 |---|---|
 | **Zone 1 … Zone N** | Liga / desliga uma zona durante *Run Time* minutos. Mostra o estado **real** da válvula. |
 | **Watering**, **Active Zone** | Se está a regar, e qual a zona. |
-| **Run Time** | Minutos de rega quando liga uma zona pelo Home Assistant (1–240). |
+| **Run Time** | Minutos de rega quando ligas uma zona pelo Home Assistant (1–240). |
 | **Run Program A / B / C**, **Stop All** | Iguais aos botões do programador. |
 | **Pause Watering** | Bloqueia toda a rega, incluindo os programas do X-Core (como um sensor de chuva). |
 | **Firmware Update** | Novas versões instalam-se pelo Wi-Fi com um clique. |
@@ -49,22 +49,22 @@ Passo a passo com fotos: **[Guia rápido](docs/guia-rapido.md)** · **[Quick sta
 | Configurar o Wi-Fi | USB, Bluetooth ou hotspot | USB ou hotspot |
 
 > **Estado:** a v0.1.0 é compilada e verificada automaticamente, mas ainda não foi testada numa placa real.
-> Os pinos da v2.0.0 vêm do firmware do próprio Luís. Experimentou? [Conte-nos](https://github.com/skydoy/ESPHOME_Hunter/issues).
+> Os pinos da v2.0.0 vêm do firmware do próprio Luís. Experimentaste? [Conta-nos](https://github.com/skydoy/ESPHOME_Hunter/issues).
 
 ## Atualizações automáticas (OTA)
-Não precisa de fazer nada: a placa procura firmware novo sozinha (ao arrancar e a cada 6 horas).
+Não precisas de fazer nada: a placa procura firmware novo sozinha (ao arrancar e a cada 6 horas).
 Só são oferecidas versões testadas, do ramo `stable`.
 - **Instalada pelo instalador web:** o Home Assistant mostra um cartão **Firmware Update**
-  (Definições → Atualizações). Carregue em **Instalar**, espere 1–2 minutos e não desligue o
+  (Definições → Atualizações). Carrega em **Instalar**, espera 1–2 minutos e não desligues o
   programador. O Wi-Fi e as zonas mantêm-se.
 - **Adotada no ESPHome Device Builder:** a placa só *avisa* que há versão nova
-  (*Update Available*, *Check for Update*). Carregue em **Install** no Device Builder; a sua
-  configuração já segue o `stable`, não precisa de mexer no YAML.
+  (*Update Available*, *Check for Update*). Carrega em **Install** no Device Builder; a tua
+  configuração já segue o `stable`, não precisas de mexer no YAML.
 - **v1 (ESP8266):** não consegue verificar o certificado HTTPS ao descarregar. Funciona na mesma,
-  mas se preferir atualize por USB no [instalador](https://skydoy.github.io/ESPHOME_Hunter/).
+  mas, se preferires, atualiza por USB no [instalador](https://skydoy.github.io/ESPHOME_Hunter/).
 
 ## Histórico de alterações
-Última versão: **v0.1.2** – créditos em texto simples, novas secções “Atualizações automáticas” e “Histórico de alterações”.
+Última versão: **v0.1.5** – textos em português passam a tratar-te por “tu”, como nos outros projetos.
 Todas as versões: [CHANGELOG.md](CHANGELOG.md).
 
 ## Documentação

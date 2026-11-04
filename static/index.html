@@ -105,7 +105,7 @@
       </div>
     </div>
     <p class="pitch">
-      <span class="pt">O seu programador de rega Hunter X-Core no Home Assistant. Ligue por USB, carregue em Instalar, feito. Sem YAML, sem nuvem.</span>
+      <span class="pt">O teu programador de rega Hunter X-Core no Home Assistant. Liga por USB, carrega em Instalar, feito. Sem YAML, sem nuvem.</span>
       <span class="en">Your Hunter X-Core irrigation controller in Home Assistant. Plug in by USB, click Install, done. No YAML, no cloud.</span>
     </p>
     <p class="support">
@@ -118,12 +118,12 @@
 
 <main class="wrap">
   <div id="nosupport" class="card note warn">
-    <span class="pt"><b>Este browser não consegue instalar.</b> Abra esta página no <b>Chrome</b> ou <b>Edge</b> num computador (não funciona no telemóvel, Safari nem Firefox).</span>
+    <span class="pt"><b>Este browser não consegue instalar.</b> Abre esta página no <b>Chrome</b> ou <b>Edge</b> num computador (não funciona no telemóvel, Safari nem Firefox).</span>
     <span class="en"><b>This browser can't install.</b> Open this page in <b>Chrome</b> or <b>Edge</b> on a computer (phones, Safari and Firefox don't work).</span>
   </div>
 
   <section class="card">
-    <h2><span class="num">1</span><span class="pt">Qual é a sua placa?</span><span class="en">Which board do you have?</span></h2>
+    <h2><span class="num">1</span><span class="pt">Qual é a tua placa?</span><span class="en">Which board do you have?</span></h2>
     <p class="pt" style="margin-top:0">A versão está impressa na placa.</p>
     <p class="en" style="margin-top:0">The version is printed on the board.</p>
     <form id="board-form" class="boards">
@@ -141,8 +141,8 @@
   <section class="card">
     <h2><span class="num">2</span><span class="pt">Instalar o firmware</span><span class="en">Install the firmware</span></h2>
     <ol class="pt">
-      <li>Ligue o módulo ESP a este computador com um cabo USB <b>de dados</b>. Faça isto <b>antes</b> de montar a placa no X-Core.</li>
-      <li>Carregue em <b>Instalar</b>, escolha a porta (<i>USB JTAG/serial</i> na v2.0.0, <i>CH340</i>/<i>CP210x</i> na v1.x) e depois <b>Install</b>.</li>
+      <li>Liga o módulo ESP a este computador com um cabo USB <b>de dados</b>. Faz isto <b>antes</b> de montar a placa no X-Core.</li>
+      <li>Carrega em <b>Instalar</b>, escolhe a porta (<i>USB JTAG/serial</i> na v2.0.0, <i>CH340</i>/<i>CP210x</i> na v1.x) e depois <b>Install</b>.</li>
     </ol>
     <ol class="en">
       <li>Connect the ESP module to this computer with a USB <b>data</b> cable. Do this <b>before</b> fitting the board in the X-Core.</li>
@@ -151,20 +151,20 @@
     <div class="install">
       <esp-web-install-button id="install" manifest="firmware/v2/manifest.json">
         <button slot="activate" class="btn"><span class="pt">⚡ Instalar</span><span class="en">⚡ Install</span></button>
-        <span slot="unsupported"><span class="pt">Use o Chrome ou Edge num computador.</span><span class="en">Use Chrome or Edge on a computer.</span></span>
+        <span slot="unsupported"><span class="pt">Usa o Chrome ou Edge num computador.</span><span class="en">Use Chrome or Edge on a computer.</span></span>
         <span slot="not-allowed"><span class="pt">A página tem de abrir em https.</span><span class="en">The page must be opened over https.</span></span>
       </esp-web-install-button>
       <div class="ver" id="ver"></div>
     </div>
-    <p class="note ok">✅ <span class="pt"><b>Deve ver:</b> uma barra de progresso (cerca de 1 minuto) e depois a janela do Wi-Fi.</span><span class="en"><b>You should see:</b> a progress bar (about 1 minute), then the Wi-Fi window.</span></p>
+    <p class="note ok">✅ <span class="pt"><b>Deves ver:</b> uma barra de progresso (cerca de 1 minuto) e depois a janela do Wi-Fi.</span><span class="en"><b>You should see:</b> a progress bar (about 1 minute), then the Wi-Fi window.</span></p>
   </section>
 
   <section class="card">
     <h2><span class="num">3</span>Wi-Fi</h2>
     <ul class="pt">
-      <li>Na mesma janela escolha a sua rede, escreva a palavra-passe e carregue em <b>Connect</b>. Tem de ser uma rede de <b>2,4 GHz</b>.</li>
-      <li>Saltou este passo? No telemóvel ligue-se à rede <code>Hunter-LS Setup</code>: abre-se uma página para escolher o Wi-Fi. Volta a aparecer sempre que a placa perde o Wi-Fi.</li>
-      <li>v2.0.0: também pode configurar o Wi-Fi por <b>Bluetooth</b> na app do Home Assistant.</li>
+      <li>Na mesma janela escolhe a tua rede, escreve a palavra-passe e carrega em <b>Connect</b>. Tem de ser uma rede de <b>2,4 GHz</b>.</li>
+      <li>Saltou este passo? No telemóvel liga-te à rede <code>Hunter-LS Setup</code>: abre-se uma página para escolher o Wi-Fi. Volta a aparecer sempre que a placa perde o Wi-Fi.</li>
+      <li>v2.0.0: também podes configurar o Wi-Fi por <b>Bluetooth</b> na app do Home Assistant.</li>
     </ul>
     <ul class="en">
       <li>In the same window pick your network, type the password and press <b>Connect</b>. It must be a <b>2.4 GHz</b> network.</li>
@@ -175,11 +175,11 @@
 
   <section class="card">
     <h2><span class="num">4</span><span class="pt">Montar no X-Core</span><span class="en">Fit it in the X-Core</span></h2>
-    <p class="note warn">⚠️ <span class="pt"><b>Desligue primeiro o transformador do X-Core da tomada.</b> A placa só liga ao lado de 24 V AC.</span><span class="en"><b>Unplug the X-Core transformer first.</b> The board only touches the 24 V AC side.</span></p>
+    <p class="note warn">⚠️ <span class="pt"><b>Desliga primeiro o transformador do X-Core da tomada.</b> A placa só liga ao lado de 24 V AC.</span><span class="en"><b>Unplug the X-Core transformer first.</b> The board only touches the 24 V AC side.</span></p>
     <ol class="pt">
-      <li>Ponha o <b>interruptor do sensor do X-Core em “Active”</b> (necessário para a <i>Pause Watering</i>).</li>
-      <li>Ligue os fios aos terminais do X-Core seguindo as legendas da placa (zonas, VAC, REM, SEN).</li>
-      <li>Volte a ligar o transformador. O LED pisca até ligar ao Wi-Fi.</li>
+      <li>Põe o <b>interruptor do sensor do X-Core em “Active”</b> (necessário para a <i>Pause Watering</i>).</li>
+      <li>Liga os fios aos terminais do X-Core seguindo as legendas da placa (zonas, VAC, REM, SEN).</li>
+      <li>Volta a ligar o transformador. O LED pisca até ligar ao Wi-Fi.</li>
     </ol>
     <ol class="en">
       <li>Set the <b>X-Core sensor bypass switch to “Active”</b> (needed for <i>Pause Watering</i>).</li>
@@ -193,7 +193,7 @@
 
   <section class="card">
     <h2><span class="num">5</span>Home Assistant</h2>
-    <p class="pt"><b>Definições → Dispositivos e serviços</b>: aparece <b>Hunter Irrigation</b> → <b>Configurar</b>. Teste: <i>Run Time</i> = 1 e ligue a <i>Zone 1</i>.</p>
+    <p class="pt"><b>Definições → Dispositivos e serviços</b>: aparece <b>Hunter Irrigation</b> → <b>Configurar</b>. Teste: <i>Run Time</i> = 1 e liga a <i>Zone 1</i>.</p>
     <p class="en"><b>Settings → Devices &amp; services</b>: <b>Hunter Irrigation</b> shows up → <b>Configure</b>. Test: <i>Run Time</i> = 1 and turn on <i>Zone 1</i>.</p>
     <table>
       <tr><td>Zone 1 … Zone N</td><td><span class="pt">Liga/desliga a zona e mostra o estado <b>real</b> da válvula.</span><span class="en">Runs the zone and shows the <b>real</b> valve state.</span></td></tr>
@@ -208,16 +208,16 @@
   <section class="card">
     <h2><span class="num">?</span><span class="pt">Problemas</span><span class="en">Troubleshooting</span></h2>
     <details><summary><span class="pt">Não aparece nenhuma porta</span><span class="en">No port shows up</span></summary>
-      <p class="pt">Use um cabo USB de dados (muitos só carregam). v1.x: instale o driver CH340 ou CP210x do seu D1 mini.</p>
+      <p class="pt">Usa um cabo USB de dados (muitos só carregam). v1.x: instala o driver CH340 ou CP210x do teu D1 mini.</p>
       <p class="en">Use a USB data cable (many only charge). v1.x: install the CH340 or CP210x driver for your D1 mini.</p></details>
     <details><summary>“Failed to connect” (v2.0.0)</summary>
-      <p class="pt">Mantenha carregado o botão <b>BOOT</b> do XIAO enquanto liga o cabo, solte e tente de novo.</p>
+      <p class="pt">Mantém carregado o botão <b>BOOT</b> do XIAO enquanto ligas o cabo, solta e tenta de novo.</p>
       <p class="en">Hold the XIAO <b>BOOT</b> button while plugging in the cable, release, and try again.</p></details>
     <details><summary><span class="pt">O Home Assistant não encontra a placa</span><span class="en">Home Assistant doesn't find the board</span></summary>
-      <p class="pt">Tem de estar na mesma rede. Adicione à mão: integração ESPHome → <code>hunter-ls-xxxxxx.local</code> ou o IP.</p>
+      <p class="pt">A placa tem de estar na mesma rede que o Home Assistant. Adiciona à mão: integração ESPHome → <code>hunter-ls-xxxxxx.local</code> ou o IP.</p>
       <p class="en">It must be on the same network. Add it by hand: ESPHome integration → <code>hunter-ls-xxxxxx.local</code> or its IP.</p></details>
     <details><summary><span class="pt">A zona liga e desliga-se sozinha</span><span class="en">A zone turns itself back off</span></summary>
-      <p class="pt">O X-Core não abriu a válvula: verifique o fio REM, que o X-Core não está em “Off” e que <i>Pause Watering</i> está desligado.</p>
+      <p class="pt">O X-Core não abriu a válvula: verifica o fio REM, que o X-Core não está em “Off” e que <i>Pause Watering</i> está desligado.</p>
       <p class="en">The X-Core did not open the valve: check the REM wire, that the X-Core is not on “Off” and that <i>Pause Watering</i> is off.</p></details>
     <details><summary><span class="pt"><i>Pause Watering</i> não faz nada</span><span class="en"><i>Pause Watering</i> does nothing</span></summary>
       <p class="pt">O interruptor do sensor do X-Core tem de estar em <b>Active</b>.</p>
