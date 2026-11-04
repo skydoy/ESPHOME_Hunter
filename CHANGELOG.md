@@ -7,6 +7,10 @@ described in the [README](README.md); firmware versions below are independent of
 
 ## [Unreleased]
 
+## [0.1.4] - 2026-11-04
+### Changed
+- Web installer now uses the same visual language as the ESPHome_AC and Altherma installers: same cyan→blue header gradient and palette (light and dark), same PT/EN pills and ☾/☀ theme toggle (same markup, size and position, icon centred), same "Like it?" support row and Ko-fi/Buy Me a Coffee pill styles.
+
 ## [0.1.3] - 2026-11-04
 ### Added
 - Dark mode in the web installer: follows the system theme, with a ☀️/🌙 toggle (PT/EN labels) saved in the browser; no flash on load. ESP Web Tools dialogs follow the theme.
@@ -43,7 +47,9 @@ described in the [README](README.md); firmware versions below are independent of
 ### Not yet verified
 - Not yet tested on a real board with this firmware. Please report how it goes in an issue.
 
-[Unreleased]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.2...HEAD
+[Unreleased]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.4...HEAD
+[0.1.4]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.3...v0.1.4
+[0.1.3]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/skydoy/ESPHOME_Hunter/releases/tag/v0.1.0
