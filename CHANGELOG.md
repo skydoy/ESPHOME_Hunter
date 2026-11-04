@@ -7,6 +7,12 @@ described in the [README](README.md); firmware versions below are independent of
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-11-04
+### Added
+- Dark mode in the web installer: follows the system theme, with a ☀️/🌙 toggle (PT/EN labels) saved in the browser; no flash on load. ESP Web Tools dialogs follow the theme.
+### Changed
+- Installer header, buttons and Ko-fi button use darker colours so text meets WCAG AA contrast.
+
 ## [0.1.2] - 2026-11-04
 ### Changed
 - READMEs, docs and the web installer credit the original authors as plain text, without links to other GitHub repos.
