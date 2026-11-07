@@ -35,6 +35,8 @@ Local only: no cloud, no app, no account.
 3. **Fit and add.** Unplug the X-Core, set its sensor switch to **Active**, fit the board, plug it back in.
    Home Assistant shows *Hunter Irrigation* under **Settings → Devices & services** → **Configure**.
 
+[![Wiring diagram](docs/img/wiring.svg)](docs/hardware.md#wiring)
+
 Step-by-step with photos: **[Quick start](docs/quick-start.md)** · **[Guia rápido (PT)](docs/guia-rapido.md)**
 
 ## What you get in Home Assistant

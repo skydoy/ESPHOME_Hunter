@@ -7,6 +7,26 @@ following **CZSmith**'s HunterMonitor schematic:
 - **SEN**: an opto-isolated switch in the rain-sensor loop; opening it blocks all watering (*Pause Watering*).
 - On-board DC-DC converter powered from the X-Core's 24 V AC; a jumper selects external/USB power.
 
+## Wiring
+![Wiring diagram](img/wiring.svg)
+
+> ⚠️ Unplug the X-Core transformer from the mains before wiring. The board only touches the 24 V AC side.
+
+| Hunter_LS connector (PCB label) | X-Core terminal | What it does |
+|---|---|---|
+| VAC-L, VAC-R | 24VAC, 24VAC | Powers the board through its on-board DC-DC converter |
+| REM | REM | ROAM remote commands to the controller |
+| SEN-L, SEN-R | SEN, SEN | Opto-isolated switch in the sensor loop: open = *Pause Watering*. Set the X-Core sensor bypass switch to **Active** |
+| ZC | C | Valve common, return for the zone feedback |
+| Z1 … Z8 | 1 … 8 | Feedback: is each valve really powered (v1: Z1–Z4 only) |
+| FREE | – | Not used (X-Core **P** is not used either) |
+
+**Power jumper** (blue, next to POWER): **5V** = powered from the X-Core 24 V AC (normal, installed);
+**N/C** = powered by USB only, for flashing on the bench. Labels as printed on the PCB.
+
+v2 pins were confirmed from the board's own boot log on 7 Nov 2026 (zones and SEN). REM (GPIO21) is
+not yet tested with the controller connected.
+
 ## v1.x (v1.0.0 / v1.1.0 / v1.1.1) – Wemos D1 mini (ESP8266), 4 zones
 Taken from HunterMonitor's `hunter-roam-alt.yaml`. **To be confirmed by Luís for the Hunter_LS PCB.**
 

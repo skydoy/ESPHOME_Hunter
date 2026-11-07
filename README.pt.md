@@ -29,6 +29,8 @@ Tudo local: sem nuvem, sem app, sem conta.
 3. **Montar e adicionar.** Desliga o X-Core da tomada, põe o interruptor do sensor em **Active**, monta a placa e volta a ligar.
    O Home Assistant mostra *Hunter Irrigation* em **Definições → Dispositivos e serviços** → **Configurar**.
 
+[![Esquema de ligações](docs/img/wiring.svg)](docs/hardware.md#wiring)
+
 Passo a passo com fotos: **[Guia rápido](docs/guia-rapido.md)** · **[Quick start (EN)](docs/quick-start.md)**
 
 ## O que aparece no Home Assistant
