@@ -22,7 +22,7 @@ following **CZSmith**'s HunterMonitor schematic:
 | FREE | – | Not used (X-Core **P** is not used either) |
 
 **Power jumper** (blue, next to POWER): **5V** = powered from the X-Core 24 V AC (normal, installed);
-**N/C** = powered by USB only, for flashing on the bench. Labels as printed on the PCB.
+**N/C** = powered by USB only, for flashing on the bench. Labels as printed on the PCB. Connect only the zones you use. Board photo: Luís Soares; X-Core terminals are a drawing.
 
 v2 pins were confirmed from the board's own boot log on 7 Nov 2026 (zones and SEN). REM (GPIO21) is
 not yet tested with the controller connected.
