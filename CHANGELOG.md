@@ -7,6 +7,10 @@ described in the [README](README.md); firmware versions below are independent of
 
 ## [Unreleased]
 
+## [0.1.6] - 2026-11-07
+### Added
+- Wiring diagram (X-Core terminals to the Hunter_LS v2.0.0 connectors, power jumper, XIAO pins) in the README, docs/hardware.md and the web installer, in the same style as ESPHome_AC.
+
 ## [0.1.5] - 2026-11-04
 ### Changed
 - All European Portuguese texts (web installer, README.pt.md, guia rápido, problemas) now address the user informally with "tu" ("A tua placa", "Liga", "Escolhe", "Carrega em"), matching the other projects.
@@ -51,7 +55,8 @@ described in the [README](README.md); firmware versions below are independent of
 ### Not yet verified
 - Not yet tested on a real board with this firmware. Please report how it goes in an issue.
 
-[Unreleased]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.5...HEAD
+[Unreleased]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.6...HEAD
+[0.1.6]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.5...v0.1.6
 [0.1.5]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.4...v0.1.5
 [0.1.4]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.2...v0.1.3

@@ -70,6 +70,8 @@
     .ok { background:var(--ok-bg); border-left:4px solid var(--ok); }
     ol { padding-left:1.25rem; } li { margin:.25rem 0; }
     code { background: color-mix(in srgb, var(--text) 8%, transparent); padding:.05rem .35rem; border-radius:5px; }
+    .diagram { display:block; background:#fff; border:1px solid var(--line); border-radius:10px; padding:.3rem; margin:.6rem 0; }
+    .diagram img { width:100%; height:auto; display:block; }
     .photo { width:100%; border-radius:10px; margin-top:.5rem; }
     table { width:100%; border-collapse:collapse; font-size:.95rem; }
     td { border-top:1px solid var(--line); padding:.45rem .3rem; vertical-align:top; }
@@ -178,14 +180,15 @@
     <p class="note warn">⚠️ <span class="pt"><b>Desliga primeiro o transformador do X-Core da tomada.</b> A placa só liga ao lado de 24 V AC.</span><span class="en"><b>Unplug the X-Core transformer first.</b> The board only touches the 24 V AC side.</span></p>
     <ol class="pt">
       <li>Põe o <b>interruptor do sensor do X-Core em “Active”</b> (necessário para a <i>Pause Watering</i>).</li>
-      <li>Liga os fios aos terminais do X-Core seguindo as legendas da placa (zonas, VAC, REM, SEN).</li>
+      <li>Liga os fios aos terminais do X-Core como no esquema abaixo (zonas, VAC, REM, SEN). O jumper azul de alimentação fica em <b>5V</b>.</li>
       <li>Volta a ligar o transformador. O LED pisca até ligar ao Wi-Fi.</li>
     </ol>
     <ol class="en">
       <li>Set the <b>X-Core sensor bypass switch to “Active”</b> (needed for <i>Pause Watering</i>).</li>
-      <li>Connect the wires to the X-Core terminals following the labels on the board (zones, VAC, REM, SEN).</li>
+      <li>Connect the wires to the X-Core terminals as in the diagram below (zones, VAC, REM, SEN). The blue power jumper stays on <b>5V</b>.</li>
       <li>Plug the transformer back in. The LED blinks until it is on Wi-Fi.</li>
     </ol>
+    <a class="diagram" href="wiring.svg"><img src="wiring.svg" alt="Wiring diagram: Hunter X-Core terminals to the Hunter_LS board" loading="lazy"></a>
     <img class="photo" src="install-detail.jpg" alt="Hunter_LS board fitted in a Hunter X-Core" loading="lazy">
     <p class="ver"><span class="pt">Foto: Luís Soares (placa v1.0.0, as outras montam-se igual).</span><span class="en">Photo: Luís Soares (v1.0.0 board, the others fit the same way).</span>
       <a href="https://github.com/skydoy/ESPHOME_Hunter/tree/main/hardware"><span class="pt">Mais fotos</span><span class="en">More photos</span></a></p>
