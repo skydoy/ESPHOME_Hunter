@@ -7,6 +7,10 @@ described in the [README](README.md); firmware versions below are independent of
 
 ## [Unreleased]
 
+## [0.1.7] - 2026-11-07
+### Changed
+- Wiring diagram redrawn for beginners: real photo of the v2.0.0 board, drawing of the X-Core terminals, only the wires to connect, and animated sprinklers running zones 1 to 8. Explanations moved to the table in docs/hardware.md.
+
 ## [0.1.6] - 2026-11-07
 ### Added
 - Wiring diagram (X-Core terminals to the Hunter_LS v2.0.0 connectors, power jumper, XIAO pins) in the README, docs/hardware.md and the web installer, in the same style as ESPHome_AC.
@@ -55,7 +59,8 @@ described in the [README](README.md); firmware versions below are independent of
 ### Not yet verified
 - Not yet tested on a real board with this firmware. Please report how it goes in an issue.
 
-[Unreleased]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.6...HEAD
+[Unreleased]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.7...HEAD
+[0.1.7]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.6...v0.1.7
 [0.1.6]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.5...v0.1.6
 [0.1.5]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.4...v0.1.5
 [0.1.4]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.3...v0.1.4
