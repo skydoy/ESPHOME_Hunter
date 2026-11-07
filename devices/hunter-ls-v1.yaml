@@ -13,7 +13,7 @@
 substitutions:
   name: hunter-ls
   friendly_name: Hunter Irrigation
-  project_version: "0.1.7"
+  project_version: "0.1.8"
   # Build source shown in "Firmware Version": CI sets "release" (tags) or "<branch> @<commit>".
   firmware_source: "self-built"
 

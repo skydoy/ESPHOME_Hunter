@@ -8,7 +8,9 @@ following **CZSmith**'s HunterMonitor schematic:
 - On-board DC-DC converter powered from the X-Core's 24 V AC; a jumper selects external/USB power.
 
 ## Wiring
-![Wiring diagram](img/wiring.svg)
+![Hunter X-Core with zones 1 to 8 going to the sprinklers (animated)](img/wiring.svg)
+
+The picture shows the X-Core and its zones. The table says where each Hunter_LS wire goes.
 
 > ⚠️ Unplug the X-Core transformer from the mains before wiring. The board only touches the 24 V AC side.
 
@@ -22,7 +24,7 @@ following **CZSmith**'s HunterMonitor schematic:
 | FREE | – | Not used (X-Core **P** is not used either) |
 
 **Power jumper** (blue, next to POWER): **5V** = powered from the X-Core 24 V AC (normal, installed);
-**N/C** = powered by USB only, for flashing on the bench. Labels as printed on the PCB. Connect only the zones you use. Board photo: Luís Soares; X-Core terminals are a drawing.
+**N/C** = powered by USB only, for flashing on the bench. Labels as printed on the PCB. Connect only the zones you use.
 
 v2 pins were confirmed from the board's own boot log on 7 Nov 2026 (zones and SEN). REM (GPIO21) is
 not yet tested with the controller connected.
