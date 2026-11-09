@@ -33,7 +33,7 @@ jobs:
       DEVICE_YAML: ${{ matrix.factory }}
       SITE_DIR: ${{ matrix.site_dir }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - name: The tag must match project_version
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
@@ -56,7 +56,7 @@ jobs:
           mkdir -p "out/$SITE_DIR"
           cp -r "${{ steps.esphome.outputs.name }}"/* "out/$SITE_DIR/"
           ls -R out
-      - uses: actions/upload-artifact@v7
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: fw-${{ matrix.key }}
           path: out
@@ -65,8 +65,8 @@ jobs:
     needs: build
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/download-artifact@v8
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           pattern: fw-*
           merge-multiple: true
@@ -77,7 +77,7 @@ jobs:
           ls -R site
           test -f site/firmware/v1/manifest.json
           test -f site/firmware/v2/manifest.json
-      - uses: actions/upload-pages-artifact@v5
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5
         with:
           path: site
   deploy:
@@ -94,7 +94,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v5
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5
   release:
     # GitHub Release for a v* tag: notes from CHANGELOG.md, firmware images attached.
     if: startsWith(github.ref, 'refs/tags/v')
@@ -106,8 +106,8 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       TAG: ${{ github.ref_name }}
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/download-artifact@v8
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           pattern: fw-*
           merge-multiple: true
