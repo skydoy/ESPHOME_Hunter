@@ -1,0 +1,51 @@
+:root {
+  --md-primary-fg-color: #1784F7;
+  --md-primary-fg-color--light: #4fb3ff;
+  --md-primary-fg-color--dark: #0f63c4;
+  --md-accent-fg-color: #0FE3FA;
+  --md-accent-fg-color--transparent: rgba(15, 227, 250, 0.1);
+}
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #4fb3ff;
+  --md-primary-fg-color--light: #7ec9ff;
+  --md-primary-fg-color--dark: #1784F7;
+  --md-accent-fg-color: #0FE3FA;
+}
+.md-typeset .md-button--primary {
+  background: linear-gradient(135deg, #0FE3FA, #1784F7);
+  border: 0;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(23, 132, 247, 0.35);
+}
+.md-typeset .md-button--primary:hover {
+  color: #fff;
+  filter: brightness(1.05);
+}
+.hero-install {
+  text-align: center;
+  margin: 1.5rem 0 2rem;
+}
+.hero-install .md-button {
+  font-size: 1.05rem;
+  padding: 0.7rem 1.6rem;
+}
+
+/* Keep header logo at Material size (source PNGs are large) */
+.md-header__button.md-logo img,
+.md-header__button.md-logo svg,
+.md-logo img,
+.md-logo svg {
+  width: auto !important;
+  height: 1.8rem !important;
+  max-height: 1.8rem !important;
+}
+.md-nav__title .md-nav__button.md-logo img,
+.md-nav__title .md-nav__button.md-logo svg {
+  height: 2.4rem !important;
+  max-height: 2.4rem !important;
+}
+
+.md-typeset img {
+  max-width: 100%;
+  height: auto;
+}

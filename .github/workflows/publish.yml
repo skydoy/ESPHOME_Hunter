@@ -77,6 +77,15 @@ jobs:
           ls -R site
           test -f site/firmware/v1/manifest.json
           test -f site/firmware/v2/manifest.json
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7
+        with:
+          python-version: "3.13"
+      - name: Build documentation (MkDocs → site/docs)
+        run: |
+          pip install -r requirements-docs.txt
+          mkdocs build --strict -d site/docs
+          test -f site/docs/index.html
+          test -f site/docs/pt/index.html
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5
         with:
           path: site

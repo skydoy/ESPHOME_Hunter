@@ -1,0 +1,124 @@
+site_name: ESPHome Hunter
+site_description: Hunter X-Core irrigation in Home Assistant — docs
+site_url: https://skydoy.github.io/ESPHOME_Hunter/docs/
+site_author: skydoy
+repo_url: https://github.com/skydoy/ESPHOME_Hunter
+repo_name: skydoy/ESPHOME_Hunter
+edit_uri: edit/main/docs/
+docs_dir: docs
+site_dir: site-docs
+copyright: PolyForm Noncommercial 1.0.0 · Independent community project
+
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/skydoy/ESPHOME_Hunter
+    - icon: fontawesome/solid/mug-hot
+      link: https://ko-fi.com/skydoy
+
+theme:
+  name: material
+  language: en
+  logo: img/icon.png
+  favicon: img/favicon.svg
+  palette:
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Prefer system
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Light mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Dark mode
+  font: false
+  features:
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - toc.follow
+
+extra_css:
+  - stylesheets/extra.css
+
+plugins:
+  - search
+  - i18n:
+      docs_structure: suffix
+      fallback_to_default: true
+      reconfigure_material: true
+      languages:
+        - locale: en
+          default: true
+          name: English
+          build: true
+        - locale: pt
+          name: Português
+          build: true
+          nav_translations:
+            Home: Início
+            Getting started: Primeiros passos
+            Install: Instalar
+            Wiring: Ligações
+            Home Assistant: Home Assistant
+            Updates: Atualizações
+            Device web page: Página web da placa
+            Troubleshooting: Problemas
+            FAQ: FAQ
+            Security: Segurança
+            Licence & credits: Licença e créditos
+
+nav:
+  - Home: index.md
+  - Getting started: getting-started.md
+  - Install: install.md
+  - Wiring: wiring.md
+  - Home Assistant: home-assistant.md
+  - Updates: updates.md
+  - Device web page: web-page.md
+  - Troubleshooting: troubleshooting.md
+  - FAQ: faq.md
+  - Security: security.md
+  - Licence & credits: licence.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+exclude_docs: |
+  /guia-rapido.md
+  /problemas.md
+  /seguranca.md
+  /pagina-web.md
+  /visao-geral.md
+  /overview.md
+  /original-hunter-ls.md
+  /configuration.md
+  /hardware.md
+  /quick-start.md
+
+validation:
+  omitted_files: warn
+  absolute_links: ignore
+  unrecognized_links: warn

@@ -2,130 +2,68 @@
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/img/logo-dark.png">
     <source media="(prefers-color-scheme: light)" srcset="docs/img/logo-light.png">
-    <img src="docs/img/logo-light.png" alt="ESPHome Hunter" width="280">
+    <img src="docs/img/logo-light.png" alt="ESPHome Hunter" width="256">
   </picture>
 </p>
 
-<p align="center"><b>❤️ Gostas? Ajuda-me a trazer algo ainda melhor.</b><br>
-  <a href="https://ko-fi.com/skydoy"><img src="https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white" alt="Ko-fi"></a>
-  <a href="https://buymeacoffee.com/skydoy"><img src="https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" alt="Buy Me A Coffee"></a>
+<p align="center"><b>Gostas? Ajuda-me a fazer algo ainda melhor.</b><br>
+  <a href="https://ko-fi.com/skydoy"><img src="https://img.shields.io/badge/Ko--fi-Support%20me-FF5E5B?logo=ko-fi&logoColor=white" alt="Apoiar no Ko-fi"></a>
+  <a href="https://buymeacoffee.com/skydoy"><img src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Support%20me-FFDD00?logo=buymeacoffee&logoColor=black" alt="Buy Me a Coffee"></a>
 </p>
 
-<p align="center"><b>O teu programador de rega Hunter X-Core no Home Assistant. Ligar, carregar em Instalar, feito. Sem YAML.</b><br>
-🇬🇧 <a href="README.md">Read in English</a></p>
-
 <p align="center">
+  <a href="https://github.com/skydoy/ESPHOME_Hunter/actions/workflows/publish.yml"><img src="https://github.com/skydoy/ESPHOME_Hunter/actions/workflows/publish.yml/badge.svg" alt="Build"></a>
+  <a href="https://github.com/skydoy/ESPHOME_Hunter/actions/workflows/validate.yml"><img src="https://github.com/skydoy/ESPHOME_Hunter/actions/workflows/validate.yml/badge.svg" alt="Validate"></a>
+  <a href="https://github.com/skydoy/ESPHOME_Hunter/releases/latest"><img src="https://img.shields.io/github/v/release/skydoy/ESPHOME_Hunter?sort=semver" alt="Versão"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-PolyForm%20Noncommercial%201.0.0-blue" alt="Licença: PolyForm Noncommercial"></a>
 </p>
 
+<p align="center"><b>O teu programador de rega Hunter X-Core no Home Assistant. Liga por USB, carrega em Instalar, feito. Sem YAML.</b><br>
+🇬🇧 <a href="README.md">Read in English</a></p>
+
 <p align="center">
-  <a href="https://skydoy.github.io/ESPHOME_Hunter/"><img src="https://img.shields.io/badge/Abrir%20o%20instalador%20web-0A8FD8?style=for-the-badge&logo=esphome&logoColor=white" alt="Abrir o instalador web" height="40"></a>
+  <a href="https://skydoy.github.io/ESPHOME_Hunter/"><img src="https://img.shields.io/badge/Abrir%20o%20instalador%20web-1784F7?style=for-the-badge&logo=esphome&logoColor=white" alt="Abrir o instalador web" height="40"></a>
 </p>
 
-Firmware para a **[placa Hunter_LS do Luís Soares](docs/original-hunter-ls.md)**, uma pequena PCB que
-cabe dentro do X-Core, liga as zonas como o comando Hunter e confirma se cada válvula abriu mesmo.
-Tudo local: sem nuvem, sem app, sem conta.
-
-## Instalar em 3 passos
-1. **Instalar o firmware.** Abre o **[instalador web](https://skydoy.github.io/ESPHOME_Hunter/)** no Chrome ou Edge,
-   escolhe a placa (a versão está impressa na PCB), liga o ESP ao computador por USB → **Instalar**.
-2. **Wi-Fi.** Escreve o teu Wi-Fi na mesma janela. (Ou mais tarde: liga-te à rede `ESPHome Hunter Setup` com o telemóvel.)
-3. **Montar e adicionar.** Desliga o X-Core da tomada, põe o interruptor do sensor em **Active**, monta a placa e volta a ligar.
-   O Home Assistant mostra *ESPHome Hunter* em **Definições → Dispositivos e serviços** → **Configurar**.
-
-[![Esquema de ligações](docs/img/wiring.svg)](docs/hardware.md#wiring)
-
-A imagem mostra o X-Core e as zonas. Onde vai cada fio da Hunter_LS:
-
-| Hunter_LS (legenda na PCB) | Terminal do X-Core | Para que serve |
-|---|---|---|
-| VAC-L, VAC-R | 24VAC, 24VAC | Alimenta a placa |
-| REM | REM | Comandos do comando ROAM |
-| SEN-L, SEN-R | SEN, SEN | *Pause Watering* (põe o interruptor do sensor em **Active**) |
-| ZC | C | Comum das válvulas (retorno do feedback) |
-| Z1 … Z8 | 1 … 8 | Feedback das válvulas (v1: só Z1–Z4) |
-
-Jumper de alimentação (azul): **5V** com a placa no X-Core; **N/C** só para gravar por USB.
-Mais detalhe: **[Hardware e pinos](docs/hardware.md#wiring)**.
-
-Passo a passo com fotos: **[Guia rápido](docs/guia-rapido.md)** · **[Quick start (EN)](docs/quick-start.md)**
-
-## O que aparece no Home Assistant
-| Entidade | Para que serve |
-|---|---|
-| **Zone 1 … Zone N** | Liga / desliga uma zona durante *Run Time* minutos. Mostra o estado **real** da válvula. |
-| **Watering**, **Active Zone** | Se está a regar, e qual a zona. |
-| **Run Time** | Minutos de rega quando ligas uma zona pelo Home Assistant (1–240). |
-| **Run Program A / B / C**, **Stop All** | Iguais aos botões do programador. |
-| **Pause Watering** | Bloqueia toda a rega, incluindo os programas do X-Core (como um sensor de chuva). |
-| **Firmware Update** | Novas versões instalam-se pelo Wi-Fi com um clique. |
-
-## Placas
-| | **v2.0.0** (PCB preta) | **v1.x** (v1.0.0 / v1.1.0 / v1.1.1) |
-|---|---|---|
-| Módulo ESP | Seeed XIAO ESP32-C6 | Wemos D1 mini (ESP8266) |
-| Zonas | até 8 (2/4/6/8) | 4 |
-| Configurar o Wi-Fi | USB, Bluetooth ou hotspot | USB ou hotspot |
-
-> **Estado:** a v0.1.0 é compilada e verificada automaticamente, mas ainda não foi testada numa placa real.
-> Os pinos da v2.0.0 vêm do firmware do próprio Luís. Experimentaste? [Conta-nos](https://github.com/skydoy/ESPHOME_Hunter/issues).
+<p align="center">
+  <img src="docs/img/wiring.png" alt="Esquema de ligações do Hunter X-Core" width="640">
+</p>
 
 ## Compatibilidade
-Este firmware só funciona com as **placas Hunter_LS do Luís Soares** (v1.x: Wemos D1 mini / ESP8266; v2.0.0: Seeed XIAO ESP32-C6), montadas num **programador Hunter** que tenha terminais REM, SEN e das zonas — por exemplo o Hunter X-Core (até 8 zonas na v2). Outras placas ou controladores não são suportados.
 
-## Página web da placa
-Abre `http://<ip-da-placa>/` na tua rede local para a página da própria placa: botão PT/EN, um
-esquema de ligações do X-Core em direto que acompanha as zonas, e os botões de atualização
-(*Verificar atualizações*, *Instalar atualização*, *Atualização automática*).
+Só as **placas Hunter_LS do Luís Soares** — **v1.x** (Wemos D1 mini, 4 zonas) ou **v2.0.0** (XIAO ESP32-C6, até 8 zonas) — num programador Hunter com terminais REM, SEN e das zonas (ex.: X-Core).  
+Detalhes: [visão geral](docs/visao-geral.md) · [hardware e pinos](docs/hardware.md)
 
-[![Página web da placa (português)](docs/img/webui-pt.png)](docs/img/webui-pt.png)
+## Instalar em 3 passos
 
-## Atualizações automáticas (OTA)
-Não precisas de fazer nada: com a **Atualização automática** ligada (é o predefinido), a placa
-procura uma versão nova uma vez por noite às 03:MM (minuto ao acaso, para não carregarem todas
-ao mesmo tempo) e instala-a. Também verifica ao arrancar e a cada 6 horas. Só são oferecidas
-versões testadas, do ramo `stable`.
-Chave de API, Device Builder vs OTA de fábrica, e a página web aberta na LAN:
-[Segurança e OTA](docs/seguranca.md).
-- **Instalada pelo instalador web:** o Home Assistant mostra um cartão **Firmware Update**
-  (Definições → Atualizações). Também tens **Verificar atualizações**, **Instalar atualização** e
-  **Estado da atualização** no dispositivo. Carrega em **Instalar**, espera 1–2 minutos e não
-  desligues o programador. O Wi-Fi e as zonas mantêm-se.
-- **Adotada no ESPHome Device Builder:** a placa só *avisa* que há versão nova
-  (*Update Available*, *Check for Update*, *Update Status*). Carrega em **Install** no Device
-  Builder; a tua configuração já segue o `stable`, não precisas de mexer no YAML.
-- **Avisar-me:** importa o blueprint do Home Assistant
-  `blueprints/automation/esphome_hunter_update_available.yaml` para receberes uma notificação no
-  telemóvel quando *Update Available* passar a ligado.
-- **v1 (ESP8266):** não consegue verificar o certificado HTTPS ao descarregar. Funciona na mesma,
-  mas, se preferires, atualiza por USB no [instalador](https://skydoy.github.io/ESPHOME_Hunter/).
+1. **Instalar o firmware** — Abre o **[instalador web](https://skydoy.github.io/ESPHOME_Hunter/)**, escolhe a placa, liga por USB → **Instalar**.
+2. **Wi-Fi** — Escreve a tua rede de 2,4 GHz na mesma janela (ou liga-te depois a `ESPHome Hunter Setup`).
+3. **Montar e adicionar** — Desliga o X-Core, põe o interruptor do sensor em **Active**, monta a placa ([ligações](docs/hardware.md#wiring)), volta a ligar. Home Assistant → **Configurar**.
 
-## Histórico de alterações
-Última versão: **v0.1.12** – página web da placa PT/EN + ligações em direto, OTA de fábrica, docs de segurança, blueprint.
-Todas as versões: [CHANGELOG.md](CHANGELOG.md).
+Com imagens: [Guia rápido](docs/guia-rapido.md)
 
-## Documentação
-[Problemas](docs/problemas.md) · [Troubleshooting (EN)](docs/troubleshooting.md) ·
-[Configuração avançada (EN)](docs/configuration.md) · [Hardware e pinos (EN)](docs/hardware.md) ·
-[Alterações](CHANGELOG.md) · [Segurança e OTA](docs/seguranca.md) ·
-[Reportar um problema](https://github.com/skydoy/ESPHOME_Hunter/issues) ·
+## O que obténs
+
+- Ligar / parar cada zona e ver o estado **real** da válvula
+- Programas A / B / C e **Stop All** (iguais aos botões do X-Core)
+- **Pause Watering** — bloqueia toda a rega (como um sensor de chuva)
+- Tempo de rega configurável (1–240 min)
+- Atualizações de firmware com um clique (ou Auto Update de madrugada)
+- Página web da placa na tua LAN (`http://<ip-da-placa>/`) — [capturas](docs/pagina-web.md)
+
+## Documentação e mais
+
+[Site de documentação](https://skydoy.github.io/ESPHOME_Hunter/docs/pt/) ·
+[Visão geral (placas, OTA, créditos)](docs/visao-geral.md) ·
+[Guia rápido](docs/guia-rapido.md) ·
+[Hardware e pinos](docs/hardware.md) ·
+[Configuração](docs/configuration.md) ·
+[Problemas](docs/problemas.md) ·
+[Página web da placa](docs/pagina-web.md) ·
+[Segurança e OTA](docs/seguranca.md) ·
+[Alterações](CHANGELOG.md) ·
+[Reportar um problema](https://github.com/skydoy/ESPHOME_Hunter/issues)
+
+
+[PolyForm Noncommercial 1.0.0](LICENSE) — gratuito para uso pessoal e não comercial; uso comercial não permitido.  
 [Política de segurança](SECURITY.md) · [Avisos de terceiros](THIRD_PARTY_NOTICES.md)
-
-## Créditos
-- **Hardware: Luís Soares**, placa Hunter_LS.
-  A PCB, as versões e as fotos são trabalho dele. [README original do Luís](docs/original-hunter-ls.md)
-  (inclui como obter uma placa) · [fotos](hardware/).
-- Esquema e abordagem ESPHome original: **CZSmith**, HunterMonitor (MIT, ver [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)).
-- Drivers do protocolo Hunter ROAM: Hunter_Roam de javiervidao (v1.x) e
-  Hunter_ESP_IDF de Luís Soares (v2.0.0).
-- Firmware, instalador e logótipo: skydoy.
-
-## Licença
-[PolyForm Noncommercial 1.0.0](LICENSE): gratuito para uso pessoal e não comercial, forks
-bem-vindos, uso comercial não permitido. Cobre só o firmware, a configuração, o instalador e a
-documentação deste repositório — não o hardware Hunter_LS do Luís, nem o código de terceiros
-(ver [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)). Usa por tua conta e risco: o X-Core tem
-tensão da rede lá dentro.
-
-Hunter e X-Core são marcas registadas da Hunter Industries. Projeto comunitário independente,
-sem ligação nem aprovação da Hunter Industries.

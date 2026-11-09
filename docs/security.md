@@ -1,6 +1,5 @@
 # Security and over-the-air updates
 
-🇵🇹 [Ler em português](seguranca.md) · [Back to the README](../README.md)
 
 ## Prebuilt firmware (web installer)
 The image from the [web installer](https://skydoy.github.io/ESPHOME_Hunter/) is the same for
@@ -25,7 +24,7 @@ devices share that network, harden it as below (or put the controller on a trust
   Device Builder; your config already follows `@stable`. Do **not** flash the generic factory
   image over an adopted build — that would wipe your API key and extras.
 
-Details: [configuration.md → Updates (OTA)](configuration.md#updates-ota).
+Details: [configuration.md → Updates (OTA)](https://github.com/skydoy/ESPHOME_Hunter/blob/main/docs/configuration.md#updates-ota).
 
 ## Adding an API key (recommended)
 Adopt the device in the ESPHome Device Builder (it generates an encryption key for you), then
@@ -46,10 +45,10 @@ wifi:
 ```
 
 Flash with **Install → Wirelessly**. Home Assistant will ask for the same `api_key` if you
-changed it. Step-by-step for adopting: [Adopt in the Device Builder](configuration.md#adopt-in-the-device-builder).
+changed it. Step-by-step for adopting: [Adopt in the Device Builder](https://github.com/skydoy/ESPHOME_Hunter/blob/main/docs/configuration.md#adopt-in-the-device-builder).
 
 To password-protect the device web page, add `web_server: auth:` in your own config; to remove
 the page entirely, override the package with `web_server: !remove` (see `core/web-server.yaml`).
 
 ## Reporting a vulnerability
-See [SECURITY.md](../SECURITY.md). Please do **not** open a public issue for security problems.
+See [SECURITY.md](https://github.com/skydoy/ESPHOME_Hunter/blob/main/SECURITY.md). Please do **not** open a public issue for security problems.

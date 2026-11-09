@@ -66,3 +66,14 @@ ROAM driver: `luisfosoares/Hunter_ESP_IDF` (ESP-IDF), pinned to commit `9e765a4`
 ## Licences
 Neither ROAM driver repository declares a licence, so this repository does not copy their code:
 it fetches them as ESPHome `external_components` at a fixed commit.
+
+## Boards at a glance
+
+| | **v2.0.0** (black PCB) | **v1.x** (v1.0.0 / v1.1.0 / v1.1.1) |
+|---|---|---|
+| ESP module | Seeed XIAO ESP32-C6 | Wemos D1 mini (ESP8266) |
+| Zones | up to 8 (2/4/6/8) | 4 |
+| Wi-Fi setup | USB, Bluetooth or hotspot | USB or hotspot |
+| USB | USB-C | micro-USB |
+
+The version is printed on the PCB. Pick the matching option in the [web installer](https://skydoy.github.io/ESPHOME_Hunter/).
