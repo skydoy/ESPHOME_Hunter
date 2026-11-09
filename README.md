@@ -76,6 +76,13 @@ Step-by-step with photos: **[Quick start](docs/quick-start.md)** · **[Guia ráp
 ## Compatibility
 This firmware only works with **Luís Soares's Hunter_LS boards** (v1.x: Wemos D1 mini / ESP8266; v2.0.0: Seeed XIAO ESP32-C6), fitted in a **Hunter** irrigation controller that has REM, SEN and zone terminals — for example the Hunter X-Core (up to 8 zones on v2). Other boards or controllers are not supported.
 
+## Device web page
+Open `http://<device-ip>/` on your LAN for the board's own page: PT/EN toggle, a live X-Core wiring
+diagram that follows the zones, and the update buttons (*Check for Update*, *Install Update*,
+*Auto Update*).
+
+[![Device web page (English)](docs/img/webui-en.png)](docs/img/webui-en.png)
+
 ## Automatic updates (OTA)
 Nothing to do: with **Auto Update** on (the default), the board checks for a new release once a
 night at 03:MM local time (a random minute so devices do not all hit the server together) and
@@ -97,7 +104,7 @@ API key, Device Builder vs factory OTA, and the open LAN web page:
   but if you prefer, update by USB from the [installer](https://skydoy.github.io/ESPHOME_Hunter/).
 
 ## Changelog
-Latest: **v0.1.11** – simplified animated X-Core wiring picture (zones 1–8) in the READMEs and web installer.
+Latest: **v0.1.12** – device web UI PT/EN + live wiring, factory OTA UX, security docs, blueprint.
 All versions: [CHANGELOG.md](CHANGELOG.md).
 
 ## Docs

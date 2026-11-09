@@ -68,6 +68,10 @@
     if (/^Up to date$/i.test(s)) return 'Atualizado';
     m = /^Update available: (.+)$/.exec(s);
     if (m) return 'Atualização disponível: ' + m[1];
+    // Firmware Update entity states (web_server v3 shows hyphenated "Up-to-date")
+    if (/^Up-to-date$/i.test(s) || /^Up to date$/i.test(s) || /^NO UPDATE$/i.test(s)) return 'Atualizado';
+    if (/^Update available$/i.test(s) || /^UPDATE AVAILABLE$/i.test(s)) return 'Atualização disponível';
+    if (/^Installing(\u2026|\.\.\.|…)?$/i.test(s) || /^INSTALLING$/i.test(s)) return 'A instalar';
     if (/^Checking(\u2026|\.\.\.|…)$/i.test(s) || /^Checking for updates$/i.test(s)) return 'A procurar\u2026';
     if (/^Update check failed/i.test(s)) return s.replace(/^Update check failed/i, 'Falha ao procurar atualização');
     var CONTENT_PT = {
@@ -134,7 +138,8 @@
       var bare = name.trim().replace(/^\[[^\]]+\]\s*/, '').trim();
       var isStatus = (bare === 'Update Status' || bare === 'Estado da atualização');
       var isReset = (bare === 'Reset Reason' || bare === 'Motivo do reinício');
-      if (!isStatus && !isReset) return;
+      var isFwUpdate = (bare === 'Firmware Update' || bare === 'Atualização do firmware');
+      if (!isStatus && !isReset && !isFwUpdate) return;
       var walker = document.createTreeWalker(row, NodeFilter.SHOW_TEXT), nodes = [], n;
       while ((n = walker.nextNode())) nodes.push(n);
       nodes.forEach(function (node) {
@@ -142,7 +147,7 @@
         if (!txt || node.parentNode === nameEl) return;
         if (node.__valEn === undefined) {
           // Capture English once (before we rewrite for PT)
-          if (isStatus && /^(New version|Up to date|Checking|Install requested|Downloading firmware|Installed, rebooting|Update failed|Update check failed)/.test(txt))
+          if ((isStatus || isFwUpdate) && /^(New version|Up to date|Up-to-date|Update available|Installing|Checking|Install requested|Downloading firmware|Installed, rebooting|Update failed|Update check failed|NO UPDATE|UPDATE AVAILABLE|INSTALLING|UNKNOWN)/i.test(txt))
             node.__valEn = txt;
           else if (isReset) node.__valEn = txt;
         }
