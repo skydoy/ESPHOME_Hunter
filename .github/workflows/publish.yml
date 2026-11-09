@@ -15,7 +15,7 @@ jobs:
     # One installer build per board; each board has its own folder (and manifest.json) on
     # GitHub Pages: firmware/v1/ and firmware/v2/. The installer firmware is built from the
     # *.factory.yaml (base config + "Firmware Update" entity).
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -63,7 +63,7 @@ jobs:
           if-no-files-found: error
   pages:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
       - uses: actions/download-artifact@v8
@@ -85,7 +85,7 @@ jobs:
     # devices in the field only ever see releases.
     if: github.event_name != 'pull_request' && (startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch')
     needs: pages
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       pages: write
       id-token: write
@@ -99,7 +99,7 @@ jobs:
     # GitHub Release for a v* tag: notes from CHANGELOG.md, firmware images attached.
     if: startsWith(github.ref, 'refs/tags/v')
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
     env:
@@ -153,7 +153,7 @@ jobs:
     # devices/hunter-ls-vN.yaml@stable, so "Install" builds the latest release.
     if: startsWith(github.ref, 'refs/tags/v')
     needs: release
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
     env:

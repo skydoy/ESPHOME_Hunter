@@ -7,6 +7,20 @@ described in the [README](README.md); firmware versions below are independent of
 
 ## [Unreleased]
 
+## [0.1.12] - TBD
+### Added
+- Factory OTA UX (same idea as ESPHome_AC): *Update Status*, *Check for Update*, *Install Update*,
+  *Auto Update* (default on, nightly 03:MM random minute, skip &lt;10 min after boot; time from
+  Home Assistant or SNTP). `http_request` id `hunter_http_request` (ESP8266 `verify_ssl: false`).
+- Adopted builds: *Update Status* text "New version X available, install from Device Builder".
+- Device web UI: PT/EN language toggle (entity names + group headers), live X-Core wiring diagram
+  driven by zone state (`/events`), installer `favicon.png`.
+- Home Assistant blueprint `blueprints/automation/esphome_hunter_update_available.yaml`.
+- Compatibility / Compatibilidade sections in the READMEs (Hunter_LS boards + Hunter controllers).
+
+### Changed
+- GitHub Actions runners pinned to `ubuntu-24.04`.
+
 ## [0.1.11] - 2026-11-09
 ### Changed
 - Wiring picture replaced with the simplified Hunter X-Core diagram (1790×1200, animated sprinklers for zones 1–8) in the READMEs, docs/hardware.md and the web installer. Connection table unchanged (24VAC, REM, SEN, C, zones 1–8).

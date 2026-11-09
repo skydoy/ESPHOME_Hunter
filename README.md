@@ -73,15 +73,24 @@ Step-by-step with photos: **[Quick start](docs/quick-start.md)** · **[Guia ráp
 > **Status:** v0.1.0 is built and checked automatically, but not yet tested on a real board.
 > The v2.0.0 pins come from Luís's own firmware. Tried it? Please [tell us](https://github.com/skydoy/ESPHOME_Hunter/issues).
 
+## Compatibility
+This firmware only works with **Luís Soares's Hunter_LS boards** (v1.x: Wemos D1 mini / ESP8266; v2.0.0: Seeed XIAO ESP32-C6), fitted in a **Hunter** irrigation controller that has REM, SEN and zone terminals — for example the Hunter X-Core (up to 8 zones on v2). Other boards or controllers are not supported.
+
 ## Automatic updates (OTA)
-Nothing to do: the board looks for new firmware on its own (at start-up and every 6 hours).
-Only tested releases from the `stable` branch are offered.
+Nothing to do: with **Auto Update** on (the default), the board checks for a new release once a
+night at 03:MM local time (a random minute so devices do not all hit the server together) and
+installs it. It also checks at start-up and every 6 hours. Only tested releases from the
+`stable` branch are offered.
 - **Installed with the web installer:** Home Assistant shows a **Firmware Update** card
-  (Settings → Updates). Press **Install**, wait 1–2 minutes and don't unplug the controller.
+  (Settings → Updates). You also get **Check for Update**, **Install Update** and **Update Status**
+  on the device. Press **Install**, wait 1–2 minutes and don't unplug the controller.
   Your Wi-Fi and zones are kept.
 - **Adopted in the ESPHome Device Builder:** the board only *tells* you a new version exists
-  (*Update Available*, *Check for Update*). Press **Install** in the Device Builder; your config
-  already follows `stable`, so no YAML edit is needed.
+  (*Update Available*, *Check for Update*, *Update Status*). Press **Install** in the Device
+  Builder; your config already follows `stable`, so no YAML edit is needed.
+- **Notify me:** import the Home Assistant blueprint
+  `blueprints/automation/esphome_hunter_update_available.yaml` to get a phone notification when
+  *Update Available* turns on.
 - **v1 (ESP8266):** it can't verify the HTTPS certificate when downloading. It still works,
   but if you prefer, update by USB from the [installer](https://skydoy.github.io/ESPHOME_Hunter/).
 

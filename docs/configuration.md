@@ -52,3 +52,11 @@ Also `_stop_zone` (`zone`), `_stop_all`, `_run_program` (`program`: 1 = A, 2 = B
 ## Pins
 Pins are substitutions in `core/boards/*.yaml` (`rem_pin`, `sen_pin`, `zoneN_pin`) and can be
 overridden the same way. See [hardware.md](hardware.md).
+
+## Updates (OTA)
+- **Factory / web-installer firmware** (`*.factory.yaml`): *Firmware Update*, *Check for Update*,
+  *Install Update*, *Update Status*, *Auto Update* (nightly 03:MM). See `core/auto-update.yaml`.
+- **Adopted in the Device Builder** (base YAML): report-only *Update Available*, *Latest Version*,
+  *Check for Update*, *Update Status* ("New version X available, install from Device Builder").
+  Install from the Device Builder. See `core/update-check.yaml`.
+- Home Assistant blueprint: `blueprints/automation/esphome_hunter_update_available.yaml`.

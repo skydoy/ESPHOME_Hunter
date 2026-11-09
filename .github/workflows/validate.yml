@@ -4,7 +4,7 @@ permissions:
   contents: read
 jobs:
   config:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -35,7 +35,7 @@ jobs:
           fi
   zone-count:
     # v2: every supported zone_count must validate.
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         zones: ["2", "4", "6", "8"]
@@ -46,7 +46,7 @@ jobs:
       - run: pip install esphome==2026.10.1
       - run: esphome -s zone_count ${{ matrix.zones }} config devices/hunter-ls-v2.yaml > /dev/null
   pinned-refs:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
       - name: Same version on both boards; adoption follows @stable; no @main in shipped configs
