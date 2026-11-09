@@ -4,3 +4,8 @@ __pycache__/
 *.pyc
 /site/
 /out/
+
+# MkDocs
+.venv-docs/
+site-docs/
+site/

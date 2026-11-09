@@ -21,26 +21,19 @@
   <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
   <style>
     :root { --bg:#f4f8fc; --card:#fff; --text:#0b1b3f; --muted:#52647a; --line:#dce5ef; --g1:#0FE3FA; --g2:#1784F7; --accent:#1784F7; --warn-bg:#fff6e5; --warn:#e69500; --ok-bg:#e8f4fe; --ok:#1784F7; }
-    :root { --h1:var(--g1); --h2:var(--g2); --btn-text:#fff; color-scheme:light;
-      --mdc-theme-primary:#1784F7; --mdc-theme-on-primary:#fff; --mdc-theme-surface:#fff; --mdc-theme-on-surface:#0b1b3f;
-      --mdc-dialog-heading-ink-color:#0b1b3f; --mdc-dialog-content-ink-color:#33443c; --improv-primary-color:#1784F7; --improv-text-color:#0b1b3f; }
-    html[data-theme=dark] { --bg:#0b1220; --card:#131c2e; --text:#e6edf3; --muted:#9aa9bd; --line:#26334a; --accent:#4fb3ff; --warn-bg:#2b2111; --ok-bg:#0f2238; --ok:#4fb3ff;
-      color-scheme:dark;
-      --mdc-theme-primary:#4fb3ff; --mdc-theme-on-primary:#04121c; --mdc-theme-surface:#1c232c; --mdc-theme-on-surface:#e6edf3;
-      --mdc-dialog-heading-ink-color:#e6edf3; --mdc-dialog-content-ink-color:#c9d4de; --mdc-text-field-ink-color:#e6edf3; --mdc-text-field-label-ink-color:#a3b1bd;
-      --mdc-select-ink-color:#e6edf3; --mdc-select-label-ink-color:#a3b1bd; --mdc-text-field-fill-color:#232b35; --mdc-select-fill-color:#232b35;
-      --mdc-theme-text-primary-on-background:#e6edf3; --mdc-theme-text-secondary-on-background:#a3b1bd; --mdc-checkbox-unchecked-color:#a3b1bd;
-      --mdc-list-item-text-color:#e6edf3; --improv-primary-color:#4fb3ff; --improv-text-color:#e6edf3; }
-        html[data-theme=dark] .boards img, html[data-theme=dark] .photo { filter:brightness(.9); }
+    :root { color-scheme: light; }
+    html[data-theme=dark] { color-scheme: dark; --bg:#0b1220; --card:#131c2e; --text:#e6edf3; --muted:#9aa9bd; --line:#26334a; --accent:#4fb3ff; --warn-bg:#2b2111; --ok-bg:#0f2238; --ok:#4fb3ff; }
+    html[data-theme=dark] .boards img { filter:brightness(.9); }
+    esp-web-install-button { --mdc-theme-primary:#1784F7; }
     .theme { border:1px solid #fff8; background:transparent; color:#fff; border-radius:999px; padding:.25rem .6rem; cursor:pointer; font-weight:600; line-height:1; }
     .theme:hover, .lang button:hover { background:#fff3; }
     html[data-theme=dark] .theme .sun, html:not([data-theme=dark]) .theme .moon { display:none; }
-    .theme:focus-visible, .lang button:focus-visible { outline:2px solid #fff; outline-offset:2px; }
     * { box-sizing: border-box; }
     body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
     a { color: var(--accent); }
     html[data-lang=pt] .en, html[data-lang=en] .pt { display:none !important; }
-    header { background: linear-gradient(135deg, var(--h1), var(--h2)); color:#fff; padding: 1.25rem 1rem 3.5rem; }
+    [hidden] { display:none !important; }
+    header { background: linear-gradient(135deg, var(--g1), var(--g2)); color:#fff; padding: 1.25rem 1rem 3.5rem; }
     .wrap { max-width: 52rem; margin: 0 auto; padding: 0 1rem; }
     .top { display:flex; align-items:center; gap:.9rem; }
     .top img { width:56px; height:56px; border-radius:14px; box-shadow: 0 2px 10px rgba(0,0,0,.2); outline:2px solid #fff6; background:#fff2; }
@@ -53,7 +46,7 @@
     main { margin-top:-2.5rem; }
     .card { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:1.25rem 1.25rem 1rem; margin-bottom:1rem; box-shadow: 0 1px 3px rgba(0,0,0,.05); }
     .card h2 { margin:0 0 .6rem; font-size:1.2rem; display:flex; align-items:center; gap:.6rem; }
-    .num { flex:none; width:2rem; height:2rem; border-radius:50%; display:inline-grid; place-items:center; color:#fff; font-size:1rem; background: linear-gradient(135deg, var(--h1), var(--h2)); }
+    .num { flex:none; width:2rem; height:2rem; border-radius:50%; display:inline-grid; place-items:center; color:#fff; font-size:1rem; background: linear-gradient(135deg, var(--g1), var(--g2)); }
     .boards { display:grid; grid-template-columns: 1fr 1fr; gap:.8rem; }
     .boards label { display:block; border:2px solid var(--line); border-radius:12px; padding:.6rem; cursor:pointer; transition: border-color .15s; }
     .boards label:hover { border-color: var(--accent); }
@@ -62,26 +55,24 @@
     .boards img { width:100%; height:auto; border-radius:8px; margin-top:.4rem; display:block; }
     .boards .t { font-weight:700; font-size:1.05rem; }
     .boards .d { color:var(--muted); font-size:.92rem; }
+    .brandline { color:var(--muted); font-size:.92rem; margin:.8rem 0 .2rem; }
     .install { text-align:center; padding:.5rem 0 .25rem; }
-    .btn { font: inherit; font-size:1.15rem; font-weight:700; color:#fff; border:0; border-radius:12px; padding:.85rem 2.2rem; cursor:pointer; background: linear-gradient(135deg, var(--h1), var(--h2)); box-shadow: 0 4px 14px rgba(23,132,247,.35); }
+    .btn { font: inherit; font-size:1.15rem; font-weight:700; color:#fff; border:0; border-radius:12px; padding:.85rem 2.2rem; cursor:pointer; background: linear-gradient(135deg, var(--g1), var(--g2)); box-shadow: 0 4px 14px rgba(23,132,247,.35); }
     .btn:hover { filter: brightness(1.05); }
     .ver { color:var(--muted); font-size:.9rem; margin-top:.4rem; }
     .note { border-radius:10px; padding:.6rem .85rem; margin:.7rem 0; }
     .warn { background:var(--warn-bg); border-left:4px solid var(--warn); }
     .ok { background:var(--ok-bg); border-left:4px solid var(--ok); }
-    ol { padding-left:1.25rem; } li { margin:.25rem 0; }
+    ol, ul { padding-left:1.25rem; } li { margin:.25rem 0; }
     code { background: color-mix(in srgb, var(--text) 8%, transparent); padding:.05rem .35rem; border-radius:5px; }
-    .diagram { display:block; background:#fff; border:1px solid var(--line); border-radius:10px; padding:.3rem; margin:.6rem 0; }
-    .diagram img { width:100%; height:auto; display:block; }
-    .photo { width:100%; border-radius:10px; margin-top:.5rem; }
-    table { width:100%; border-collapse:collapse; font-size:.95rem; }
-    td { border-top:1px solid var(--line); padding:.45rem .3rem; vertical-align:top; }
-    td:first-child { font-weight:600; white-space:nowrap; padding-right:.8rem; }
     details { border-top:1px solid var(--line); padding:.55rem 0; }
     summary { cursor:pointer; font-weight:600; }
-    details p { margin:.4rem 0 0; color:var(--muted); }
+    details p, details li { color:var(--muted); }
+    details p { margin:.4rem 0 0; }
+    .next a { font-weight:600; }
     footer { color:var(--muted); font-size:.88rem; padding: 1rem 0 2.5rem; }
     #nosupport { display:none; }
+    @media (max-width: 38rem) { .boards { grid-template-columns:1fr; } .top h1 { font-size:1.3rem; } }
     .support { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem .6rem; margin:.9rem 0 0; font-size:.95rem; }
     .support b { font-weight:600; margin-right:.2rem; }
     .support a { display:inline-flex; align-items:center; gap:.35rem; text-decoration:none; font-weight:700; font-size:.88rem; padding:.3rem .8rem; border-radius:999px; box-shadow:0 1px 4px rgba(0,0,0,.18); }
@@ -89,14 +80,13 @@
     .support .kofi { background:#FF5E5B; color:#fff; }
     .support .bmc { background:#FFDD00; color:#0b1b3f; }
     html[data-theme=dark] .support a { box-shadow:0 1px 4px rgba(0,0,0,.5); }
-    @media (max-width: 38rem) { .boards { grid-template-columns:1fr; } .top h1 { font-size:1.3rem; } }
   </style>
 </head>
 <body>
 <header>
   <div class="wrap">
     <div class="top">
-      <img src="icon-512.png" alt="">
+      <img src="icon-512.png" alt="ESPHome Hunter logo">
       <div>
         <h1>ESPHome Hunter</h1>
         <small><span class="pt">Instalador web</span><span class="en">Web installer</span> · Hunter_LS</small>
@@ -108,8 +98,8 @@
       </div>
     </div>
     <p class="pitch">
-      <span class="pt">O teu programador de rega Hunter X-Core no Home Assistant. Liga por USB, carrega em Instalar, feito. Sem YAML, sem nuvem.</span>
-      <span class="en">Your Hunter X-Core irrigation controller in Home Assistant. Plug in by USB, click Install, done. No YAML, no cloud.</span>
+      <span class="pt">O teu programador de rega Hunter X-Core no Home Assistant. Liga por USB, carrega em Instalar, feito.</span>
+      <span class="en">Your Hunter X-Core irrigation controller in Home Assistant. Plug in by USB, click Install, done.</span>
     </p>
     <p class="support">
       <b><span class="pt">Gostas? Ajuda-me a fazer algo ainda melhor.</span><span class="en">Like it? Help me build something better.</span></b>
@@ -121,165 +111,109 @@
 
 <main class="wrap">
   <div id="nosupport" class="card note warn">
-    <span class="pt"><b>Este browser não consegue instalar.</b> Abre esta página no <b>Chrome</b> ou <b>Edge</b> num computador (não funciona no telemóvel, Safari nem Firefox).</span>
-    <span class="en"><b>This browser can't install.</b> Open this page in <b>Chrome</b> or <b>Edge</b> on a computer (phones, Safari and Firefox don't work).</span>
+    <span class="pt"><b>Este browser não consegue instalar.</b> Abre esta página no <b>Chrome</b> ou <b>Edge</b> num computador.</span>
+    <span class="en"><b>This browser can't install.</b> Open this page in <b>Chrome</b> or <b>Edge</b> on a computer.</span>
   </div>
 
   <section class="card">
-    <h2><span class="num">1</span><span class="pt">Qual é a tua placa?</span><span class="en">Which board do you have?</span></h2>
-    <p class="pt" style="margin-top:0">A versão está impressa na placa.</p>
-    <p class="en" style="margin-top:0">The version is printed on the board.</p>
+    <h2><span class="num">1</span><span class="pt">Escolhe a placa</span><span class="en">Pick your board</span></h2>
+    <p class="pt" style="margin-top:0">A versão está impressa na PCB. <b>v2</b> = PCB preta, USB-C, até 8 zonas. <b>v1</b> = Wemos D1 mini, micro-USB, 4 zonas.</p>
+    <p class="en" style="margin-top:0">The version is printed on the PCB. <b>v2</b> = black PCB, USB-C, up to 8 zones. <b>v1</b> = Wemos D1 mini, micro-USB, 4 zones.</p>
     <form id="board-form" class="boards">
-      <label><input type="radio" name="board" value="firmware/v2/manifest.json" checked>
+      <label><input type="radio" name="board" value="firmware/v2/manifest.json" data-board="v2" checked>
         <span class="t">v2.0.0</span>
         <div class="d"><span class="pt">PCB preta · XIAO ESP32-C6 · até 8 zonas · USB-C</span><span class="en">Black PCB · XIAO ESP32-C6 · up to 8 zones · USB-C</span></div>
         <img src="board-v2.jpg" alt="Hunter_LS v2.0.0" loading="lazy"></label>
-      <label><input type="radio" name="board" value="firmware/v1/manifest.json">
+      <label><input type="radio" name="board" value="firmware/v1/manifest.json" data-board="v1">
         <span class="t">v1.0.0 · v1.1.0 · v1.1.1</span>
         <div class="d"><span class="pt">Wemos D1 mini · 4 zonas · micro-USB</span><span class="en">Wemos D1 mini · 4 zones · micro-USB</span></div>
         <img src="board-v1.jpg" alt="Hunter_LS v1.1.0" loading="lazy"></label>
     </form>
+    <p class="brandline">
+      <span class="pt">Só placas Hunter_LS do Luís Soares.</span>
+      <span class="en">Luís Soares's Hunter_LS boards only.</span>
+      <a href="https://github.com/skydoy/ESPHOME_Hunter/blob/main/docs/overview.md"><span class="pt">Visão geral</span><span class="en">Overview</span></a>
+      ·
+      <a href="https://github.com/skydoy/ESPHOME_Hunter/blob/main/docs/hardware.md"><span class="pt">Hardware</span><span class="en">Hardware</span></a>
+    </p>
   </section>
 
   <section class="card">
-    <h2><span class="num">2</span><span class="pt">Instalar o firmware</span><span class="en">Install the firmware</span></h2>
-    <ol class="pt">
-      <li>Liga o módulo ESP a este computador com um cabo USB <b>de dados</b>. Faz isto <b>antes</b> de montar a placa no X-Core.</li>
-      <li>Carrega em <b>Instalar</b>, escolhe a porta (<i>USB JTAG/serial</i> na v2.0.0, <i>CH340</i>/<i>CP210x</i> na v1.x) e depois <b>Install</b>.</li>
-    </ol>
-    <ol class="en">
-      <li>Connect the ESP module to this computer with a USB <b>data</b> cable. Do this <b>before</b> fitting the board in the X-Core.</li>
-      <li>Press <b>Install</b>, pick the port (<i>USB JTAG/serial</i> on v2.0.0, <i>CH340</i>/<i>CP210x</i> on v1.x), then <b>Install</b>.</li>
-    </ol>
+    <h2><span class="num">2</span><span class="pt">Liga por USB</span><span class="en">Connect by USB</span></h2>
+    <p class="pt">Usa um cabo USB <b>de dados</b> (muitos só carregam). Faz isto <b>antes</b> de montar a placa no X-Core.</p>
+    <p class="en">Use a USB <b>data</b> cable (many only charge). Do this <b>before</b> fitting the board in the X-Core.</p>
+    <details><summary><span class="pt">A placa não aparece?</span><span class="en">Board not showing up?</span></summary>
+      <ul>
+        <li data-board="v2"><span class="pt">v2.0.0 (XIAO): porta “USB JTAG/serial”. Se falhar, mantém o botão <b>BOOT</b> ao ligar o cabo.</span><span class="en">v2.0.0 (XIAO): port “USB JTAG/serial”. If it fails, hold <b>BOOT</b> while plugging in.</span></li>
+        <li data-board="v1"><span class="pt">v1.x (D1 mini): driver CH340 ou CP210x.</span><span class="en">v1.x (D1 mini): CH340 or CP210x driver.</span></li>
+      </ul>
+      <p class="pt">Experimenta outro cabo: muitos só carregam.</p>
+      <p class="en">Try another cable: some only charge.</p>
+    </details>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">3</span><span class="pt">Instalar</span><span class="en">Install</span></h2>
+    <p class="pt">Carrega em <b>Instalar</b>, escolhe a porta série e confirma.</p>
+    <p class="en">Press <b>Install</b>, pick the serial port, then confirm.</p>
     <div class="install">
       <esp-web-install-button id="install" manifest="firmware/v2/manifest.json">
         <button slot="activate" class="btn"><span class="pt">⚡ Instalar</span><span class="en">⚡ Install</span></button>
-        <span slot="unsupported"><span class="pt">Usa o Chrome ou Edge num computador.</span><span class="en">Use Chrome or Edge on a computer.</span></span>
+        <span slot="unsupported"><span class="pt">Usa o Chrome ou o Edge num computador.</span><span class="en">Use Chrome or Edge on a computer.</span></span>
         <span slot="not-allowed"><span class="pt">A página tem de abrir em https.</span><span class="en">The page must be opened over https.</span></span>
       </esp-web-install-button>
       <div class="ver" id="ver"></div>
     </div>
-    <p class="note ok">✅ <span class="pt"><b>Deves ver:</b> uma barra de progresso (cerca de 1 minuto) e depois a janela do Wi-Fi.</span><span class="en"><b>You should see:</b> a progress bar (about 1 minute), then the Wi-Fi window.</span></p>
+    <p class="note ok">✅ <span class="pt"><b>Deves ver:</b> barra de progresso (~1 min) e <i>Installation complete</i>. Depois escolhe o Wi-Fi de <b>2,4 GHz</b> na mesma janela (ou liga-te a <code>ESPHome Hunter Setup</code>).</span><span class="en"><b>You should see:</b> a progress bar (~1 min) and <i>Installation complete</i>. Then pick your <b>2.4 GHz</b> Wi-Fi in the same window (or join <code>ESPHome Hunter Setup</code>).</span></p>
   </section>
 
-  <section class="card">
-    <h2><span class="num">3</span>Wi-Fi</h2>
-    <ul class="pt">
-      <li>Na mesma janela escolhe a tua rede, escreve a palavra-passe e carrega em <b>Connect</b>. Tem de ser uma rede de <b>2,4 GHz</b>.</li>
-      <li>Saltou este passo? No telemóvel liga-te à rede <code>ESPHome Hunter Setup</code>: abre-se uma página para escolher o Wi-Fi. Volta a aparecer sempre que a placa perde o Wi-Fi.</li>
-      <li>v2.0.0: também podes configurar o Wi-Fi por <b>Bluetooth</b> na app do Home Assistant.</li>
-    </ul>
-    <ul class="en">
-      <li>In the same window pick your network, type the password and press <b>Connect</b>. It must be a <b>2.4 GHz</b> network.</li>
-      <li>Skipped it? From your phone join the <code>ESPHome Hunter Setup</code> hotspot: a page opens to pick your Wi-Fi. It comes back whenever the board loses Wi-Fi.</li>
-      <li>v2.0.0: you can also set Wi-Fi over <b>Bluetooth</b> from the Home Assistant app.</li>
-    </ul>
-  </section>
-
-  <section class="card">
-    <h2><span class="num">4</span><span class="pt">Montar no X-Core</span><span class="en">Fit it in the X-Core</span></h2>
-    <p class="note warn">⚠️ <span class="pt"><b>Desliga primeiro o transformador do X-Core da tomada.</b> A placa só liga ao lado de 24 V AC.</span><span class="en"><b>Unplug the X-Core transformer first.</b> The board only touches the 24 V AC side.</span></p>
+  <section class="card next">
+    <h2><span class="pt">A seguir</span><span class="en">Next</span></h2>
     <ol class="pt">
-      <li>Põe o <b>interruptor do sensor do X-Core em “Active”</b> (necessário para a <i>Pause Watering</i>).</li>
-      <li>Liga os fios aos terminais do X-Core seguindo as legendas da placa: VAC-L/VAC-R aos 24VAC, REM ao REM, SEN-L/SEN-R aos SEN, ZC ao C e Z1…Z8 às zonas 1…8. O jumper azul de alimentação fica em <b>5V</b>.</li>
-      <li>Volta a ligar o transformador. O LED pisca até ligar ao Wi-Fi.</li>
+      <li><b>Montar</b> — desliga o X-Core, interruptor do sensor em <b>Active</b>, liga os fios.
+        <a href="https://github.com/skydoy/ESPHOME_Hunter/blob/main/docs/hardware.md">docs/hardware.md</a>
+        · <a href="https://github.com/skydoy/ESPHOME_Hunter/blob/main/docs/guia-rapido.md">guia rápido</a></li>
+      <li><b>Home Assistant</b> — Definições → Dispositivos e serviços → <b>Configurar</b>.</li>
+      <li><b>Problemas?</b>
+        <a href="https://github.com/skydoy/ESPHOME_Hunter/blob/main/docs/problemas.md">docs/problemas.md</a>
+        · <a href="https://github.com/skydoy/ESPHOME_Hunter/issues">pedir ajuda</a></li>
+      <li><b>Documentação</b> —
+        <a href="https://skydoy.github.io/ESPHOME_Hunter/docs/pt/">skydoy.github.io/…/docs</a></li>
     </ol>
     <ol class="en">
-      <li>Set the <b>X-Core sensor bypass switch to “Active”</b> (needed for <i>Pause Watering</i>).</li>
-      <li>Connect the wires to the X-Core terminals following the board labels: VAC-L/VAC-R to 24VAC, REM to REM, SEN-L/SEN-R to SEN, ZC to C and Z1…Z8 to zones 1…8. The blue power jumper stays on <b>5V</b>.</li>
-      <li>Plug the transformer back in. The LED blinks until it is on Wi-Fi.</li>
+      <li><b>Fit</b> — unplug the X-Core, sensor switch on <b>Active</b>, connect the wires.
+        <a href="https://github.com/skydoy/ESPHOME_Hunter/blob/main/docs/hardware.md">docs/hardware.md</a>
+        · <a href="https://github.com/skydoy/ESPHOME_Hunter/blob/main/docs/quick-start.md">quick start</a></li>
+      <li><b>Home Assistant</b> — Settings → Devices &amp; services → <b>Configure</b>.</li>
+      <li><b>Stuck?</b>
+        <a href="https://github.com/skydoy/ESPHOME_Hunter/blob/main/docs/troubleshooting.md">docs/troubleshooting.md</a>
+        · <a href="https://github.com/skydoy/ESPHOME_Hunter/issues">ask for help</a></li>
+      <li><b>Docs</b> —
+        <a href="https://skydoy.github.io/ESPHOME_Hunter/docs/">skydoy.github.io/…/docs</a></li>
     </ol>
-    <a class="diagram" href="wiring.svg"><img src="wiring.svg" alt="Hunter X-Core with zones 1 to 8 going to the sprinklers" loading="lazy"></a>
-    <p class="pt">A imagem mostra o X-Core e as zonas. Onde vai cada fio da Hunter_LS:</p>
-    <p class="en">The picture shows the X-Core and its zones. Where each Hunter_LS wire goes:</p>
-    <table>
-      <tr><td>VAC-L, VAC-R</td><td><span class="pt">→ 24VAC, 24VAC — alimenta a placa</span><span class="en">→ 24VAC, 24VAC — powers the board</span></td></tr>
-      <tr><td>REM</td><td><span class="pt">→ REM — comandos do comando ROAM</span><span class="en">→ REM — ROAM remote commands</span></td></tr>
-      <tr><td>SEN-L, SEN-R</td><td><span class="pt">→ SEN, SEN — <i>Pause Watering</i> (interruptor do sensor em <b>Active</b>)</span><span class="en">→ SEN, SEN — <i>Pause Watering</i> (sensor switch on <b>Active</b>)</span></td></tr>
-      <tr><td>ZC</td><td><span class="pt">→ C — comum das válvulas</span><span class="en">→ C — valve common</span></td></tr>
-      <tr><td>Z1 … Z8</td><td><span class="pt">→ 1 … 8 — feedback das válvulas (v1: só Z1–Z4)</span><span class="en">→ 1 … 8 — valve feedback (v1: Z1–Z4 only)</span></td></tr>
-      <tr><td><span class="pt">Jumper azul</span><span class="en">Blue jumper</span></td><td><b>5V</b> <span class="pt">com a placa no X-Core</span><span class="en">when fitted in the X-Core</span>; <b>N/C</b> <span class="pt">só para gravar por USB</span><span class="en">for USB-only flashing</span></td></tr>
-    </table>
-    <img class="photo" src="install-detail.jpg" alt="Hunter_LS board fitted in a Hunter X-Core" loading="lazy">
-    <p class="ver"><span class="pt">Foto: Luís Soares (placa v1.0.0, as outras montam-se igual).</span><span class="en">Photo: Luís Soares (v1.0.0 board, the others fit the same way).</span>
-      <a href="https://github.com/skydoy/ESPHOME_Hunter/tree/main/hardware"><span class="pt">Mais fotos</span><span class="en">More photos</span></a></p>
-  </section>
-
-  <section class="card">
-    <h2><span class="num">5</span>Home Assistant</h2>
-    <p class="pt"><b>Definições → Dispositivos e serviços</b>: aparece <b>ESPHome Hunter</b> → <b>Configurar</b>. Teste: <i>Run Time</i> = 1 e liga a <i>Zone 1</i>.</p>
-    <p class="en"><b>Settings → Devices &amp; services</b>: <b>ESPHome Hunter</b> shows up → <b>Configure</b>. Test: <i>Run Time</i> = 1 and turn on <i>Zone 1</i>.</p>
-    <table>
-      <tr><td>Zone 1 … Zone N</td><td><span class="pt">Liga/desliga a zona e mostra o estado <b>real</b> da válvula.</span><span class="en">Runs the zone and shows the <b>real</b> valve state.</span></td></tr>
-      <tr><td>Watering · Active Zone</td><td><span class="pt">Se está a regar, e qual a zona.</span><span class="en">Is anything watering, and which zone.</span></td></tr>
-      <tr><td>Run Time</td><td><span class="pt">Minutos de rega (1–240).</span><span class="en">Watering minutes (1–240).</span></td></tr>
-      <tr><td>Run Program A/B/C · Stop All</td><td><span class="pt">Iguais aos botões do programador.</span><span class="en">Same as the controller's buttons.</span></td></tr>
-      <tr><td>Pause Watering</td><td><span class="pt">Bloqueia toda a rega, como um sensor de chuva.</span><span class="en">Blocks all watering, like a rain sensor.</span></td></tr>
-      <tr><td>Firmware Update</td><td><span class="pt">Novas versões com um clique.</span><span class="en">New versions in one click.</span></td></tr>
-    </table>
-  </section>
-
-  <section class="card">
-    <h2><span class="num">?</span><span class="pt">Problemas</span><span class="en">Troubleshooting</span></h2>
-    <details><summary><span class="pt">Não aparece nenhuma porta</span><span class="en">No port shows up</span></summary>
-      <p class="pt">Usa um cabo USB de dados (muitos só carregam). v1.x: instala o driver CH340 ou CP210x do teu D1 mini.</p>
-      <p class="en">Use a USB data cable (many only charge). v1.x: install the CH340 or CP210x driver for your D1 mini.</p></details>
-    <details><summary>“Failed to connect” (v2.0.0)</summary>
-      <p class="pt">Mantém carregado o botão <b>BOOT</b> do XIAO enquanto ligas o cabo, solta e tenta de novo.</p>
-      <p class="en">Hold the XIAO <b>BOOT</b> button while plugging in the cable, release, and try again.</p></details>
-    <details><summary><span class="pt">O Home Assistant não encontra a placa</span><span class="en">Home Assistant doesn't find the board</span></summary>
-      <p class="pt">A placa tem de estar na mesma rede que o Home Assistant. Adiciona à mão: integração ESPHome → <code>esphome-hunter-xxxxxx.local</code> ou o IP.</p>
-      <p class="en">It must be on the same network. Add it by hand: ESPHome integration → <code>esphome-hunter-xxxxxx.local</code> or its IP.</p></details>
-    <details><summary><span class="pt">A zona liga e desliga-se sozinha</span><span class="en">A zone turns itself back off</span></summary>
-      <p class="pt">O X-Core não abriu a válvula: verifica o fio REM, que o X-Core não está em “Off” e que <i>Pause Watering</i> está desligado.</p>
-      <p class="en">The X-Core did not open the valve: check the REM wire, that the X-Core is not on “Off” and that <i>Pause Watering</i> is off.</p></details>
-    <details><summary><span class="pt"><i>Pause Watering</i> não faz nada</span><span class="en"><i>Pause Watering</i> does nothing</span></summary>
-      <p class="pt">O interruptor do sensor do X-Core tem de estar em <b>Active</b>.</p>
-      <p class="en">The X-Core sensor switch must be on <b>Active</b>.</p></details>
-    <p><a class="pt" href="https://github.com/skydoy/ESPHOME_Hunter/blob/main/docs/problemas.md">Todos os problemas</a><a class="en" href="https://github.com/skydoy/ESPHOME_Hunter/blob/main/docs/troubleshooting.md">All troubleshooting</a>
-      · <a class="pt" href="https://github.com/skydoy/ESPHOME_Hunter/blob/main/docs/guia-rapido.md">Guia completo</a><a class="en" href="https://github.com/skydoy/ESPHOME_Hunter/blob/main/docs/quick-start.md">Full guide</a>
-      · <a href="https://github.com/skydoy/ESPHOME_Hunter/issues"><span class="pt">Pedir ajuda</span><span class="en">Ask for help</span></a></p>
+    <details>
+      <summary><span class="pt">Dicas rápidas</span><span class="en">Quick tips</span></summary>
+      <p class="pt"><b>Pause Watering não faz nada:</b> interruptor do sensor em <b>Active</b>.
+        <b>Zona liga e desliga-se:</b> verifica o fio REM e que o X-Core não está em “Off”.
+        <b>Wi-Fi:</b> rede 2,4 GHz; hotspot <code>ESPHome Hunter Setup</code> se saltaste o passo.</p>
+      <p class="en"><b>Pause Watering does nothing:</b> sensor switch on <b>Active</b>.
+        <b>Zone turns itself off:</b> check the REM wire and that the X-Core is not on “Off”.
+        <b>Wi-Fi:</b> 2.4 GHz network; <code>ESPHome Hunter Setup</code> hotspot if you skipped the step.</p>
+    </details>
   </section>
 
   <footer>
-    <p><span class="pt">Placa Hunter_LS desenhada por</span><span class="en">Hunter_LS board designed by</span>
-      <b>Luís Soares</b>,
-      <span class="pt">com base no esquema do</span><span class="en">based on the schematic by</span>
-      CZSmith.
-      <span class="pt">Firmware e instalador:</span><span class="en">Firmware and installer:</span>
-      <a href="https://github.com/skydoy/ESPHOME_Hunter">skydoy/ESPHOME_Hunter</a>.</p>
-    <p><span class="pt">Hunter e X-Core são marcas da Hunter Industries. Projeto comunitário independente, sem ligação à Hunter Industries.</span>
-      <span class="en">Hunter and X-Core are trademarks of Hunter Industries. Independent community project, not affiliated with Hunter Industries.</span></p>
+    <p><span class="pt">Placa Hunter_LS: Luís Soares. Firmware, instalador e logótipo:</span><span class="en">Hunter_LS board: Luís Soares. Firmware, installer and logo:</span>
+      <a href="https://github.com/skydoy/ESPHOME_Hunter">skydoy/ESPHOME_Hunter</a> · <a href="https://skydoy.github.io/ESPHOME_Hunter/docs/"><span class="pt">Documentação</span><span class="en">Docs</span></a> ·
+      <a href="https://github.com/skydoy/ESPHOME_Hunter/blob/main/LICENSE">PolyForm Noncommercial 1.0.0</a>
+      (<span class="pt">uso pessoal e não comercial</span><span class="en">personal and non-commercial use</span>).</p>
+    <p><span class="pt">Hunter e X-Core são marcas da Hunter Industries. Projeto comunitário independente. Usa por tua conta e risco.</span>
+      <span class="en">Hunter and X-Core are trademarks of Hunter Industries. Independent community project. Use at your own risk.</span></p>
   </footer>
 </main>
 
 <script>
   const root = document.documentElement;
-  function setLang(l) {
-    root.dataset.lang = l; root.lang = l;
-    document.querySelectorAll('.lang button[data-set]').forEach(b => b.setAttribute('aria-pressed', b.dataset.set === l));
-    try { localStorage.setItem('lang', l); } catch (e) {}
-    showVersion(); paintTheme();
-  }
-  const themeBtn = document.getElementById('theme-toggle');
-  function paintTheme() {
-    const dark = root.dataset.theme === 'dark', pt = root.dataset.lang === 'pt';
-    themeBtn.setAttribute('aria-pressed', dark);
-    themeBtn.setAttribute('aria-label', pt ? (dark ? 'Mudar para modo claro' : 'Mudar para modo escuro') : (dark ? 'Switch to light mode' : 'Switch to dark mode'));
-    themeBtn.title = themeBtn.getAttribute('aria-label');
-  }
-  themeBtn.addEventListener('click', () => {
-    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
-    try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
-    paintTheme();
-  });
-  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-    let t = null; try { t = localStorage.getItem('theme'); } catch (x) {}
-    if (!t) { root.dataset.theme = e.matches ? 'dark' : 'light'; paintTheme(); }
-  });
-  document.querySelectorAll('.lang button[data-set]').forEach(b => b.addEventListener('click', () => setLang(b.dataset.set)));
-  if (!('serial' in navigator)) document.getElementById('nosupport').style.display = 'block';
-
   const button = document.getElementById('install');
   const ver = document.getElementById('ver');
   let manifest = null;
@@ -291,14 +225,41 @@
       ver.textContent = (pt ? 'Versão ' : 'Version ') + manifest.data.version + ' · ' + manifest.data.name;
     } catch (e) { ver.textContent = ''; }
   }
-  function selectBoard() {
-    button.setAttribute('manifest', document.querySelector('input[name="board"]:checked').value);
+  function setLang(l) {
+    root.dataset.lang = l; root.lang = l;
+    document.querySelectorAll('.lang button[data-set]').forEach(b => b.setAttribute('aria-pressed', b.dataset.set === l));
+    try { localStorage.setItem('lang', l); } catch (e) {}
     showVersion();
   }
+  function selectBoard() {
+    const board = document.querySelector('input[name="board"]:checked');
+    button.setAttribute('manifest', board.value);
+    document.querySelectorAll('[data-board]').forEach(el => {
+      if (el.tagName === 'INPUT') return;
+      el.hidden = el.dataset.board !== board.dataset.board;
+    });
+    showVersion();
+  }
+  document.querySelectorAll('.lang button[data-set]').forEach(b => b.addEventListener('click', () => setLang(b.dataset.set)));
+  const tbtn = document.getElementById('theme-toggle');
+  function themeLabel() {
+    const dark = root.dataset.theme === 'dark', pt = root.dataset.lang === 'pt';
+    tbtn.setAttribute('aria-pressed', dark);
+    tbtn.setAttribute('aria-label', pt ? (dark ? 'Mudar para modo claro' : 'Mudar para modo escuro') : (dark ? 'Switch to light mode' : 'Switch to dark mode'));
+    tbtn.title = tbtn.getAttribute('aria-label');
+  }
+  tbtn.addEventListener('click', () => {
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
+    themeLabel();
+  });
+  new MutationObserver(themeLabel).observe(root, { attributes: true, attributeFilter: ['data-lang'] });
+  themeLabel();
+  if (!('serial' in navigator)) document.getElementById('nosupport').style.display = 'block';
   document.getElementById('board-form').addEventListener('change', selectBoard);
   let saved = null; try { saved = localStorage.getItem('lang'); } catch (e) {}
-  setLang(saved || ((navigator.language || 'en').toLowerCase().startsWith('pt') ? 'pt' : 'en'));
   selectBoard();
+  setLang(saved || ((navigator.language || 'en').toLowerCase().startsWith('pt') ? 'pt' : 'en'));
 </script>
 </body>
 </html>
