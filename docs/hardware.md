@@ -10,7 +10,7 @@ following **CZSmith**'s HunterMonitor schematic:
 ## Wiring
 ![Hunter X-Core with zones 1 to 8 going to the sprinklers (animated)](img/wiring.svg)
 
-The picture shows the X-Core and its zones. The table says where each Hunter_LS wire goes.
+The picture shows the X-Core and its zones. The table below says where each Hunter_LS wire goes (same table as in the READMEs and the web installer).
 
 > ⚠️ Unplug the X-Core transformer from the mains before wiring. The board only touches the 24 V AC side.
 

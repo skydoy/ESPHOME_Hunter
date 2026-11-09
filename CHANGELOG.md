@@ -7,6 +7,10 @@ described in the [README](README.md); firmware versions below are independent of
 
 ## [Unreleased]
 
+## [0.1.9] - 2026-11-09
+### Changed
+- READMEs and the web installer now show the board→X-Core connection table right under the wiring picture (X-Core with animated sprinklers).
+
 ## [0.1.8] - 2026-11-07
 ### Changed
 - Wiring picture simplified: only the Hunter X-Core and its zones 1–8 with animated sprinklers (zones run one after another). Board-to-X-Core connections are in the table in docs/hardware.md and in the installer text.
@@ -63,7 +67,8 @@ described in the [README](README.md); firmware versions below are independent of
 ### Not yet verified
 - Not yet tested on a real board with this firmware. Please report how it goes in an issue.
 
-[Unreleased]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.8...HEAD
+[Unreleased]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.9...HEAD
+[0.1.9]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.8...v0.1.9
 [0.1.8]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.7...v0.1.8
 [0.1.7]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.6...v0.1.7
 [0.1.6]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.5...v0.1.6

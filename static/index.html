@@ -189,6 +189,16 @@
       <li>Plug the transformer back in. The LED blinks until it is on Wi-Fi.</li>
     </ol>
     <a class="diagram" href="wiring.svg"><img src="wiring.svg" alt="Hunter X-Core with zones 1 to 8 going to the sprinklers" loading="lazy"></a>
+    <p class="pt">A imagem mostra o X-Core e as zonas. Onde vai cada fio da Hunter_LS:</p>
+    <p class="en">The picture shows the X-Core and its zones. Where each Hunter_LS wire goes:</p>
+    <table>
+      <tr><td>VAC-L, VAC-R</td><td><span class="pt">→ 24VAC, 24VAC — alimenta a placa</span><span class="en">→ 24VAC, 24VAC — powers the board</span></td></tr>
+      <tr><td>REM</td><td><span class="pt">→ REM — comandos do comando ROAM</span><span class="en">→ REM — ROAM remote commands</span></td></tr>
+      <tr><td>SEN-L, SEN-R</td><td><span class="pt">→ SEN, SEN — <i>Pause Watering</i> (interruptor do sensor em <b>Active</b>)</span><span class="en">→ SEN, SEN — <i>Pause Watering</i> (sensor switch on <b>Active</b>)</span></td></tr>
+      <tr><td>ZC</td><td><span class="pt">→ C — comum das válvulas</span><span class="en">→ C — valve common</span></td></tr>
+      <tr><td>Z1 … Z8</td><td><span class="pt">→ 1 … 8 — feedback das válvulas (v1: só Z1–Z4)</span><span class="en">→ 1 … 8 — valve feedback (v1: Z1–Z4 only)</span></td></tr>
+      <tr><td><span class="pt">Jumper azul</span><span class="en">Blue jumper</span></td><td><b>5V</b> <span class="pt">com a placa no X-Core</span><span class="en">when fitted in the X-Core</span>; <b>N/C</b> <span class="pt">só para gravar por USB</span><span class="en">for USB-only flashing</span></td></tr>
+    </table>
     <img class="photo" src="install-detail.jpg" alt="Hunter_LS board fitted in a Hunter X-Core" loading="lazy">
     <p class="ver"><span class="pt">Foto: Luís Soares (placa v1.0.0, as outras montam-se igual).</span><span class="en">Photo: Luís Soares (v1.0.0 board, the others fit the same way).</span>
       <a href="https://github.com/skydoy/ESPHOME_Hunter/tree/main/hardware"><span class="pt">Mais fotos</span><span class="en">More photos</span></a></p>

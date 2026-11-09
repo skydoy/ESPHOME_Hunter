@@ -31,6 +31,19 @@ Tudo local: sem nuvem, sem app, sem conta.
 
 [![Esquema de ligações](docs/img/wiring.svg)](docs/hardware.md#wiring)
 
+A imagem mostra o X-Core e as zonas. Onde vai cada fio da Hunter_LS:
+
+| Hunter_LS (legenda na PCB) | Terminal do X-Core | Para que serve |
+|---|---|---|
+| VAC-L, VAC-R | 24VAC, 24VAC | Alimenta a placa |
+| REM | REM | Comandos do comando ROAM |
+| SEN-L, SEN-R | SEN, SEN | *Pause Watering* (põe o interruptor do sensor em **Active**) |
+| ZC | C | Comum das válvulas (retorno do feedback) |
+| Z1 … Z8 | 1 … 8 | Feedback das válvulas (v1: só Z1–Z4) |
+
+Jumper de alimentação (azul): **5V** com a placa no X-Core; **N/C** só para gravar por USB.
+Mais detalhe: **[Hardware e pinos](docs/hardware.md#wiring)**.
+
 Passo a passo com fotos: **[Guia rápido](docs/guia-rapido.md)** · **[Quick start (EN)](docs/quick-start.md)**
 
 ## O que aparece no Home Assistant
@@ -66,7 +79,7 @@ Só são oferecidas versões testadas, do ramo `stable`.
   mas, se preferires, atualiza por USB no [instalador](https://skydoy.github.io/ESPHOME_Hunter/).
 
 ## Histórico de alterações
-Última versão: **v0.1.5** – textos em português passam a tratar-te por “tu”, como nos outros projetos.
+Última versão: **v0.1.9** – esquema de ligações (X-Core + aspersores animados) e a tabela placa→X-Core nos READMEs e no instalador.
 Todas as versões: [CHANGELOG.md](CHANGELOG.md).
 
 ## Documentação
