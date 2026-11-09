@@ -7,6 +7,14 @@ described in the [README](README.md); firmware versions below are independent of
 
 ## [Unreleased]
 
+## [0.1.13] - 2026-11-09
+### Changed
+- Short, beginner-friendly READMEs (PT/EN) with the same top block as ESPHome_AC; technical
+  details and web UI screenshots moved to the docs.
+- Web installer simplified to 3 steps: choose the board, connect by USB, install.
+- New documentation site (MkDocs Material, PT/EN) published at `/docs/`.
+- No firmware behaviour changes.
+
 ## [0.1.12] - 2026-11-09
 ### Added
 - Factory OTA UX (same idea as ESPHome_AC): *Update Status*, *Check for Update*, *Install Update*,

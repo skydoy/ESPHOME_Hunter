@@ -13,7 +13,7 @@
 substitutions:
   name: esphome-hunter
   friendly_name: ESPHome Hunter
-  project_version: "0.1.12"
+  project_version: "0.1.13"
   # Build source shown in "Firmware Version": CI sets "release" (tags) or "<branch> @<commit>".
   firmware_source: "self-built"
 
