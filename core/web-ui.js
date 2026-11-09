@@ -57,23 +57,57 @@
     var sr = root(), t = sr && sr.querySelector('esp-entity-table');
     return t && t.shadowRoot ? t : null;
   }
+  // Display-only value translations (never change option/button values sent to the device).
   function uiString(v) {
-    if (lang !== 'pt') return v;
-    var m = /^New version (.+) available, install from Device Builder$/.exec(v);
-    if (m) return 'Versão nova ' + m[1] + ' disponível, instala no Device Builder';
-    m = /^Up to date \((.+)\)$/.exec(v);
+    if (lang !== 'pt' || v == null) return v;
+    var s = String(v);
+    var m = /^New version (.+) available, install from Device Builder$/.exec(s);
+    if (m) return 'Há uma versão nova ' + m[1] + ' disponível — instala-a no Device Builder';
+    m = /^Up to date \((.+)\)$/.exec(s);
     if (m) return 'Atualizado (' + m[1] + ')';
-    m = /^Update available: (.+)$/.exec(v);
+    if (/^Up to date$/i.test(s)) return 'Atualizado';
+    m = /^Update available: (.+)$/.exec(s);
     if (m) return 'Atualização disponível: ' + m[1];
+    if (/^Checking(\u2026|\.\.\.|…)$/i.test(s) || /^Checking for updates$/i.test(s)) return 'A procurar\u2026';
+    if (/^Update check failed/i.test(s)) return s.replace(/^Update check failed/i, 'Falha ao procurar atualização');
     var CONTENT_PT = {
-      'Checking for updates': 'A verificar atualizações',
       'Install requested': 'Instalação pedida',
       'Downloading firmware (do not unplug)': 'A transferir o firmware (não desligues)',
-      'Installed, rebooting': 'Instalado, a reiniciar'
+      'Installed, rebooting': 'Instalado, a reiniciar',
+      // Reset Reason — ESP8266 (Arduino)
+      'Power On': 'Ligado',
+      'Power on': 'Ligado',
+      'Hardware Watchdog': 'Watchdog de hardware',
+      'Exception': 'Exceção',
+      'Software Watchdog': 'Watchdog de software',
+      'Software/System restart': 'Reinício por software',
+      'Software reset': 'Reinício por software',
+      'Deep-Sleep Wake': 'Acordar do deep sleep',
+      'External System': 'Sistema externo',
+      // Reset Reason — ESP32 (ESP-IDF / ESPHome debug)
+      'unknown source': 'origem desconhecida',
+      'power-on event': 'Ligado',
+      'external pin': 'Pino externo',
+      'software via esp_restart': 'Reinício por software',
+      'exception/panic': 'Exceção/pânico',
+      'interrupt watchdog': 'Watchdog de interrupção',
+      'task watchdog': 'Watchdog de tarefa',
+      'other watchdogs': 'Outros watchdogs',
+      'exiting deep sleep mode': 'A sair do deep sleep',
+      'brownout': 'Quebra de tensão',
+      'Brownout': 'Quebra de tensão',
+      'SDIO': 'SDIO',
+      'USB peripheral': 'Periférico USB',
+      'JTAG': 'JTAG',
+      'efuse error': 'Erro de eFuse',
+      'power glitch detected': 'Oscilação de alimentação',
+      'CPU lock up': 'CPU bloqueada'
     };
-    if (CONTENT_PT[v]) return CONTENT_PT[v];
-    if (/^Update failed \(/.test(v)) return v.replace('Update failed', 'Falha na atualização');
-    return v;
+    if (CONTENT_PT[s]) return CONTENT_PT[s];
+    if (/^Update failed \(/.test(s)) return s.replace('Update failed', 'Falha na atualização');
+    m = /^Reboot request from (.+)$/.exec(s);
+    if (m) return 'Pedido de reinício de ' + m[1];
+    return s;
   }
   function translateTable() {
     var tb = tableEl();
@@ -97,16 +131,22 @@
     sr.querySelectorAll('.entity-row').forEach(function (row) {
       var nameEl = row.children && row.children[1], name = nameEl && nameEl.textContent;
       if (!name) return;
-      var wanted = lang === 'pt' ? 'Estado da atualização' : 'Update Status';
-      if (name.trim().replace(/^\[[^\]]+\]\s*/, '').trim() !== wanted) return;
+      var bare = name.trim().replace(/^\[[^\]]+\]\s*/, '').trim();
+      var isStatus = (bare === 'Update Status' || bare === 'Estado da atualização');
+      var isReset = (bare === 'Reset Reason' || bare === 'Motivo do reinício');
+      if (!isStatus && !isReset) return;
       var walker = document.createTreeWalker(row, NodeFilter.SHOW_TEXT), nodes = [], n;
       while ((n = walker.nextNode())) nodes.push(n);
       nodes.forEach(function (node) {
         var txt = node.nodeValue.trim();
         if (!txt || node.parentNode === nameEl) return;
-        if (node.__statusEn !== undefined) txt = node.__statusEn;
-        else if (/^(New version|Up to date|Checking for updates|Install requested|Downloading firmware|Installed, rebooting|Update failed)/.test(txt)) node.__statusEn = txt;
-        if (node.__statusEn !== undefined) node.nodeValue = uiString(node.__statusEn);
+        if (node.__valEn === undefined) {
+          // Capture English once (before we rewrite for PT)
+          if (isStatus && /^(New version|Up to date|Checking|Install requested|Downloading firmware|Installed, rebooting|Update failed|Update check failed)/.test(txt))
+            node.__valEn = txt;
+          else if (isReset) node.__valEn = txt;
+        }
+        if (node.__valEn !== undefined) node.nodeValue = uiString(node.__valEn);
       });
     });
     sr.querySelectorAll('.tab-header').forEach(function (h) {
@@ -120,6 +160,15 @@
       var v = b.textContent.trim();
       if (!/^(PRESS|PREMIR|CARREGAR)$/.test(v)) return;
       b.textContent = lang === 'pt' ? 'CARREGAR' : 'PRESS';
+    });
+    // <option>: translate label only; keep value attribute in English (device receives English)
+    sr.querySelectorAll('option').forEach(function (el) {
+      var ov = el.getAttribute('value');
+      if (el.__enOpt === undefined) el.__enOpt = (el.textContent || '').trim();
+      var en = el.__enOpt;
+      var pt = ENT_PT[en];
+      el.textContent = (lang === 'pt' && pt) ? pt : en;
+      if (ov != null) el.setAttribute('value', ov);
     });
     if (!tb.__langObs) {
       tb.__langObs = new MutationObserver(function () { translateTableSoon(); });
@@ -190,6 +239,13 @@
     paintLcd(wrap);
   }
 
+  // Sensors can arrive as strings / "NA" (nan via JSON) on web_server v3.
+  function numberOrNaN(v) {
+    if (v == null || v === 'NA' || v === 'nan' || v === '') return NaN;
+    var n = typeof v === 'number' ? v : parseFloat(v);
+    return isFinite(n) ? n : NaN;
+  }
+
   function onState(d) {
     if (!d) return;
     var name = (d.name || d.id || '') + '';
@@ -199,8 +255,27 @@
     if (!m) return;
     var z = +m[1];
     var isRunningEntity = /running/i.test(name) || /running/i.test(d.id || '');
+    // Keep last known zone state when value/state is NA/nan (unavailable).
+    var st = d.state == null ? '' : String(d.state);
+    var raw = d.value;
+    var naVal = (raw == null || raw === '' || /^(NA|nan)$/i.test(String(raw).trim()));
+    var naSt = /^(NA|nan)$/i.test(st.trim());
+    if (naVal && (naSt || st === '')) {
+      applyZones(root() && root().getElementById('hunter-wiring'));
+      return;
+    }
+    // Numeric path (e.g. ADC / 0|1): parseFloat with guard; keep last on NaN.
+    var n = numberOrNaN(d.value);
+    if (!isFinite(n) && st) n = numberOrNaN(st);
     var on = d.value === true || d.value === 'ON' || d.value === 'on' || d.state === 'ON' || d.state === 'on' || d.state === true;
     if (d.state === 'OFF' || d.state === 'off' || d.value === false) on = false;
+    if (!on && isFinite(n) && (typeof d.value === 'number' || /^-?\d+(\.\d+)?$/.test(String(raw).trim()))) {
+      on = n !== 0;
+    }
+    if (!isFinite(n) && naVal && naSt && zoneOn[z] !== undefined) {
+      applyZones(root() && root().getElementById('hunter-wiring'));
+      return;
+    }
     // Prefer Running binary_sensor when present; switch state fills gaps
     if (isRunningEntity || zoneOn[z] === undefined || isRunningEntity) {
       zoneOn[z] = on;
