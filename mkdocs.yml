@@ -19,28 +19,25 @@ extra:
 
 theme:
   name: material
+  custom_dir: overrides
   language: en
   logo: img/icon.png
   favicon: img/favicon.svg
   palette:
-    - media: "(prefers-color-scheme)"
-      toggle:
-        icon: material/brightness-auto
-        name: Prefer system
     - media: "(prefers-color-scheme: light)"
       scheme: default
       primary: custom
       accent: custom
       toggle:
-        icon: material/weather-sunny
-        name: Light mode
+        icon: custom/sun
+        name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
       primary: custom
       accent: custom
       toggle:
-        icon: material/weather-night
-        name: Dark mode
+        icon: custom/moon
+        name: Switch to light mode
   font: false
   features:
     - navigation.sections
