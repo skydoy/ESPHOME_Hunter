@@ -8,8 +8,8 @@ The Device Builder shows the device as *Discovered* → **Take control / Adopt**
 
 ```yaml
 substitutions:
-  name: hunter-ls-abc123
-  friendly_name: Hunter Irrigation
+  name: esphome-hunter-abc123
+  friendly_name: ESPHome Hunter
 packages:
   skydoy.hunter-ls-v2: github://skydoy/ESPHOME_Hunter/devices/hunter-ls-v2.yaml@stable
 esphome:
@@ -34,7 +34,7 @@ have the *Firmware Update* entity (it would overwrite your YAML); *Update Availa
 | `zone_on_delay` | `50ms` | Valve feedback must stay on this long to count as running. |
 | `zone_off_delay` | `500ms` | Valve feedback must stay off this long to count as stopped (filters the 50 Hz AC ripple). |
 | `zone_adc_threshold` (v1.x) | `2.5` | Volts on A0 below which zone 4 counts as running. |
-| `friendly_name` | `Hunter Irrigation` | Device name in Home Assistant. |
+| `friendly_name` | `ESPHome Hunter` | Device name in Home Assistant. |
 
 Example (4-zone X-Core on a v2.0.0 board):
 ```yaml

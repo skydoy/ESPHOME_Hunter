@@ -15,6 +15,7 @@
   <a href="https://github.com/skydoy/ESPHOME_Hunter/actions/workflows/publish.yml"><img src="https://github.com/skydoy/ESPHOME_Hunter/actions/workflows/publish.yml/badge.svg" alt="Build"></a>
   <a href="https://github.com/skydoy/ESPHOME_Hunter/actions/workflows/validate.yml"><img src="https://github.com/skydoy/ESPHOME_Hunter/actions/workflows/validate.yml/badge.svg" alt="Validate"></a>
   <a href="https://github.com/skydoy/ESPHOME_Hunter/releases/latest"><img src="https://img.shields.io/github/v/release/skydoy/ESPHOME_Hunter?sort=semver" alt="Release"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-PolyForm%20Noncommercial%201.0.0-blue" alt="License: PolyForm Noncommercial"></a>
 </p>
 
 <p align="center"><b>Your Hunter X-Core irrigation controller in Home Assistant. Plug in, click Install, done. No YAML.</b><br>
@@ -31,9 +32,9 @@ Local only: no cloud, no app, no account.
 ## Install in 3 steps
 1. **Flash.** Open the **[web installer](https://skydoy.github.io/ESPHOME_Hunter/)** in Chrome or Edge,
    pick your board (the version is printed on the PCB), plug the ESP into your computer by USB → **Install**.
-2. **Wi-Fi.** Type your Wi-Fi in the same window. (Or later: join the `Hunter-LS Setup` hotspot from your phone.)
+2. **Wi-Fi.** Type your Wi-Fi in the same window. (Or later: join the `ESPHome Hunter Setup` hotspot from your phone.)
 3. **Fit and add.** Unplug the X-Core, set its sensor switch to **Active**, fit the board, plug it back in.
-   Home Assistant shows *Hunter Irrigation* under **Settings → Devices & services** → **Configure**.
+   Home Assistant shows *ESPHome Hunter* under **Settings → Devices & services** → **Configure**.
 
 [![Wiring diagram](docs/img/wiring.svg)](docs/hardware.md#wiring)
 
@@ -85,7 +86,7 @@ Only tested releases from the `stable` branch are offered.
   but if you prefer, update by USB from the [installer](https://skydoy.github.io/ESPHOME_Hunter/).
 
 ## Changelog
-Latest: **v0.1.9** – wiring picture (X-Core + animated sprinklers) and the board→X-Core connection table in the READMEs and installer.
+Latest: **v0.1.10** – device web UI favicon, PolyForm Noncommercial licence, and project name (ESPHome Hunter) on the hotspot and in Home Assistant.
 All versions: [CHANGELOG.md](CHANGELOG.md).
 
 ## Docs
@@ -101,6 +102,13 @@ All versions: [CHANGELOG.md](CHANGELOG.md).
 - Hunter ROAM drivers: Hunter_Roam by javiervidao (v1.x) and
   Hunter_ESP_IDF by Luís Soares (v2.0.0), used as pinned external components.
 - Firmware, installer and logo: skydoy.
+
+## License
+[PolyForm Noncommercial 1.0.0](LICENSE): free for personal and non-commercial use, forks
+welcome, commercial use not permitted. Covers this repo's firmware, config, installer and docs
+only — not Luís's Hunter_LS hardware design, and not third-party code (see
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)). Use at your own risk: the X-Core has mains
+voltage inside.
 
 Hunter and X-Core are trademarks of Hunter Industries. This is an independent community project,
 not affiliated with or endorsed by Hunter Industries.

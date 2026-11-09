@@ -2,10 +2,13 @@
 # Version 3 UI served from the ESPHome CDN (little flash). NO authentication: anyone on the LAN
 # can start or stop zones. To add a login set `web_server: auth:` in your own config; to remove
 # the page, override the package with `web_server: !remove`. See docs/configuration.md.
+# web-ui.js: project favicon (droplet+chip) and caps the debug log panel height.
+# Path resolves next to this file; only one js_include is allowed — merge here.
 web_server:
   port: 80
   version: 3
   log: true
+  js_include: web-ui.js
   sorting_groups:
     - id: group_zones
       name: "Zones"

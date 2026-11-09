@@ -19,7 +19,7 @@ Faz isto **antes de montar a placa no X-Core** (ou com o X-Core desligado da tom
 
 ## 2. Wi-Fi (1 minuto)
 - Logo a seguir, a mesma janela pede o Wi-Fi: escolhe a rede, escreve a palavra-passe → **Connect**.
-- Saltou este passo? No telemóvel liga-te à rede **`Hunter-LS Setup`**; abre-se uma página, escolhe o teu Wi-Fi.
+- Saltou este passo? No telemóvel liga-te à rede **`ESPHome Hunter Setup`**; abre-se uma página, escolhe o teu Wi-Fi.
   Esta rede volta a aparecer sozinha sempre que a placa não conseguir ligar ao Wi-Fi guardado.
 - Só na v2.0.0: também podes configurar o Wi-Fi por Bluetooth na app do Home Assistant.
 
@@ -37,7 +37,7 @@ Faz isto **antes de montar a placa no X-Core** (ou com o X-Core desligado da tom
 *Fotos do Luís Soares (placa v1.0.0; as outras versões montam-se da mesma forma). Mais fotos em [hardware/](../hardware/).*
 
 ## 4. Adicionar ao Home Assistant (1 minuto)
-**Definições → Dispositivos e serviços**: aparece **Hunter Irrigation** em *Descobertos* → **Configurar**.
+**Definições → Dispositivos e serviços**: aparece **ESPHome Hunter** em *Descobertos* → **Configurar**.
 Dá-lhe uma divisão (ex.: Jardim).
 
 **Teste:** põe **Run Time** a 1, liga a **Zone 1** e confirma que a válvula abre e que o

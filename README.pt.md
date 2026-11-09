@@ -15,6 +15,10 @@
 🇬🇧 <a href="README.md">Read in English</a></p>
 
 <p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-PolyForm%20Noncommercial%201.0.0-blue" alt="Licença: PolyForm Noncommercial"></a>
+</p>
+
+<p align="center">
   <a href="https://skydoy.github.io/ESPHOME_Hunter/"><img src="https://img.shields.io/badge/Abrir%20o%20instalador%20web-0A8FD8?style=for-the-badge&logo=esphome&logoColor=white" alt="Abrir o instalador web" height="40"></a>
 </p>
 
@@ -25,9 +29,9 @@ Tudo local: sem nuvem, sem app, sem conta.
 ## Instalar em 3 passos
 1. **Instalar o firmware.** Abre o **[instalador web](https://skydoy.github.io/ESPHOME_Hunter/)** no Chrome ou Edge,
    escolhe a placa (a versão está impressa na PCB), liga o ESP ao computador por USB → **Instalar**.
-2. **Wi-Fi.** Escreve o teu Wi-Fi na mesma janela. (Ou mais tarde: liga-te à rede `Hunter-LS Setup` com o telemóvel.)
+2. **Wi-Fi.** Escreve o teu Wi-Fi na mesma janela. (Ou mais tarde: liga-te à rede `ESPHome Hunter Setup` com o telemóvel.)
 3. **Montar e adicionar.** Desliga o X-Core da tomada, põe o interruptor do sensor em **Active**, monta a placa e volta a ligar.
-   O Home Assistant mostra *Hunter Irrigation* em **Definições → Dispositivos e serviços** → **Configurar**.
+   O Home Assistant mostra *ESPHome Hunter* em **Definições → Dispositivos e serviços** → **Configurar**.
 
 [![Esquema de ligações](docs/img/wiring.svg)](docs/hardware.md#wiring)
 
@@ -79,7 +83,7 @@ Só são oferecidas versões testadas, do ramo `stable`.
   mas, se preferires, atualiza por USB no [instalador](https://skydoy.github.io/ESPHOME_Hunter/).
 
 ## Histórico de alterações
-Última versão: **v0.1.9** – esquema de ligações (X-Core + aspersores animados) e a tabela placa→X-Core nos READMEs e no instalador.
+Última versão: **v0.1.10** – favicon na página web da placa, licença PolyForm Noncommercial e nome do projeto (ESPHome Hunter) no hotspot e no Home Assistant.
 Todas as versões: [CHANGELOG.md](CHANGELOG.md).
 
 ## Documentação
@@ -95,6 +99,13 @@ Todas as versões: [CHANGELOG.md](CHANGELOG.md).
 - Drivers do protocolo Hunter ROAM: Hunter_Roam de javiervidao (v1.x) e
   Hunter_ESP_IDF de Luís Soares (v2.0.0).
 - Firmware, instalador e logótipo: skydoy.
+
+## Licença
+[PolyForm Noncommercial 1.0.0](LICENSE): gratuito para uso pessoal e não comercial, forks
+bem-vindos, uso comercial não permitido. Cobre só o firmware, a configuração, o instalador e a
+documentação deste repositório — não o hardware Hunter_LS do Luís, nem o código de terceiros
+(ver [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)). Usa por tua conta e risco: o X-Core tem
+tensão da rede lá dentro.
 
 Hunter e X-Core são marcas registadas da Hunter Industries. Projeto comunitário independente,
 sem ligação nem aprovação da Hunter Industries.

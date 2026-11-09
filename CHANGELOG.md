@@ -7,6 +7,14 @@ described in the [README](README.md); firmware versions below are independent of
 
 ## [Unreleased]
 
+## [0.1.10] - 2026-11-09
+### Added
+- Project favicon (droplet+chip) on the device web UI at `http://<device>/` via `web_server` `js_include` (same approach as Altherma; applied to v1 and v2).
+- [PolyForm Noncommercial 1.0.0](LICENSE) licence (same as ESPHome_AC), licence badge on both READMEs, and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). The licence covers this repo's firmware/config/docs only — not Luís's Hunter_LS hardware or third-party code (see THIRD_PARTY_NOTICES.md).
+
+### Changed
+- User-facing identity uses the **project** name: Wi-Fi fallback hotspot is now `ESPHome Hunter Setup` (was `Hunter-LS Setup`); default hostname prefix `esphome-hunter-xxxxxx` and friendly name `ESPHome Hunter` (was `hunter-ls` / `Hunter Irrigation`). `esphome.project` ids stay `skydoy.hunter-ls-v1` / `skydoy.hunter-ls-v2` so OTA manifests and adopted packages keep working. Docs and the web installer updated accordingly.
+
 ## [0.1.9] - 2026-11-09
 ### Changed
 - READMEs and the web installer now show the board→X-Core connection table right under the wiring picture (X-Core with animated sprinklers).
@@ -67,7 +75,8 @@ described in the [README](README.md); firmware versions below are independent of
 ### Not yet verified
 - Not yet tested on a real board with this firmware. Please report how it goes in an issue.
 
-[Unreleased]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.9...HEAD
+[Unreleased]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.10...HEAD
+[0.1.10]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.9...v0.1.10
 [0.1.9]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.8...v0.1.9
 [0.1.8]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.7...v0.1.8
 [0.1.7]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.6...v0.1.7

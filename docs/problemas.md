@@ -6,8 +6,8 @@
 |---|---|
 | O instalador não encontra a porta | Usa um cabo USB **de dados**, Chrome ou Edge num computador. v1.x: instala o driver CH340/CP210x. |
 | "Failed to connect" (v2.0.0) | Mantém o botão **BOOT** do XIAO carregado ao ligar o cabo, solta e tenta de novo. |
-| Não aparece a janela do Wi-Fi | Liga-te à rede `Hunter-LS Setup` com o telemóvel, ou no instalador carrega nos três pontos → *Configure Wi-Fi*. |
-| O Home Assistant não encontra o dispositivo | A placa tem de estar na mesma rede que o Home Assistant; adiciona à mão com `hunter-ls-xxxxxx.local` ou o IP. |
+| Não aparece a janela do Wi-Fi | Liga-te à rede `ESPHome Hunter Setup` com o telemóvel, ou no instalador carrega nos três pontos → *Configure Wi-Fi*. |
+| O Home Assistant não encontra o dispositivo | A placa tem de estar na mesma rede que o Home Assistant; adiciona à mão com `esphome-hunter-xxxxxx.local` ou o IP. |
 | Uma zona liga e volta a desligar sozinha | O X-Core não abriu a válvula. Verifica o fio REM, que o X-Core não está em "Off", que **Pause Watering** está desligado e os logs. |
 | **Pause Watering** não faz nada | O interruptor do sensor do X-Core tem de estar em **Active**. |
 | Wi-Fi fraco (v2.0.0) | Usa uma antena u.FL e liga **External Antenna**. |
