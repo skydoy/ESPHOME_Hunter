@@ -81,6 +81,8 @@ Nothing to do: with **Auto Update** on (the default), the board checks for a new
 night at 03:MM local time (a random minute so devices do not all hit the server together) and
 installs it. It also checks at start-up and every 6 hours. Only tested releases from the
 `stable` branch are offered.
+API key, Device Builder vs factory OTA, and the open LAN web page:
+[Security and OTA](docs/security.md).
 - **Installed with the web installer:** Home Assistant shows a **Firmware Update** card
   (Settings → Updates). You also get **Check for Update**, **Install Update** and **Update Status**
   on the device. Press **Install**, wait 1–2 minutes and don't unplug the controller.
@@ -101,7 +103,9 @@ All versions: [CHANGELOG.md](CHANGELOG.md).
 ## Docs
 [Troubleshooting](docs/troubleshooting.md) · [Problemas (PT)](docs/problemas.md) ·
 [Advanced configuration](docs/configuration.md) · [Hardware & pins](docs/hardware.md) ·
-[Changelog](CHANGELOG.md) · [Report a problem](https://github.com/skydoy/ESPHOME_Hunter/issues)
+[Changelog](CHANGELOG.md) · [Security and OTA](docs/security.md) ·
+[Report a problem](https://github.com/skydoy/ESPHOME_Hunter/issues) ·
+[Security policy](SECURITY.md) · [Third-party notices](THIRD_PARTY_NOTICES.md)
 
 ## Credits
 - **Hardware: Luís Soares**, Hunter_LS board.

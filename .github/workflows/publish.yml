@@ -45,7 +45,7 @@ jobs:
           sed -i "s|^\(\s*firmware_source:\).*|\1 \"$src\"|" "$BASE_YAML"
           grep -n "firmware_source:\|project_version:" "$BASE_YAML"
       - id: esphome
-        uses: esphome/build-action@v8.1.0
+        uses: esphome/build-action@ae5408cdbc4f70692bf8e345c4982bca05a93667 # v8.1.0
         with:
           yaml-file: ${{ env.DEVICE_YAML }}
           version: "2026.10.1"

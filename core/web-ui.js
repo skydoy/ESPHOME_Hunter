@@ -168,6 +168,17 @@
   function root() { var a = document.querySelector('esp-app'); return a && a.shadowRoot; }
   var zoneOn = {}; // 1..8 -> bool (prefer "Running" feedback)
 
+
+  function paintLcd(wrap) {
+    if (!wrap) return;
+    var pt = (window.__hunterLang && window.__hunterLang.get() === 'pt');
+    wrap.querySelectorAll('text.z').forEach(function (el) {
+      var m = /ZONE\s*(\d+)/i.exec(el.textContent) || /ZONA\s*(\d+)/i.exec(el.textContent);
+      if (!m) return;
+      el.textContent = (pt ? 'ZONA ' : 'ZONE ') + m[1];
+    });
+  }
+
   function applyZones(wrap) {
     if (!wrap) return;
     for (var z = 1; z <= 8; z++) {
@@ -176,9 +187,7 @@
         if (on) el.classList.add('on'); else el.classList.remove('on');
       });
     }
-    // LCD text: show first active zone, else idle
-    var lcd = wrap.querySelectorAll('text.z');
-    // LCD uses stacked ZONE N texts with class zN — already handled by .on opacity
+    paintLcd(wrap);
   }
 
   function onState(d) {
@@ -241,6 +250,7 @@
         var s = document.getElementById ? null : null;
         var sum2 = (root() && root().getElementById('hunter-wiring-sum'));
         if (sum2) sum2.textContent = t('Ligações', 'Wiring');
+        paintLcd(root() && root().getElementById('hunter-wiring'));
       };
     }
     try {

@@ -78,6 +78,8 @@ Não precisas de fazer nada: com a **Atualização automática** ligada (é o pr
 procura uma versão nova uma vez por noite às 03:MM (minuto ao acaso, para não carregarem todas
 ao mesmo tempo) e instala-a. Também verifica ao arrancar e a cada 6 horas. Só são oferecidas
 versões testadas, do ramo `stable`.
+Chave de API, Device Builder vs OTA de fábrica, e a página web aberta na LAN:
+[Segurança e OTA](docs/seguranca.md).
 - **Instalada pelo instalador web:** o Home Assistant mostra um cartão **Firmware Update**
   (Definições → Atualizações). Também tens **Verificar atualizações**, **Instalar atualização** e
   **Estado da atualização** no dispositivo. Carrega em **Instalar**, espera 1–2 minutos e não
@@ -98,7 +100,9 @@ Todas as versões: [CHANGELOG.md](CHANGELOG.md).
 ## Documentação
 [Problemas](docs/problemas.md) · [Troubleshooting (EN)](docs/troubleshooting.md) ·
 [Configuração avançada (EN)](docs/configuration.md) · [Hardware e pinos (EN)](docs/hardware.md) ·
-[Alterações](CHANGELOG.md) · [Reportar um problema](https://github.com/skydoy/ESPHOME_Hunter/issues)
+[Alterações](CHANGELOG.md) · [Segurança e OTA](docs/seguranca.md) ·
+[Reportar um problema](https://github.com/skydoy/ESPHOME_Hunter/issues) ·
+[Política de segurança](SECURITY.md) · [Avisos de terceiros](THIRD_PARTY_NOTICES.md)
 
 ## Créditos
 - **Hardware: Luís Soares**, placa Hunter_LS.
