@@ -70,15 +70,24 @@ Passo a passo com fotos: **[Guia rápido](docs/guia-rapido.md)** · **[Quick sta
 > **Estado:** a v0.1.0 é compilada e verificada automaticamente, mas ainda não foi testada numa placa real.
 > Os pinos da v2.0.0 vêm do firmware do próprio Luís. Experimentaste? [Conta-nos](https://github.com/skydoy/ESPHOME_Hunter/issues).
 
+## Compatibilidade
+Este firmware só funciona com as **placas Hunter_LS do Luís Soares** (v1.x: Wemos D1 mini / ESP8266; v2.0.0: Seeed XIAO ESP32-C6), montadas num **programador Hunter** que tenha terminais REM, SEN e das zonas — por exemplo o Hunter X-Core (até 8 zonas na v2). Outras placas ou controladores não são suportados.
+
 ## Atualizações automáticas (OTA)
-Não precisas de fazer nada: a placa procura firmware novo sozinha (ao arrancar e a cada 6 horas).
-Só são oferecidas versões testadas, do ramo `stable`.
+Não precisas de fazer nada: com a **Atualização automática** ligada (é o predefinido), a placa
+procura uma versão nova uma vez por noite às 03:MM (minuto ao acaso, para não carregarem todas
+ao mesmo tempo) e instala-a. Também verifica ao arrancar e a cada 6 horas. Só são oferecidas
+versões testadas, do ramo `stable`.
 - **Instalada pelo instalador web:** o Home Assistant mostra um cartão **Firmware Update**
-  (Definições → Atualizações). Carrega em **Instalar**, espera 1–2 minutos e não desligues o
-  programador. O Wi-Fi e as zonas mantêm-se.
+  (Definições → Atualizações). Também tens **Verificar atualizações**, **Instalar atualização** e
+  **Estado da atualização** no dispositivo. Carrega em **Instalar**, espera 1–2 minutos e não
+  desligues o programador. O Wi-Fi e as zonas mantêm-se.
 - **Adotada no ESPHome Device Builder:** a placa só *avisa* que há versão nova
-  (*Update Available*, *Check for Update*). Carrega em **Install** no Device Builder; a tua
-  configuração já segue o `stable`, não precisas de mexer no YAML.
+  (*Update Available*, *Check for Update*, *Update Status*). Carrega em **Install** no Device
+  Builder; a tua configuração já segue o `stable`, não precisas de mexer no YAML.
+- **Avisar-me:** importa o blueprint do Home Assistant
+  `blueprints/automation/esphome_hunter_update_available.yaml` para receberes uma notificação no
+  telemóvel quando *Update Available* passar a ligado.
 - **v1 (ESP8266):** não consegue verificar o certificado HTTPS ao descarregar. Funciona na mesma,
   mas, se preferires, atualiza por USB no [instalador](https://skydoy.github.io/ESPHOME_Hunter/).
 
