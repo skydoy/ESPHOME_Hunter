@@ -7,6 +7,11 @@ described in the [README](README.md); firmware versions below are independent of
 
 ## [Unreleased]
 
+## [0.1.14] - 2026-11-09
+### Changed
+- Light/dark theme toggle in the installer and docs now matches the ESPManiacs hub (SVG sun/moon
+  icon, centred, last pill after PT | EN). No firmware behaviour changes.
+
 ## [0.1.13] - 2026-11-09
 ### Changed
 - Short, beginner-friendly READMEs (PT/EN) with the same top block as ESPHome_AC; technical
@@ -106,7 +111,8 @@ described in the [README](README.md); firmware versions below are independent of
 ### Not yet verified
 - Not yet tested on a real board with this firmware. Please report how it goes in an issue.
 
-[Unreleased]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.13...HEAD
+[Unreleased]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.14...HEAD
+[0.1.14]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.13...v0.1.14
 [0.1.13]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.12...v0.1.13
 [0.1.12]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.11...v0.1.12
 [0.1.11]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.10...v0.1.11
