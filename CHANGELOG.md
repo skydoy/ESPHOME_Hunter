@@ -7,19 +7,24 @@ described in the [README](README.md); firmware versions below are independent of
 
 ## [Unreleased]
 
-## [0.1.12] - TBD
+## [0.1.12] - 2026-11-09
 ### Added
 - Factory OTA UX (same idea as ESPHome_AC): *Update Status*, *Check for Update*, *Install Update*,
   *Auto Update* (default on, nightly 03:MM random minute, skip &lt;10 min after boot; time from
   Home Assistant or SNTP). `http_request` id `hunter_http_request` (ESP8266 `verify_ssl: false`).
 - Adopted builds: *Update Status* text "New version X available, install from Device Builder".
-- Device web UI: PT/EN language toggle (entity names + group headers), live X-Core wiring diagram
-  driven by zone state (`/events`), installer `favicon.png`.
+- Device web UI: PT/EN language toggle (entity names, group headers, diagnostic/update values),
+  live X-Core wiring diagram driven by zone state (`/events`), LCD ZONE/ZONA, installer
+  `favicon.png`, full-page screenshots in the READMEs.
 - Home Assistant blueprint `blueprints/automation/esphome_hunter_update_available.yaml`.
 - Compatibility / Compatibilidade sections in the READMEs (Hunter_LS boards + Hunter controllers).
+- Security / OTA guides (`docs/security.md`, `docs/seguranca.md`) linked from the READMEs and
+  `SECURITY.md`; `.github/CODEOWNERS`.
 
 ### Changed
-- GitHub Actions runners pinned to `ubuntu-24.04`.
+- GitHub Actions runners pinned to `ubuntu-24.04`; third-party Actions pinned by commit SHA.
+- `THIRD_PARTY_NOTICES.md`: note that firmware `.bin` images include ESPHome's GPL-3.0 C++ runtime;
+  PolyForm Noncommercial covers this project's own code.
 
 ## [0.1.11] - 2026-11-09
 ### Changed
@@ -93,7 +98,8 @@ described in the [README](README.md); firmware versions below are independent of
 ### Not yet verified
 - Not yet tested on a real board with this firmware. Please report how it goes in an issue.
 
-[Unreleased]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.11...HEAD
+[Unreleased]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.12...HEAD
+[0.1.12]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.11...v0.1.12
 [0.1.11]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.10...v0.1.11
 [0.1.10]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.9...v0.1.10
 [0.1.9]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.8...v0.1.9

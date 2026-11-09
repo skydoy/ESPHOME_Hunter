@@ -73,6 +73,13 @@ Passo a passo com fotos: **[Guia rápido](docs/guia-rapido.md)** · **[Quick sta
 ## Compatibilidade
 Este firmware só funciona com as **placas Hunter_LS do Luís Soares** (v1.x: Wemos D1 mini / ESP8266; v2.0.0: Seeed XIAO ESP32-C6), montadas num **programador Hunter** que tenha terminais REM, SEN e das zonas — por exemplo o Hunter X-Core (até 8 zonas na v2). Outras placas ou controladores não são suportados.
 
+## Página web da placa
+Abre `http://<ip-da-placa>/` na tua rede local para a página da própria placa: botão PT/EN, um
+esquema de ligações do X-Core em direto que acompanha as zonas, e os botões de atualização
+(*Verificar atualizações*, *Instalar atualização*, *Atualização automática*).
+
+[![Página web da placa (português)](docs/img/webui-pt.png)](docs/img/webui-pt.png)
+
 ## Atualizações automáticas (OTA)
 Não precisas de fazer nada: com a **Atualização automática** ligada (é o predefinido), a placa
 procura uma versão nova uma vez por noite às 03:MM (minuto ao acaso, para não carregarem todas
@@ -94,7 +101,7 @@ Chave de API, Device Builder vs OTA de fábrica, e a página web aberta na LAN:
   mas, se preferires, atualiza por USB no [instalador](https://skydoy.github.io/ESPHOME_Hunter/).
 
 ## Histórico de alterações
-Última versão: **v0.1.11** – esquema de ligações simplificado do X-Core (zonas 1–8, animado) nos READMEs e no instalador web.
+Última versão: **v0.1.12** – página web da placa PT/EN + ligações em direto, OTA de fábrica, docs de segurança, blueprint.
 Todas as versões: [CHANGELOG.md](CHANGELOG.md).
 
 ## Documentação
