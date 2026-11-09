@@ -37,6 +37,19 @@ Local only: no cloud, no app, no account.
 
 [![Wiring diagram](docs/img/wiring.svg)](docs/hardware.md#wiring)
 
+The picture shows the X-Core and its zones. Where each Hunter_LS wire goes:
+
+| Hunter_LS (PCB label) | X-Core terminal | What it does |
+|---|---|---|
+| VAC-L, VAC-R | 24VAC, 24VAC | Powers the board |
+| REM | REM | ROAM remote commands |
+| SEN-L, SEN-R | SEN, SEN | *Pause Watering* (set sensor switch to **Active**) |
+| ZC | C | Valve common (feedback return) |
+| Z1 … Z8 | 1 … 8 | Valve feedback (v1: Z1–Z4 only) |
+
+Power jumper (blue): **5V** when installed in the X-Core; **N/C** for USB-only flashing.
+More detail: **[Hardware & pins](docs/hardware.md#wiring)**.
+
 Step-by-step with photos: **[Quick start](docs/quick-start.md)** · **[Guia rápido (PT)](docs/guia-rapido.md)**
 
 ## What you get in Home Assistant
@@ -72,7 +85,7 @@ Only tested releases from the `stable` branch are offered.
   but if you prefer, update by USB from the [installer](https://skydoy.github.io/ESPHOME_Hunter/).
 
 ## Changelog
-Latest: **v0.1.5** – Portuguese texts now use the informal "tu" form, like the other projects.
+Latest: **v0.1.9** – wiring picture (X-Core + animated sprinklers) and the board→X-Core connection table in the READMEs and installer.
 All versions: [CHANGELOG.md](CHANGELOG.md).
 
 ## Docs
