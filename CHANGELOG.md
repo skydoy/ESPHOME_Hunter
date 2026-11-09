@@ -7,6 +7,10 @@ described in the [README](README.md); firmware versions below are independent of
 
 ## [Unreleased]
 
+## [0.1.11] - 2026-11-09
+### Changed
+- Wiring picture replaced with the simplified Hunter X-Core diagram (1790×1200, animated sprinklers for zones 1–8) in the READMEs, docs/hardware.md and the web installer. Connection table unchanged (24VAC, REM, SEN, C, zones 1–8).
+
 ## [0.1.10] - 2026-11-09
 ### Added
 - Project favicon (droplet+chip) on the device web UI at `http://<device>/` via `web_server` `js_include` (same approach as Altherma; applied to v1 and v2).
@@ -75,7 +79,8 @@ described in the [README](README.md); firmware versions below are independent of
 ### Not yet verified
 - Not yet tested on a real board with this firmware. Please report how it goes in an issue.
 
-[Unreleased]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.10...HEAD
+[Unreleased]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.11...HEAD
+[0.1.11]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.10...v0.1.11
 [0.1.10]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.9...v0.1.10
 [0.1.9]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.8...v0.1.9
 [0.1.8]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.7...v0.1.8

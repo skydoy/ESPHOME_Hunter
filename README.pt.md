@@ -83,7 +83,7 @@ Só são oferecidas versões testadas, do ramo `stable`.
   mas, se preferires, atualiza por USB no [instalador](https://skydoy.github.io/ESPHOME_Hunter/).
 
 ## Histórico de alterações
-Última versão: **v0.1.10** – favicon na página web da placa, licença PolyForm Noncommercial e nome do projeto (ESPHome Hunter) no hotspot e no Home Assistant.
+Última versão: **v0.1.11** – esquema de ligações simplificado do X-Core (zonas 1–8, animado) nos READMEs e no instalador web.
 Todas as versões: [CHANGELOG.md](CHANGELOG.md).
 
 ## Documentação

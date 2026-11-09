@@ -86,7 +86,7 @@ Only tested releases from the `stable` branch are offered.
   but if you prefer, update by USB from the [installer](https://skydoy.github.io/ESPHOME_Hunter/).
 
 ## Changelog
-Latest: **v0.1.10** – device web UI favicon, PolyForm Noncommercial licence, and project name (ESPHome Hunter) on the hotspot and in Home Assistant.
+Latest: **v0.1.11** – simplified animated X-Core wiring picture (zones 1–8) in the READMEs and web installer.
 All versions: [CHANGELOG.md](CHANGELOG.md).
 
 ## Docs
