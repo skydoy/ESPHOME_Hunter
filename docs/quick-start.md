@@ -19,7 +19,7 @@ Do this **before fitting the board in the X-Core** (or with the X-Core unplugged
 
 ## 2. Wi-Fi (1 minute)
 - Right after flashing, the same window asks for Wi-Fi: pick your network, type the password → **Connect**.
-- Skipped it? From your phone join the **`Hunter-LS Setup`** hotspot; a page opens, pick your Wi-Fi.
+- Skipped it? From your phone join the **`ESPHome Hunter Setup`** hotspot; a page opens, pick your Wi-Fi.
   The hotspot comes back on its own whenever the board cannot reach the saved Wi-Fi.
 - v2.0.0 only: you can also set Wi-Fi over Bluetooth from the Home Assistant app.
 
@@ -37,7 +37,7 @@ Do this **before fitting the board in the X-Core** (or with the X-Core unplugged
 *Photos by Luís Soares (v1.0.0 board; the other versions fit the same way). More in [hardware/](../hardware/).*
 
 ## 4. Add it to Home Assistant (1 minute)
-**Settings → Devices & services**: **Hunter Irrigation** shows up under *Discovered* → **Configure**.
+**Settings → Devices & services**: **ESPHome Hunter** shows up under *Discovered* → **Configure**.
 Give it an area (e.g. Garden).
 
 **Test:** set **Run Time** to 1, turn on **Zone 1** and check the valve opens and the switch stays on.

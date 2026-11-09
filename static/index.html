@@ -165,12 +165,12 @@
     <h2><span class="num">3</span>Wi-Fi</h2>
     <ul class="pt">
       <li>Na mesma janela escolhe a tua rede, escreve a palavra-passe e carrega em <b>Connect</b>. Tem de ser uma rede de <b>2,4 GHz</b>.</li>
-      <li>Saltou este passo? No telemóvel liga-te à rede <code>Hunter-LS Setup</code>: abre-se uma página para escolher o Wi-Fi. Volta a aparecer sempre que a placa perde o Wi-Fi.</li>
+      <li>Saltou este passo? No telemóvel liga-te à rede <code>ESPHome Hunter Setup</code>: abre-se uma página para escolher o Wi-Fi. Volta a aparecer sempre que a placa perde o Wi-Fi.</li>
       <li>v2.0.0: também podes configurar o Wi-Fi por <b>Bluetooth</b> na app do Home Assistant.</li>
     </ul>
     <ul class="en">
       <li>In the same window pick your network, type the password and press <b>Connect</b>. It must be a <b>2.4 GHz</b> network.</li>
-      <li>Skipped it? From your phone join the <code>Hunter-LS Setup</code> hotspot: a page opens to pick your Wi-Fi. It comes back whenever the board loses Wi-Fi.</li>
+      <li>Skipped it? From your phone join the <code>ESPHome Hunter Setup</code> hotspot: a page opens to pick your Wi-Fi. It comes back whenever the board loses Wi-Fi.</li>
       <li>v2.0.0: you can also set Wi-Fi over <b>Bluetooth</b> from the Home Assistant app.</li>
     </ul>
   </section>
@@ -206,8 +206,8 @@
 
   <section class="card">
     <h2><span class="num">5</span>Home Assistant</h2>
-    <p class="pt"><b>Definições → Dispositivos e serviços</b>: aparece <b>Hunter Irrigation</b> → <b>Configurar</b>. Teste: <i>Run Time</i> = 1 e liga a <i>Zone 1</i>.</p>
-    <p class="en"><b>Settings → Devices &amp; services</b>: <b>Hunter Irrigation</b> shows up → <b>Configure</b>. Test: <i>Run Time</i> = 1 and turn on <i>Zone 1</i>.</p>
+    <p class="pt"><b>Definições → Dispositivos e serviços</b>: aparece <b>ESPHome Hunter</b> → <b>Configurar</b>. Teste: <i>Run Time</i> = 1 e liga a <i>Zone 1</i>.</p>
+    <p class="en"><b>Settings → Devices &amp; services</b>: <b>ESPHome Hunter</b> shows up → <b>Configure</b>. Test: <i>Run Time</i> = 1 and turn on <i>Zone 1</i>.</p>
     <table>
       <tr><td>Zone 1 … Zone N</td><td><span class="pt">Liga/desliga a zona e mostra o estado <b>real</b> da válvula.</span><span class="en">Runs the zone and shows the <b>real</b> valve state.</span></td></tr>
       <tr><td>Watering · Active Zone</td><td><span class="pt">Se está a regar, e qual a zona.</span><span class="en">Is anything watering, and which zone.</span></td></tr>
@@ -227,8 +227,8 @@
       <p class="pt">Mantém carregado o botão <b>BOOT</b> do XIAO enquanto ligas o cabo, solta e tenta de novo.</p>
       <p class="en">Hold the XIAO <b>BOOT</b> button while plugging in the cable, release, and try again.</p></details>
     <details><summary><span class="pt">O Home Assistant não encontra a placa</span><span class="en">Home Assistant doesn't find the board</span></summary>
-      <p class="pt">A placa tem de estar na mesma rede que o Home Assistant. Adiciona à mão: integração ESPHome → <code>hunter-ls-xxxxxx.local</code> ou o IP.</p>
-      <p class="en">It must be on the same network. Add it by hand: ESPHome integration → <code>hunter-ls-xxxxxx.local</code> or its IP.</p></details>
+      <p class="pt">A placa tem de estar na mesma rede que o Home Assistant. Adiciona à mão: integração ESPHome → <code>esphome-hunter-xxxxxx.local</code> ou o IP.</p>
+      <p class="en">It must be on the same network. Add it by hand: ESPHome integration → <code>esphome-hunter-xxxxxx.local</code> or its IP.</p></details>
     <details><summary><span class="pt">A zona liga e desliga-se sozinha</span><span class="en">A zone turns itself back off</span></summary>
       <p class="pt">O X-Core não abriu a válvula: verifica o fio REM, que o X-Core não está em “Off” e que <i>Pause Watering</i> está desligado.</p>
       <p class="en">The X-Core did not open the valve: check the REM wire, that the X-Core is not on “Off” and that <i>Pause Watering</i> is off.</p></details>

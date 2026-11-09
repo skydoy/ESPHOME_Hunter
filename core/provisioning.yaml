@@ -3,11 +3,11 @@
 # Wi-Fi is set up in one of three ways (no YAML, no code):
 #   1. ESP Web Tools: right after flashing, the web installer asks for the Wi-Fi (Improv Serial).
 #   2. Improv over Bluetooth (v2.0.0 board only, see core/boards/xiao-esp32c6-v2.yaml).
-#   3. Fallback hotspot "Hunter-LS Setup" + captive portal: join it with a phone and pick your
+#   3. Fallback hotspot "ESPHome Hunter Setup" + captive portal: join it with a phone and pick your
 #      network. The hotspot opens by itself whenever the saved network is unreachable.
 wifi:
   ap:
-    ssid: "Hunter-LS Setup"
+    ssid: "ESPHome Hunter Setup"
 captive_portal:
 improv_serial:
 api:
