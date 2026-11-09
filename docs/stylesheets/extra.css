@@ -49,3 +49,82 @@
   max-width: 100%;
   height: auto;
 }
+
+
+/* ---- ESPManiacs-style PT | EN | theme pills in the header ---- */
+.md-header__lang.lang {
+  display: flex;
+  align-items: center;
+  gap: .25rem;
+  flex: none;
+  margin-left: .4rem;
+}
+.md-header__lang .lang-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #fff8;
+  background: transparent;
+  color: #fff;
+  border-radius: 999px;
+  padding: .25rem .7rem;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: .7rem;
+  line-height: 1;
+  text-decoration: none;
+  height: 25px;
+  box-sizing: border-box;
+}
+.md-header__lang .lang-pill:hover {
+  background: #fff3;
+  color: #fff;
+}
+.md-header__lang .lang-pill[aria-pressed=true],
+.md-header__lang .lang-pill[aria-current=true] {
+  background: #fff;
+  color: #0f63c4;
+}
+/* Theme palette as last pill: 36.4×25, 14px SVG centred */
+.md-header__lang .md-header__palette {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+.md-header__lang .lang-theme:not([hidden]) {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  /* Absolute px: Material root is ~20px, so 2.275rem would be 45.5px.
+     Hub/installer target is 36.4×25 at 16px root — match that pixel size. */
+  width: 36.4px !important;
+  height: 25px !important;
+  min-width: 0 !important;
+  max-width: 36.4px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 1px solid #fff8;
+  border-radius: 999px;
+  background: transparent;
+  color: #fff;
+  line-height: 1;
+  box-sizing: border-box;
+}
+.md-header__lang .lang-theme[hidden] {
+  display: none !important;
+}
+.md-header__lang .lang-theme:hover {
+  background: #fff3;
+}
+/* When dark scheme is active, press the theme pill (white bg) like the hub */
+[data-md-color-scheme=slate] .md-header__lang .lang-theme {
+  background: #fff;
+  color: #0f63c4;
+}
+.md-header__lang .lang-theme svg {
+  display: block;
+  width: 14px !important;
+  height: 14px !important;
+  flex: none;
+}
