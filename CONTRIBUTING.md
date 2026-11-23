@@ -9,6 +9,9 @@ Thanks for helping! Hardware questions (PCB, buying a board) go to Luís Soares,
   `hunter/`; generic services in `core/`. `devices/` only composes packages.
 - Before a PR: `esphome config devices/hunter-ls-v1.yaml` and `devices/hunter-ls-v2.yaml` pass,
   and `CHANGELOG.md` has a line under **Unreleased**.
+- Every commit must use the author `skydoy <25871317+skydoy@users.noreply.github.com>`
+  (also commits made by tools or AI agents). A CI check fails the PR otherwise. Set it with
+  `git config user.name skydoy` and `git config user.email 25871317+skydoy@users.noreply.github.com`.
 - Say what you tested on real hardware (board version, X-Core model), or "not tested on hardware".
 
 ## Repository layout
