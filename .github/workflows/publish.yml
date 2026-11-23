@@ -7,6 +7,10 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+env:
+  # Fail the build if a firmware image uses more than this % of its app partition.
+  # Tiago wants to lower it to 80 later; change only this number.
+  APP_SIZE_MAX_PCT: 90
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -24,10 +28,12 @@ jobs:
             base: devices/hunter-ls-v1.yaml
             factory: devices/hunter-ls-v1.factory.yaml
             site_dir: firmware/v1
+            app_partition: 1044464   # ESP8266 d1_mini (eagle.flash.4m.ld): max OTA sketch size 0xFEFF0
           - key: v2
             base: devices/hunter-ls-v2.yaml
             factory: devices/hunter-ls-v2.factory.yaml
             site_dir: firmware/v2
+            app_partition: 1835008   # ESP32-C6 4 MB: app0/app1 OTA partitions 0x1C0000
     env:
       BASE_YAML: ${{ matrix.base }}
       DEVICE_YAML: ${{ matrix.factory }}
@@ -51,6 +57,29 @@ jobs:
           version: "2026.10.1"
           complete-manifest: true
           release-url: ${{ github.server_url }}/${{ github.repository }}/releases
+      - name: Firmware size check (app image vs app partition)
+        env:
+          FW_DIR: ${{ steps.esphome.outputs.name }}
+          APP_PARTITION: ${{ matrix.app_partition }}
+          BOARD: ${{ matrix.key }}
+        run: |
+          f=$(find "$FW_DIR" -name '*.ota.bin' | head -n1)
+          test -n "$f" || { echo "::error::no *.ota.bin in $FW_DIR"; exit 1; }
+          size=$(stat -c %s "$f")
+          pct=$(awk -v s="$size" -v p="$APP_PARTITION" 'BEGIN{printf "%.1f", 100*s/p}')
+          free=$((APP_PARTITION - size))
+          msg="$BOARD: $(basename "$f") $size bytes of $APP_PARTITION ($pct%, $free bytes free, limit $APP_SIZE_MAX_PCT%)"
+          echo "$msg"
+          {
+            echo "### Firmware size ($BOARD)"
+            echo "| Image | Bytes | App partition | Used | Limit |"
+            echo "|---|---|---|---|---|"
+            echo "| $(basename "$f") | $size | $APP_PARTITION | $pct% | $APP_SIZE_MAX_PCT% |"
+          } >> "$GITHUB_STEP_SUMMARY"
+          if awk -v s="$size" -v p="$APP_PARTITION" -v m="$APP_SIZE_MAX_PCT" 'BEGIN{exit !(100*s > m*p)}'; then
+            echo "::error::$msg — over the limit"
+            exit 1
+          fi
       - name: Stage the firmware in its Pages folder
         run: |
           mkdir -p "out/$SITE_DIR"

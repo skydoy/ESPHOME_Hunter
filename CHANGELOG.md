@@ -6,6 +6,20 @@ The Hunter_LS PCB versions (v1.0.0 … v2.0.0) are Luís Soares's hardware versi
 described in the [README](README.md); firmware versions below are independent of them.
 
 ## [Unreleased]
+### Removed
+- v2.0.0 (ESP32-C6): Wi-Fi setup over Bluetooth (Improv BLE) and the whole Bluetooth stack. Wi-Fi
+  is still set up over USB from the web installer (Improv Serial) or the `ESPHome Hunter Setup`
+  hotspot. The v2 image drops from 92.5% to 62.2% of its app partition (partition table unchanged,
+  OTA updates keep working).
+
+### Added
+- CI fails a build if a firmware image uses more than `APP_SIZE_MAX_PCT` (90%) of its app
+  partition, and prints size and % in the job summary.
+- Security docs (PT/EN): "What is reachable on your network" (web page, Home Assistant API, OTA,
+  setup hotspot, USB, outgoing update checks) with simple hardening tips.
+
+### Changed
+- `SECURITY.md`: supported version is now 0.1.14; older versions are unsupported.
 
 ## [0.1.14] - 2026-11-09
 ### Changed

@@ -6,8 +6,8 @@ Only the latest release receives fixes. Devices update themselves over the air t
 
 | Version | Supported |
 |---|---|
-| latest `0.1.x` | ✅ |
-| older | ❌ |
+| `0.1.14` (current release) | ✅ |
+| `0.1.13` and older | ❌ |
 
 ## Reporting a vulnerability
 Please **do not open a public issue**. Report it privately through
@@ -31,6 +31,10 @@ own configuration and flash it once:
   usually generates one already)
 - an OTA password (`ota: - platform: esphome password:`)
 - a fallback hotspot password (`wifi: ap: password:`)
+
+What the device exposes on your local network (web page, Home Assistant API, OTA, setup
+hotspot, USB setup) and how to lock it down is explained in
+[What is reachable on your network](docs/security.md#what-is-reachable-on-your-network).
 
 More detail: [Security and over-the-air updates](docs/security.md) ·
 [Segurança e atualizações pelo ar](docs/seguranca.md).

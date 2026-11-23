@@ -21,7 +21,6 @@ Do this **before fitting the board in the X-Core** (or with the X-Core unplugged
 - Right after flashing, the same window asks for Wi-Fi: pick your network, type the password → **Connect**.
 - Skipped it? From your phone join the **`ESPHome Hunter Setup`** hotspot; a page opens, pick your Wi-Fi.
   The hotspot comes back on its own whenever the board cannot reach the saved Wi-Fi.
-- v2.0.0 only: you can also set Wi-Fi over Bluetooth from the Home Assistant app.
 
 ✅ *You should see:* "Connected" and a **Visit device** button. The LED stops blinking.
 

@@ -73,7 +73,7 @@ it fetches them as ESPHome `external_components` at a fixed commit.
 |---|---|---|
 | ESP module | Seeed XIAO ESP32-C6 | Wemos D1 mini (ESP8266) |
 | Zones | up to 8 (2/4/6/8) | 4 |
-| Wi-Fi setup | USB, Bluetooth or hotspot | USB or hotspot |
+| Wi-Fi setup | USB or hotspot | USB or hotspot |
 | USB | USB-C | micro-USB |
 
 The version is printed on the PCB. Pick the matching option in the [web installer](https://skydoy.github.io/ESPHOME_Hunter/).

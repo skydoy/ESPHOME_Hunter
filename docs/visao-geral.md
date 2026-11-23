@@ -37,7 +37,7 @@ Capturas: [Página web da placa](pagina-web.md).
 |---|---|---|
 | Módulo ESP | Seeed XIAO ESP32-C6 | Wemos D1 mini (ESP8266) |
 | Zonas | até 8 (2/4/6/8) | 4 |
-| Configurar o Wi-Fi | USB, Bluetooth ou hotspot | USB ou hotspot |
+| Configurar o Wi-Fi | USB ou hotspot | USB ou hotspot |
 | USB | USB-C | micro-USB |
 
 A versão está impressa na PCB. Escolhe a opção certa no

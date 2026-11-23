@@ -16,6 +16,44 @@ everyone, so it **cannot contain your keys or passwords**. It ships with:
 On a home network you trust, this is the usual ESPHome ready-made setup. If other people or
 devices share that network, harden it as below (or put the controller on a trusted VLAN).
 
+## What is reachable on your network
+This is exactly what the firmware opens, taken from its configuration. "Anyone on your
+network" means any phone, PC or smart device connected to the same Wi-Fi or LAN.
+
+| What | Where | Protection in the prebuilt firmware | Who can use it |
+|---|---|---|---|
+| Device web page | `http://<ip>/` (port 80, plain HTTP) | **none** | Anyone on your network can see the zones, start or stop watering, change settings, press **Restart** and read the live logs. |
+| Home Assistant connection (native API) | port 6053 | **no encryption key** | Anyone on your network with Home Assistant or the ESPHome tools can connect and control the device. |
+| Wireless updates (ESPHome OTA) | port 3232 on v2.0.0, 8266 on v1.x | **no password** | Anyone on your network could upload a different firmware. |
+| Setup hotspot `ESPHome Hunter Setup` + setup page | its own Wi-Fi network | **open** (no password) | Anyone near the controller, **only while the hotspot is on**: when no Wi-Fi is saved yet, or about 90 seconds after the saved Wi-Fi stops answering. It turns off again once the device is back on your Wi-Fi. |
+| Wi-Fi setup over USB (Improv Serial) | USB cable | needs physical access | Only someone who plugs a cable into the board. |
+| Network name (mDNS) | port 5353 | — | Announces the device's name and IP so Home Assistant finds it. |
+| Bluetooth | — | not used | Nothing. (Up to 0.1.14 the v2.0.0 board also offered Wi-Fi setup over Bluetooth; it was removed.) |
+
+The device also makes some connections **out** to the internet:
+
+- **Update checks:** every 6 hours (and at night, if **Auto Update** is on) it downloads a
+  small file from `https://skydoy.github.io/ESPHOME_Hunter/` to see whether there is a new
+  version. It sends nothing about you or your garden. The v2.0.0 board checks the HTTPS
+  certificate; the v1.x board (ESP8266) cannot, so it relies on the MD5 check of the downloaded
+  firmware.
+- **Clock:** it gets the time from Home Assistant, or from public internet time servers (SNTP)
+  when Home Assistant is not there.
+
+Nothing else listens or calls home. There is no cloud account and no remote access from the
+internet unless you open ports on your router yourself (**don't**).
+
+### Simple ways to protect it
+1. **Never forward its ports on your router.** Keep it on your home network only.
+2. **Put it on a separate network for smart devices** (an IoT VLAN or a guest network) if your
+   router supports it, and allow only Home Assistant to reach it.
+3. **Add an API key, an OTA password and a hotspot password** — see
+   [Adding an API key](#adding-an-api-key-recommended) below.
+4. **Protect or remove the web page** if other people use your network (see the end of the
+   next section).
+5. **Keep it up to date:** leave **Auto Update** on, or install updates when Home Assistant
+   shows them.
+
 ## Factory OTA vs Device Builder
 - **Web installer / factory image:** Home Assistant shows **Firmware Update**. Press
   **Install**, or leave **Auto Update** on for a night install. Your Wi-Fi and zones are kept.

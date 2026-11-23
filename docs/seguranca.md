@@ -18,6 +18,44 @@ Numa rede doméstica de confiança, esta é a configuração habitual dos firmwa
 prontos a usar. Se outras pessoas ou dispositivos partilharem essa rede, protege-a como se
 explica a seguir (ou mete o programador numa VLAN de confiança).
 
+## O que fica acessível na tua rede
+Isto é exatamente o que o firmware abre, tirado da configuração dele. "Qualquer pessoa na tua
+rede" quer dizer qualquer telemóvel, PC ou aparelho ligado ao mesmo Wi-Fi ou à mesma LAN.
+
+| O quê | Onde | Proteção no firmware pré-compilado | Quem pode usar |
+|---|---|---|---|
+| Página web da placa | `http://<ip>/` (porta 80, HTTP simples) | **nenhuma** | Qualquer pessoa na tua rede vê as zonas, liga ou para a rega, muda definições, carrega em **Restart** e lê os registos em direto. |
+| Ligação ao Home Assistant (API nativa) | porta 6053 | **sem chave de encriptação** | Qualquer pessoa na tua rede com o Home Assistant ou as ferramentas do ESPHome consegue ligar-se e controlar a placa. |
+| Atualizações sem fios (OTA do ESPHome) | porta 3232 na v2.0.0, 8266 na v1.x | **sem palavra-passe** | Qualquer pessoa na tua rede pode enviar outro firmware. |
+| Hotspot `ESPHome Hunter Setup` + página de configuração | rede Wi-Fi própria | **aberto** (sem palavra-passe) | Quem estiver perto do programador, **só enquanto o hotspot está ligado**: quando ainda não há Wi-Fi guardado, ou cerca de 90 segundos depois de o Wi-Fi guardado deixar de responder. Desliga-se outra vez quando a placa volta ao teu Wi-Fi. |
+| Configurar o Wi-Fi por USB (Improv Serial) | cabo USB | precisa de acesso físico | Só quem ligar um cabo à placa. |
+| Nome na rede (mDNS) | porta 5353 | — | Anuncia o nome e o IP da placa para o Home Assistant a encontrar. |
+| Bluetooth | — | não é usado | Nada. (Até à 0.1.14, a placa v2.0.0 também deixava configurar o Wi-Fi por Bluetooth; foi retirado.) |
+
+A placa também faz algumas ligações **para fora**, para a internet:
+
+- **Procurar atualizações:** a cada 6 horas (e de madrugada, se o **Auto Update** estiver
+  ligado) descarrega um ficheiro pequeno de `https://skydoy.github.io/ESPHOME_Hunter/` para ver
+  se há versão nova. Não envia nada sobre ti nem sobre o teu jardim. A placa v2.0.0 confirma o
+  certificado HTTPS; a v1.x (ESP8266) não consegue, por isso fia-se na verificação MD5 do
+  firmware descarregado.
+- **Relógio:** vai buscar a hora ao Home Assistant ou, se ele não estiver, a servidores de hora
+  públicos na internet (SNTP).
+
+Mais nada fica à escuta nem "liga para casa". Não há conta na nuvem nem acesso remoto pela
+internet, a não ser que tu abras portas no router (**não abras**).
+
+### Formas simples de a proteger
+1. **Nunca reencaminhes as portas dela no router.** Deixa-a só na tua rede de casa.
+2. **Mete-a numa rede à parte para aparelhos inteligentes** (uma VLAN IoT ou a rede de
+   convidados), se o teu router deixar, e deixa só o Home Assistant chegar a ela.
+3. **Acrescenta uma chave de API, uma palavra-passe OTA e uma palavra-passe do hotspot** — vê
+   [Acrescentar uma chave de API](#acrescentar-uma-chave-de-api-recomendado) mais abaixo.
+4. **Protege ou tira a página web** se outras pessoas usarem a tua rede (vê o fim da secção
+   seguinte).
+5. **Mantém-na atualizada:** deixa o **Auto Update** ligado, ou instala as atualizações quando o
+   Home Assistant as mostrar.
+
 ## OTA de fábrica vs Device Builder
 - **Imagem do instalador / fábrica:** o Home Assistant mostra **Firmware Update**. Carrega em
   **Install**, ou deixa o **Auto Update** ligado para instalar de madrugada. O Wi-Fi e as zonas

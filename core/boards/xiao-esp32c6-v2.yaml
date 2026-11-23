@@ -59,9 +59,8 @@ hunter_roam_esp_idf:
     number: ${rem_pin}
     inverted: false
 
-# Wi-Fi setup over Bluetooth (Improv) from the Home Assistant app or improv-wifi.com.
-improv_ble:
-  authorizer: none
+# No Bluetooth: Improv over BLE was removed after 0.1.14 (it pulled in the whole BLE stack,
+# ~480 KB). Wi-Fi is set up over USB (Improv Serial) or the fallback hotspot.
 
 status_led:
   pin:

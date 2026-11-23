@@ -21,7 +21,6 @@ Faz isto **antes de montar a placa no X-Core** (ou com o X-Core desligado da tom
 - Logo a seguir, a mesma janela pede o Wi-Fi: escolhe a rede, escreve a palavra-passe → **Connect**.
 - Saltou este passo? No telemóvel liga-te à rede **`ESPHome Hunter Setup`**; abre-se uma página, escolhe o teu Wi-Fi.
   Esta rede volta a aparecer sozinha sempre que a placa não conseguir ligar ao Wi-Fi guardado.
-- Só na v2.0.0: também podes configurar o Wi-Fi por Bluetooth na app do Home Assistant.
 
 ✅ *Deves ver:* "Connected" e um botão **Visit device**. O LED deixa de piscar.
 
