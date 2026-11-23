@@ -6,6 +6,8 @@ The Hunter_LS PCB versions (v1.0.0 … v2.0.0) are Luís Soares's hardware versi
 described in the [README](README.md); firmware versions below are independent of them.
 
 ## [Unreleased]
+
+## [0.1.15] - 2026-11-23
 ### Removed
 - v2.0.0 (ESP32-C6): Wi-Fi setup over Bluetooth (Improv BLE) and the whole Bluetooth stack. Wi-Fi
   is still set up over USB from the web installer (Improv Serial) or the `ESPHome Hunter Setup`
@@ -19,7 +21,7 @@ described in the [README](README.md); firmware versions below are independent of
   setup hotspot, USB, outgoing update checks) with simple hardening tips.
 
 ### Changed
-- `SECURITY.md`: supported version is now 0.1.14; older versions are unsupported.
+- `SECURITY.md`: supported version is now 0.1.15; older versions are unsupported.
 
 ## [0.1.14] - 2026-11-09
 ### Changed
@@ -125,7 +127,8 @@ described in the [README](README.md); firmware versions below are independent of
 ### Not yet verified
 - Not yet tested on a real board with this firmware. Please report how it goes in an issue.
 
-[Unreleased]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.14...HEAD
+[Unreleased]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.15...HEAD
+[0.1.15]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.14...v0.1.15
 [0.1.14]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.13...v0.1.14
 [0.1.13]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.12...v0.1.13
 [0.1.12]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.11...v0.1.12

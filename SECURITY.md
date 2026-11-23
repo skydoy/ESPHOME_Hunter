@@ -6,8 +6,8 @@ Only the latest release receives fixes. Devices update themselves over the air t
 
 | Version | Supported |
 |---|---|
-| `0.1.14` (current release) | ✅ |
-| `0.1.13` and older | ❌ |
+| `0.1.15` (current release) | ✅ |
+| `0.1.14` and older | ❌ |
 
 ## Reporting a vulnerability
 Please **do not open a public issue**. Report it privately through
