@@ -252,8 +252,12 @@ jobs:
     with:
       ref: ${{ needs.prepare.outputs.ref }}
       release: false
+    # GitHub checks every job in the reusable workflow against these permissions,
+    # including deploy/release/stable which are skipped when release is false.
     permissions:
-      contents: read
+      contents: write
+      pages: write
+      id-token: write
 
   tag:
     needs: [prepare, validate, build]
