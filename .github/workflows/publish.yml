@@ -5,6 +5,19 @@ on:
     tags: ["v*"]
   pull_request:
   workflow_dispatch:
+  # Called by esphome-auto-update and auto-release. Tag pushes with GITHUB_TOKEN
+  # do not trigger this workflow, so those callers invoke it after they create the tag.
+  workflow_call:
+    inputs:
+      ref:
+        description: Git ref to check out and build (branch, SHA, or tag such as v0.1.16)
+        required: true
+        type: string
+      release:
+        description: If true, deploy Pages, create the GitHub release and move stable, like a tag push
+        required: false
+        type: boolean
+        default: false
 permissions:
   contents: read
 env:
@@ -12,7 +25,7 @@ env:
   # Tiago wants to lower it to 80 later; change only this number.
   APP_SIZE_MAX_PCT: 90
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ inputs.ref || github.ref }}
   cancel-in-progress: true
 jobs:
   build:
@@ -40,21 +53,32 @@ jobs:
       SITE_DIR: ${{ matrix.site_dir }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ inputs.ref || github.sha }}
       - name: The tag must match project_version
-        if: startsWith(github.ref, 'refs/tags/v')
+        if: startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_call' && inputs.release)
+        env:
+          TAG_NAME: ${{ inputs.ref || github.ref_name }}
         run: |
-          grep -q "^\s*project_version: \"${GITHUB_REF_NAME#v}\"$" "$BASE_YAML" || {
-            echo "::error::$BASE_YAML project_version does not match tag $GITHUB_REF_NAME"; exit 1; }
+          tag="${TAG_NAME##*/}"
+          tag="${tag#v}"
+          grep -q "^\s*project_version: \"${tag}\"$" "$BASE_YAML" || {
+            echo "::error::$BASE_YAML project_version does not match tag $TAG_NAME"; exit 1; }
       - name: Record the build source (shown in the "Firmware Version" sensor)
+        env:
+          RELEASE_TAG: ${{ (github.event_name == 'workflow_call' && inputs.release && inputs.ref) || '' }}
         run: |
-          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then src="release"; else src="${GITHUB_REF_NAME} @${GITHUB_SHA::7}"; fi
+          if [[ "$GITHUB_REF" == refs/tags/v* ]] || [[ -n "$RELEASE_TAG" ]]; then src="release"
+          else src="${GITHUB_REF_NAME} @${GITHUB_SHA::7}"; fi
           sed -i "s|^\(\s*firmware_source:\).*|\1 \"$src\"|" "$BASE_YAML"
           grep -n "firmware_source:\|project_version:" "$BASE_YAML"
+      - id: pin
+        run: echo "version=$(tr -d '[:space:]' < .github/esphome-version)" >> "$GITHUB_OUTPUT"
       - id: esphome
         uses: esphome/build-action@ae5408cdbc4f70692bf8e345c4982bca05a93667 # v8.1.0
         with:
           yaml-file: ${{ env.DEVICE_YAML }}
-          version: "2026.10.1"
+          version: ${{ steps.pin.outputs.version }}
           complete-manifest: true
           release-url: ${{ github.server_url }}/${{ github.repository }}/releases
       - name: Firmware size check (app image vs app partition)
@@ -91,10 +115,13 @@ jobs:
           path: out
           if-no-files-found: error
   pages:
+    if: github.event_name != 'workflow_call' || inputs.release
     needs: build
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ inputs.ref || github.sha }}
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           pattern: fw-*
@@ -121,7 +148,7 @@ jobs:
   deploy:
     # Publish the installer and the OTA manifests only for release tags (or a manual run), so
     # devices in the field only ever see releases.
-    if: github.event_name != 'pull_request' && (startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch')
+    if: (github.event_name != 'pull_request' && (startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch')) || (github.event_name == 'workflow_call' && inputs.release)
     needs: pages
     runs-on: ubuntu-24.04
     permissions:
@@ -135,16 +162,18 @@ jobs:
         uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5
   release:
     # GitHub Release for a v* tag: notes from CHANGELOG.md, firmware images attached.
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_call' && inputs.release)
     needs: build
     runs-on: ubuntu-24.04
     permissions:
       contents: write
     env:
       GH_TOKEN: ${{ github.token }}
-      TAG: ${{ github.ref_name }}
+      TAG: ${{ inputs.ref || github.ref_name }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ inputs.ref || github.sha }}
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           pattern: fw-*
@@ -189,7 +218,7 @@ jobs:
   stable:
     # Move the "stable" branch to this release tag. Adopted Device Builder configs import
     # devices/hunter-ls-vN.yaml@stable, so "Install" builds the latest release.
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_call' && inputs.release)
     needs: release
     runs-on: ubuntu-24.04
     permissions:
@@ -198,10 +227,14 @@ jobs:
       GH_TOKEN: ${{ github.token }}
     steps:
       - name: Point refs/heads/stable at the tag commit
+        env:
+          TAG: ${{ inputs.ref || github.ref_name }}
         run: |
+          tag="${TAG##*/}"
+          sha=$(gh api "repos/$GITHUB_REPOSITORY/commits/${tag}" --jq .sha)
           if gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/stable" >/dev/null 2>&1; then
-            gh api -X PATCH "repos/$GITHUB_REPOSITORY/git/refs/heads/stable" -f sha="$GITHUB_SHA" -F force=true
+            gh api -X PATCH "repos/$GITHUB_REPOSITORY/git/refs/heads/stable" -f sha="$sha" -F force=true
           else
-            gh api -X POST "repos/$GITHUB_REPOSITORY/git/refs" -f ref=refs/heads/stable -f sha="$GITHUB_SHA"
+            gh api -X POST "repos/$GITHUB_REPOSITORY/git/refs" -f ref=refs/heads/stable -f sha="$sha"
           fi
-          echo "stable -> $GITHUB_REF_NAME ($GITHUB_SHA)"
+          echo "stable -> $tag ($sha)"

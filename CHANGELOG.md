@@ -7,6 +7,9 @@ described in the [README](README.md); firmware versions below are independent of
 
 ## [Unreleased]
 
+### Added
+- Daily GitHub Actions workflow that bumps the ESPHome pin and, if the build of both boards passes, cuts a patch release. Pushes to `main` that change the firmware also release; changes that only touch docs, the READMEs or the web installer do not.
+
 ## [0.1.15] - 2026-11-23
 ### Removed
 - v2.0.0 (ESP32-C6): Wi-Fi setup over Bluetooth (Improv BLE) and the whole Bluetooth stack. Wi-Fi

@@ -31,3 +31,12 @@ Thanks for helping! Hardware questions (PCB, buying a board) go to Luís Soares,
    in both `devices/hunter-ls-v1.yaml` and `devices/hunter-ls-v2.yaml`.
 2. Tag `vx.y.z` on `main`. CI builds both boards, publishes the installer and OTA manifests to
    GitHub Pages, creates the GitHub Release and moves the `stable` branch to the tag.
+
+## ESPHome version and automatic releases
+The ESPHome compiler version is pinned in `.github/esphome-version` and used by Validate and the firmware build.
+
+A daily workflow (`.github/workflows/esphome-auto-update.yml`, 04:00 UTC) checks the latest stable ESPHome release on PyPI (no beta or dev builds). If it is newer, it opens a PR that bumps the pin, raises the firmware `project_version` by a patch (for example 0.1.15 → 0.1.16) and adds a CHANGELOG entry. The same workflow compiles both boards, including the app-size check. If that build passes, it merges the PR, tags `vX.Y.Z`, publishes the GitHub release, deploys the installer and moves `stable`. If the build fails, the PR stays open and there is no release.
+
+Pushes to `main` that change the firmware (`devices/`, `core/` or `hunter/`) also cut a patch release once the build passes. Changes that only touch docs, the READMEs, the web installer, or other non-firmware files do not.
+
+You can still cut a release by hand with the steps above. Do not push a tag from a failed build.

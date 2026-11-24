@@ -1,5 +1,13 @@
 name: Validate
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  workflow_call:
+    inputs:
+      ref:
+        description: Git ref to check out and validate
+        required: true
+        type: string
 permissions:
   contents: read
 jobs:
@@ -15,9 +23,11 @@ jobs:
           - devices/hunter-ls-v2.factory.yaml
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ inputs.ref || github.sha }}
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7
         with: { python-version: "3.13" }
-      - run: pip install esphome==2026.10.1
+      - run: pip install "esphome==$(tr -d '[:space:]' < .github/esphome-version)"
       - name: esphome config
         run: |
           set -o pipefail
@@ -41,14 +51,18 @@ jobs:
         zones: ["2", "4", "6", "8"]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ inputs.ref || github.sha }}
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7
         with: { python-version: "3.13" }
-      - run: pip install esphome==2026.10.1
+      - run: pip install "esphome==$(tr -d '[:space:]' < .github/esphome-version)"
       - run: esphome -s zone_count ${{ matrix.zones }} config devices/hunter-ls-v2.yaml > /dev/null
   pinned-refs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ inputs.ref || github.sha }}
       - name: Same version on both boards; adoption follows @stable; no @main in shipped configs
         run: |
           set -e
@@ -59,3 +73,6 @@ jobs:
             grep -q "package_import_url: github://skydoy/ESPHOME_Hunter/$f@stable$" "$f"
           done
           if grep -rn "@main" devices core hunter; then echo "::error::no @main refs"; exit 1; fi
+          pin=$(tr -d '[:space:]' < .github/esphome-version)
+          echo "esphome pin=$pin"
+          echo "$pin" | grep -qxE '[0-9]+\.[0-9]+\.[0-9]+'

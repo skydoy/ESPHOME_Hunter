@@ -1,0 +1,287 @@
+name: ESPHome auto-update
+
+# Daily job that bumps the ESPHome pin to the latest stable release, compiles both
+# boards (including the app-size check), and if that build passes cuts a patch
+# firmware release. A failed build leaves the PR open and does not release.
+# Manual tag releases are unchanged. Pushes of this workflow alone do not release.
+#
+# GITHUB_TOKEN cannot trigger other workflows on the PR or on the tag it pushes, so
+# this workflow calls validate.yml and publish.yml itself via workflow_call.
+
+on:
+  schedule:
+    - cron: "0 4 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Plan the bump but do not open a PR, merge, tag or publish
+        type: boolean
+        default: false
+
+concurrency:
+  group: esphome-auto-update
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  pages: write
+  id-token: write
+
+env:
+  AUTHOR_NAME: skydoy
+  AUTHOR_EMAIL: 25871317+skydoy@users.noreply.github.com
+
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    outputs:
+      needed: ${{ steps.plan.outputs.needed }}
+      dry_run: ${{ steps.plan.outputs.dry_run }}
+      current: ${{ steps.plan.outputs.current }}
+      latest: ${{ steps.plan.outputs.latest }}
+      project_current: ${{ steps.plan.outputs.project_current }}
+      project_new: ${{ steps.plan.outputs.project_new }}
+      branch: ${{ steps.plan.outputs.branch }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - id: plan
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DRY_IN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+        run: |
+          python3 - <<'PY'
+          import json, os, re, urllib.request
+          from pathlib import Path
+
+          def out(k, v):
+              with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+                  f.write(f"{k}={v}\n")
+              print(f"{k}={v}")
+
+          dry = os.environ.get("DRY_IN", "false").lower() == "true"
+          out("dry_run", "true" if dry else "false")
+
+          current = Path(".github/esphome-version").read_text().strip()
+          if not re.fullmatch(r"\d+\.\d+\.\d+", current):
+              raise SystemExit(f"invalid pin in .github/esphome-version: {current!r}")
+          out("current", current)
+
+          with urllib.request.urlopen("https://pypi.org/pypi/esphome/json") as r:
+              data = json.load(r)
+          stable = [v for v in data["releases"] if re.fullmatch(r"\d+\.\d+\.\d+", v)]
+          latest = max(stable, key=lambda v: tuple(int(x) for x in v.split(".")))
+          out("latest", latest)
+
+          project = None
+          for yaml in ("devices/hunter-ls-v1.yaml", "devices/hunter-ls-v2.yaml"):
+              m = re.search(r'^\s*project_version: "([^"]+)"', Path(yaml).read_text(), re.M)
+              if not m:
+                  raise SystemExit(f"no project_version in {yaml}")
+              if project is None:
+                  project = m.group(1)
+              elif m.group(1) != project:
+                  raise SystemExit(f"project_version mismatch: {project} vs {m.group(1)}")
+          parts = project.split(".")
+          parts[-1] = str(int(parts[-1]) + 1)
+          project_new = ".".join(parts)
+          out("project_current", project)
+          out("project_new", project_new)
+          branch = f"ci/esphome-{latest}"
+          out("branch", branch)
+
+          needed = tuple(int(x) for x in latest.split(".")) > tuple(int(x) for x in current.split("."))
+          reason = ""
+          if not needed:
+              reason = f"Already on latest stable ESPHome {current}."
+          else:
+              import subprocess
+              # An open PR for this branch / version already exists?
+              prs = subprocess.check_output(
+                  ["gh", "pr", "list", "--repo", os.environ["GITHUB_REPOSITORY"],
+                   "--head", branch, "--state", "open", "--json", "number,url,title"],
+                  text=True,
+              )
+              pr_list = json.loads(prs)
+              if pr_list:
+                  needed = False
+                  reason = f"PR already open for ESPHome {latest}: {pr_list[0]['url']}"
+              else:
+                  reason = (
+                      f"Would bump ESPHome {current} → {latest}, firmware "
+                      f"{project} → {project_new}, branch {branch}."
+                  )
+          out("needed", "true" if needed else "false")
+
+          summary = os.environ.get("GITHUB_STEP_SUMMARY")
+          if summary:
+              with open(summary, "a") as f:
+                  f.write("### ESPHome auto-update plan\n\n")
+                  f.write(f"- Current pin: `{current}`\n")
+                  f.write(f"- Latest stable (PyPI): `{latest}`\n")
+                  f.write(f"- Firmware: `{project}` → `{project_new}`\n")
+                  f.write(f"- Branch: `{branch}`\n")
+                  f.write(f"- Dry run: `{dry}`\n")
+                  f.write(f"- Action: {reason}\n")
+          print(reason)
+          PY
+
+  pr:
+    needs: plan
+    if: needs.plan.outputs.needed == 'true' && needs.plan.outputs.dry_run != 'true'
+    runs-on: ubuntu-24.04
+    outputs:
+      pr_number: ${{ steps.open.outputs.pr_number }}
+      branch: ${{ needs.plan.outputs.branch }}
+      tag: ${{ steps.open.outputs.tag }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - id: open
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CURRENT: ${{ needs.plan.outputs.current }}
+          LATEST: ${{ needs.plan.outputs.latest }}
+          PROJECT_OLD: ${{ needs.plan.outputs.project_current }}
+          PROJECT_NEW: ${{ needs.plan.outputs.project_new }}
+          BRANCH: ${{ needs.plan.outputs.branch }}
+        run: |
+          git config user.name "$AUTHOR_NAME"
+          git config user.email "$AUTHOR_EMAIL"
+          git checkout -b "$BRANCH"
+
+          python3 - <<'PY'
+          import os, re
+          from pathlib import Path
+
+          latest = os.environ["LATEST"]
+          old = os.environ["PROJECT_OLD"]
+          new = os.environ["PROJECT_NEW"]
+          date = os.popen("TZ=Europe/Lisbon date +%F").read().strip()
+
+          Path(".github/esphome-version").write_text(latest + "\n")
+
+          for yaml in ("devices/hunter-ls-v1.yaml", "devices/hunter-ls-v2.yaml"):
+              p = Path(yaml)
+              text, n = re.subn(
+                  r'(^\s*project_version: ")[^"]+(")',
+                  rf"\g<1>{new}\2",
+                  p.read_text(),
+                  count=1,
+                  flags=re.M,
+              )
+              if n != 1:
+                  raise SystemExit(f"failed to bump project_version in {yaml}")
+              p.write_text(text)
+
+          sec = Path("SECURITY.md")
+          s = sec.read_text()
+          s, n1 = re.subn(
+              r"\| `[^`]+` \(current release\) \| ✅ \|",
+              f"| `{new}` (current release) | ✅ |",
+              s,
+              count=1,
+          )
+          s, n2 = re.subn(
+              r"\| `[^`]+` and older \| ❌ \|",
+              f"| `{old}` and older | ❌ |",
+              s,
+              count=1,
+          )
+          if n1 != 1 or n2 != 1:
+              raise SystemExit(f"failed to update SECURITY.md ({n1}, {n2})")
+          sec.write_text(s)
+
+          cl = Path("CHANGELOG.md")
+          text = cl.read_text()
+          m = re.search(r"(## \[Unreleased\]\s*\n)(.*?)(\n## \[)", text, re.S)
+          if not m:
+              raise SystemExit("no Unreleased section in CHANGELOG.md")
+          unreleased = m.group(2).strip()
+          body = f"### Changed\n- ESPHome updated to {latest}."
+          parts = [body]
+          if unreleased:
+              parts.append(unreleased)
+          section = f"## [{new}] - {date}\n" + "\n\n".join(parts) + "\n"
+          text = text[:m.start()] + m.group(1) + "\n" + section + m.group(3) + text[m.end():]
+          old_link = (
+              f"[Unreleased]: https://github.com/skydoy/ESPHOME_Hunter/compare/v{old}...HEAD"
+          )
+          new_links = (
+              f"[Unreleased]: https://github.com/skydoy/ESPHOME_Hunter/compare/v{new}...HEAD\n"
+              f"[{new}]: https://github.com/skydoy/ESPHOME_Hunter/compare/v{old}...v{new}"
+          )
+          if old_link not in text:
+              raise SystemExit("Unreleased compare link not found in CHANGELOG.md")
+          text = text.replace(old_link, new_links, 1)
+          cl.write_text(text)
+          PY
+
+          git add .github/esphome-version devices/hunter-ls-v1.yaml devices/hunter-ls-v2.yaml \
+            SECURITY.md CHANGELOG.md
+          git commit -m "release v${PROJECT_NEW}: bump ESPHome to ${LATEST}"
+          git push origin "HEAD:$BRANCH"
+
+          {
+            echo "This PR bumps the ESPHome pin from ${CURRENT} to ${LATEST} and prepares firmware v${PROJECT_NEW}."
+            echo
+            echo "The auto-update workflow compiles both boards (including the app-size check) itself, because a pull request opened with \`GITHUB_TOKEN\` does not start other workflows. If that build passes, it merges this PR, tags \`v${PROJECT_NEW}\`, publishes the GitHub release, deploys the installer and moves \`stable\`. If the build fails, this PR stays open and there is no release."
+          } > pr-body.md
+          url=$(gh pr create --base main --head "$BRANCH" \
+            --title "release v${PROJECT_NEW}: bump ESPHome to ${LATEST}" \
+            --body-file pr-body.md)
+          number=$(gh pr view "$BRANCH" --json number --jq .number)
+          echo "pr_number=$number" >> "$GITHUB_OUTPUT"
+          echo "tag=v${PROJECT_NEW}" >> "$GITHUB_OUTPUT"
+          echo "Opened $url"
+
+  validate:
+    needs: pr
+    uses: ./.github/workflows/validate.yml
+    with:
+      ref: ${{ needs.pr.outputs.branch }}
+    permissions:
+      contents: read
+
+  build:
+    needs: pr
+    uses: ./.github/workflows/publish.yml
+    with:
+      ref: ${{ needs.pr.outputs.branch }}
+      release: false
+    permissions:
+      contents: read
+
+  merge-and-tag:
+    needs: [pr, validate, build]
+    runs-on: ubuntu-24.04
+    outputs:
+      tag: ${{ needs.pr.outputs.tag }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+      - env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ needs.pr.outputs.pr_number }}
+          TAG: ${{ needs.pr.outputs.tag }}
+        run: |
+          git config user.name "$AUTHOR_NAME"
+          git config user.email "$AUTHOR_EMAIL"
+          # Rebase merge keeps the skydoy author from the PR commit.
+          gh pr merge "$PR" --rebase --delete-branch
+          git fetch origin main
+          sha=$(git rev-parse origin/main)
+          git tag -a "$TAG" -m "$TAG" "$sha"
+          git push origin "refs/tags/$TAG"
+          echo "Tagged $TAG at $sha"
+
+  publish:
+    needs: [pr, merge-and-tag]
+    uses: ./.github/workflows/publish.yml
+    with:
+      ref: ${{ needs.merge-and-tag.outputs.tag }}
+      release: true
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
