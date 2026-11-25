@@ -7,6 +7,11 @@ described in the [README](README.md); firmware versions below are independent of
 
 ## [Unreleased]
 
+
+## [0.1.16] - 2026-11-25
+### Changed
+- ESPHome updated to 2026.11.1.
+
 ### Added
 - Daily GitHub Actions workflow that bumps the ESPHome pin and, if the build of both boards passes, cuts a patch release. Pushes to `main` that change the firmware also release; changes that only touch docs, the READMEs or the web installer do not.
 
@@ -130,7 +135,8 @@ described in the [README](README.md); firmware versions below are independent of
 ### Not yet verified
 - Not yet tested on a real board with this firmware. Please report how it goes in an issue.
 
-[Unreleased]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.15...HEAD
+[Unreleased]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.16...HEAD
+[0.1.16]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.15...v0.1.16
 [0.1.15]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.14...v0.1.15
 [0.1.14]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.13...v0.1.14
 [0.1.13]: https://github.com/skydoy/ESPHOME_Hunter/compare/v0.1.12...v0.1.13
